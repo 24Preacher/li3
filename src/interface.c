@@ -1,7 +1,7 @@
 #include "struct.c"
+#include "list.c"
 
-
-#define N   //nr de users
+// #define N   //nr de users
 
 typedef struct TCD_community {
   Posts_D postsbydata;
@@ -9,16 +9,15 @@ typedef struct TCD_community {
   Users users;
 }TAD_community;
 
-void contaPosts (TAD_community com){
-    int aux[N];
-    int j;
-    aux = malloc (sizeof( N * User));
+// liga os ids dos posts ao seu user
+/*
+void ligaPosts (TAD_community com){
+    LONG_list aux[N];
+    aux = malloc (sizeof( N * LONG_list));
 
-    for (j = 0 ; j < N; j++)
-      aux[j] = 0;
-
-    long i = com->posts_data->id_user;
-    aux[i]++;
-    contaPosts(com->posts_data->esq);
-    contaPosts(com->posts_data->dir);
-}
+    long i = (long) com->postsbydata->id_user;
+    aux[i]->size++;
+    aux[i]->list = id_post;
+    ligaPosts(com->postsbydata->esq);
+    ligaPosts(com->postsbydata->dir);
+} * /
