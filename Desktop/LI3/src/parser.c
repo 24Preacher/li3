@@ -6,9 +6,6 @@
 
 
 
-
-
-
 void parseUsers (xmlNodePtr nodo, Users users){
 
 	xmlDocPtr doc;
@@ -41,7 +38,7 @@ void parseUsers (xmlNodePtr nodo, Users users){
 
 }
 
-
+//fazer o mesmo
 /*
 void parsePosts (){
 
