@@ -1,6 +1,4 @@
-#include "struct.h"
-#include <glib.h>
-#include "date.c"
+#include "tags.h"
 
 // Lista ligada para guardar as tags
 struct tags {

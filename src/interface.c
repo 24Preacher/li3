@@ -1,23 +1,29 @@
-#include "struct.c"
-#include "list.c"
+#include "postsD.c"
+#include "postsID.c"
+#include "listaposts.c"
+#include "tags.c"
+#include "users.c"
+#include <glib.h>
 
-// #define N   //nr de users
+// #define N_users
 
 typedef struct TCD_community {
   Posts_D postsbydata;
-  Posts_Id postsbyid;
+  Posts_ID postsbyid;
   Users users;
 }TAD_community;
 
-// liga os ids dos posts ao seu user
-/*
-void ligaPosts (TAD_community com){
-    LONG_list aux[N];
-    aux = malloc (sizeof( N * LONG_list));
 
-    long i = (long) com->postsbydata->id_user;
-    aux[i]->size++;
-    aux[i]->list = id_post;
-    ligaPosts(com->postsbydata->esq);
-    ligaPosts(com->postsbydata->dir);
-} * /
+//TAD_community init();
+
+//TAD_community load(TAD_community com, char* dump_path);
+/*
+STR_pair info_from_post(TAD_community com, long id){
+
+  Nodo r = g_tree_lookup(com->postsbyid, id);
+
+  char* nome = g_hash_table_lookup(com->users, r->id_user);
+  nome = malloc(sizeof(nome));
+  STR_pair res = create_str_pair(r->title, nome);
+
+}*/
