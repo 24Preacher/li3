@@ -1,6 +1,5 @@
-#include "struct.h"
-#include <glib.h>
-#include "date.c"
+#include "users.h"
+#include "common.c"
 
 
 struct users
@@ -19,7 +18,7 @@ Users createUsers (long id, char* nome, char* bio, int rep){
 	u->nome = mystrdup(nome);
 	u->bio = mystrdup(bio);
 	u->rep = rep;
-
+	u->prox = NULL;
 	return u;
 }
 
@@ -43,5 +42,6 @@ int getRep (Users u){
 
 void freeUsers (Users u){
 	if (u){
+		free(u->prox);
 		free(u);
 	}

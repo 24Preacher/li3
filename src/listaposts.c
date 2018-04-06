@@ -1,13 +1,12 @@
-#include "struct.h"
-#include <glib.h>
-#include "date.c"
+#include "listaposts.h"
+#include <stdlib.h>
 
 struct lligada {
-	long post_id;
+	long id_post;
 	struct lligada *prox;
 }Lista;
 
-struct lposts {
+typedef struct lposts {
   int size;
   Lista lposts[];
 }Lista_Posts;
@@ -15,13 +14,17 @@ struct lposts {
 Lista createLista (long id){
   Lista l = malloc(sizeof (struct lligada));
   id_post = id;
-  l->prox = NULL;
+  (*l)->prox = NULL;
+
+	return l;
 }
 
 Lista addPost (Lista l, long id){
   Lista novo = createLista(id);
   novo->prox = l;
   l = novo;
+
+	return novo;
 }
 
 Lista createLPosts (int size){

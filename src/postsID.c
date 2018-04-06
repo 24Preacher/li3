@@ -1,6 +1,6 @@
-#include "struct.h"
+#include "postsID.h"
 #include <glib.h>
-#include "date.c"
+#include "data.c"
 
 
 struct Posts_id
@@ -8,11 +8,11 @@ struct Posts_id
 	long id_post;
 	long id_user;
 	char* titulo;
-	Date data;
+	Data data;
 	struct Posts_id *esq, *dir;
 }Posts_ID;
 
-Posts_ID createPosts_ID ()
+// Posts_ID createPosts_ID ()
 
 long getPostId2 (Posts_ID posts){
 	return posts->id_post;
