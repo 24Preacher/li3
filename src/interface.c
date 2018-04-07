@@ -7,6 +7,12 @@
 
 // #define N_users
 
+/**
+\struct Definição do tipo abstrato(TAD) da estrutura principal
+@param postsbydata Estrutura dos posts ordenados pela data
+@param postsbyid Estrutura dos posts ordenados pelo id
+@param Users Estrutura dos utilizadores
+*/
 typedef struct TCD_community {
   Posts_D postsbydata;
   Posts_ID postsbyid;

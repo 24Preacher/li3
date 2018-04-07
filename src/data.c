@@ -6,7 +6,7 @@
    int ano;
    int hora;
    int minutos;
- } Data;
+ }
 
 Data createData (int dia, int mes, int ano, int hora, int min){
   Data d = malloc (sizeof(struct data));
@@ -41,4 +41,13 @@ int getMinutos (Data d){
 
 void freeData (Data d){
   free (d);
+}
+
+Data cloneData (Data d){
+  Data r = malloc(sizeof(struct data));
+  r -> dia;
+  r -> mes;
+  r -> ano;
+  r -> hora;
+  r -> min;
 }

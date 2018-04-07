@@ -18,26 +18,11 @@ struct Posts_data
 	int num_comentarios;
 	int score;
 	Tags tags;
-	struct Posts_data *esq, *dir;
 }Posts_D;
 
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int votes, int com, int score, Tags t){
 			Posts_D *r = g_tree_new((GCompareFunc)r->data_post);//criar func??
-
-			g_tree_insert(r, r->data_post, d);
-			g_tree_insert(r, r->id_user, user);
-			g_tree_insert(r, r->id_post, post);
-			g_tree_insert(r, r->titulo, title);
-			g_tree_insert(r, r->num_respostas, respostas;
-			g_tree_insert(r, r->post_type, ptype);
-			g_tree_insert(r, r->parent_id, parent);
-			g_tree_insert(r, r->votos, votes);
-			g_tree_insert(r, r->num_comentarios, com);
-			g_tree_insert(r, r->score, score);
-			g_tree_insert(r, r->tags, t);
-			g_tree_insert(r, r->esq, NULL);
-			g_tree_insert(r, r->dir, NULL);
 
 			return r;
 	}
@@ -55,8 +40,8 @@ long getPostId (Posts_D posts){
 	return posts->id_post;
 }
 
-char* getTitle (Posts_D posts){
-	return posts->titulo;
+char* getTitle (Posts_ID posts){
+	return mystrdup(posts->titulo);
 }
 
 int getAnswers (Posts_D posts){
