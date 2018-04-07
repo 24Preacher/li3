@@ -9,8 +9,9 @@ struct Posts_id
 	long id_user;
 	char* titulo;
 	Data data;
-	struct Posts_id *esq, *dir;
-}Posts_ID;
+}
+
+
 
 // Posts_ID createPosts_ID ()
 
@@ -23,9 +24,9 @@ long getUserId2 (Posts_ID posts){
 }
 
 char* getTitle2 (Posts_ID posts){
-	return posts->titulo;
+	return mystrdup(posts->titulo);
 }
 
 Date getDate2 (Posts_ID posts){
-	return posts->data;
+	return (cloneData(posts) -> data);
 }
