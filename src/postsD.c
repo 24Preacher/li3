@@ -4,7 +4,20 @@
 #include <stdlib.h>
 
 
-//POSTS ORDENADOS PELA DATA
+/**
+\struct Estrutura(AVL) que armazena os posts ordenados pela data de criação
+@param data_post Data do post
+@param id_user Identificador do utilizador
+@param id_post Identificador do post
+@param titulo  Título do post
+@param num_respostas Número de respostas do post
+@param post_type Tipo do post
+@param parent_id Identificador do pai
+@param num_comentarios Número de comentarios do post
+@param score Score do post
+@param tags Tags presentes no post
+*/
+
 struct Posts_data
 {
 	Data data_post;
@@ -14,60 +27,118 @@ struct Posts_data
 	int num_respostas;
 	short post_type; //1 - pergunta, 2 - resposta
 	long parent_id;
-	int votos;
 	int num_comentarios;
 	int score;
 	Tags tags;
 }Posts_D;
 
+/**
+\brief Função que cria uma estrutura dos posts
+@param data_post Data do post
+@param id_user Identificador do utilizador
+@param id_post Identificador do post
+@param titulo  Título do post
+@param num_respostas Número de respostas do post
+@param post_type Tipo do post
+@param parent_id Identificador do pai
+@param num_comentarios Número de comentarios do post
+@param score Score do post
+@param tags Tags presentes no post
+returns A estrutura dos posts
+*/
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
-		short ptype, long parent, int votes, int com, int score, Tags t){
+		short ptype, long parent, int com, int score, Tags t){
 			Posts_D *r = g_tree_new((GCompareFunc)r->data_post);//criar func??
 
 			return r;
 	}
 
-
+/**
+\brief Função que busca a data do post
+@param Estrutura dos posts
+@returns A data do post
+*/
 Date getDate (Posts_D posts){
-	return posts->data_post;
+	return (cloneData(posts) -> data);
 }
 
+/**
+\brief Função que busca o identificador do utilizador
+@param Estrutura dos posts
+@returns O id do utilizador
+*/
 long getUserId (Posts_D posts){
 	return posts->id_user;
 }
 
+/**
+\brief Função que busca o identificador do post
+@param Estrutura dos posts
+@returns O id do post
+*/
 long getPostId (Posts_D posts){
 	return posts->id_post;
 }
 
+/**
+\brief Função que busca o título do post
+@param Estrutura dos posts
+@returns Apontador para o título do post
+*/
 char* getTitle (Posts_ID posts){
 	return mystrdup(posts->titulo);
 }
 
+/**
+\brief Função que busca o número de resposta do post
+@param Estrutura dos posts
+@returns O número de respostas
+*/
 int getAnswers (Posts_D posts){
 	return posts->num_respostas;
 }
 
+/**
+\brief Função que busca o tipo de post
+@param Estrutura dos posts
+@returns O tipo de post
+*/
 short getPostType (Posts_D posts){
 	return posts->post_type;
 }
 
+/**
+\brief Função que busca o id do pai caso exista
+@param Estrutura dos posts
+@returns O id do pai
+*/
 long getParentId (Posts_D posts){
 	return posts->parent_id;
 }
 
-int getVotes (Posts_D posts){
-	return posts->votos;
-}
-
+/**
+\brief Função que busca o número de comentarios
+@param Estrutura dos posts
+@returns O número de comentarios
+*/
 int getComments (Posts_D posts){
 	return posts->num_comentarios;
 }
 
+/**
+\brief Função que busca o score de um post
+@param Estrutura dos posts
+@returns O score do post
+*/
 int getScore (Posts_D posts){
 	return posts->score;
 }
-// fazer mais alguma cena adicional pq é um lista de strings??
+
+/**
+\brief Função que busca as Tags de um post
+@param Estrutura dos posts
+@returns Apontador para as Tags do post
+*/
 Tags getTags (Posts_D posts){
-	return posts->tags;
+	return (cloneTags(posts) -> data);
 }
