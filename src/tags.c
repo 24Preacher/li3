@@ -20,7 +20,7 @@ Tags createTags (char* nome, long id, int c){
 
 
 char* getNameTag (Tags t){
-	return t->nome;
+	return mystrdup(t->nome);
 }
 
 long getIdTag (Tags t){
@@ -34,4 +34,11 @@ long getCountTags (Tags t){
 void freeTags (Tags t){
 	 if (t)
 	 			free(t);
+}
+
+Tags cloneTags (Tags t){
+	Tags r = malloc(sizeof(struct tags));
+		mystrdup(r -> nome);
+		r -> id_tag;
+		r -> count;
 }
