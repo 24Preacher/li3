@@ -52,7 +52,7 @@ long getUserId2 (Posts_ID posts){
 @returns Apontador para o título do post
 */
 char* getTitle2 (Posts_ID posts){
-	return posts->titulo;
+	return mystrdup(posts->titulo);
 }
 
 /**
@@ -61,5 +61,5 @@ char* getTitle2 (Posts_ID posts){
 @returns A data do post
 */
 Date getDate2 (Posts_ID posts){
-	return posts->data;
+	return (cloneData(posts) -> data);
 }
