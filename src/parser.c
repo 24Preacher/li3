@@ -1,15 +1,19 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
+#include "parser.h"
 
 
-//
+// vai ao users.xml buscar o id, reputation, displayname e aboutme
+//usar um contador para ver o total de users
 void parseUsers (xmlNodePtr nodo, Users users){
 
 	xmlDocPtr doc;
 	xmlNodePtr cur;
+
+	long id;
+	xmlChar bio;
+	xmlChar name;
+	int rep;
+	int num_users;
+
 
 	doc = xmlParseFile(users);
 	if (doc == NULL ) {
@@ -27,30 +31,32 @@ void parseUsers (xmlNodePtr nodo, Users users){
 
 
 	while (cur != NULL) {
-	  if ((!xmlStrcmp(cur->name, (const xmlChar *)"id"))){
-	    parseUsers (cur, doc);
-	  }
-		cur = cur->next;
-	}
 
+		if ((!xmlStrcmp(cur->name, (const xmlChar *)"row"))) {
+			while((!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
+				id = atoi(xmlGetProp(cur, (long *)"Id"));
+				bio = xmlGetProp(cur, (xmlChar *)"AboutMe");
+				name = xmlGetProp(cur, (xmlChar *)"DisplayName");
+				rep = atoi(xmlGetProp(cur, (char *)"Reputation"));
 
-
+				cur = cur->next;
+				num_users ++;
+			}
+		}
 
 }
 
-//fazer o mesmo
+
 /*
 void parsePosts (){
 
 }
 
 
+
 void parseTags (){
 
 }
 
-void parseVotes(){
-
-}
 
 */
