@@ -45,9 +45,10 @@ void freeData (Data d){
 
 Data cloneData (Data d){
   Data r = malloc(sizeof(struct data));
-  r -> dia;
-  r -> mes;
-  r -> ano;
-  r -> hora;
-  r -> min;
+  r->dia = d->dia;
+  r->mes = d->mes;
+  r->ano = d->ano;
+  r->hora = d->hora;
+  r->minutos = d->minutos;
+  return r;
 }

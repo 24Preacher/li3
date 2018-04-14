@@ -13,11 +13,11 @@
 @param postsbyid Estrutura dos posts ordenados pelo id
 @param Users Estrutura dos utilizadores
 */
-typedef struct TCD_community {
+struct TCD_community {
   Posts_D postsbydata;
   Posts_ID postsbyid;
   Users users;
-}TAD_community;
+};
 
 
 //TAD_community init();
@@ -26,10 +26,30 @@ typedef struct TCD_community {
 /*
 STR_pair info_from_post(TAD_community com, long id){
 
-  Nodo r = g_tree_lookup(com->postsbyid, id);
+  Posts_ID p = g_tree_lookup(com->postsbyid, id);
 
-  char* nome = g_hash_table_lookup(com->users, r->id_user);
+  char* nome = g_hash_table_lookup(com->users, p->id_user);
   nome = malloc(sizeof(nome));
-  STR_pair res = create_str_pair(r->title, nome);
+  STR_pair res = create_str_pair(p->title, nome);
 
-}*/
+  return res;
+}
+
+LONG _list top_most_active(TAD_community com, int N){
+
+}
+
+LONG_pair total_posts(TAD_community com, Date begin, Date end){
+    long respostas = 0;
+    long perguntas = 0;
+
+  gpointer *inicio = g_tree_lookup(com->postsbydata, begin);
+
+  g_tree_foreach(inicio, (GTraverseFunc) compareData(inicio->data_post ,end),
+
+}
+
+
+
+
+*/

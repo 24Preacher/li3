@@ -1,5 +1,6 @@
 #include "users.h"
 #include "common.c"
+#include "glib.c"
 #include <glib.h>
 
 /**
@@ -15,7 +16,6 @@ struct users
 	char* nome;
 	char* bio;
 	int rep;
-	//struct users *prox;
 }Users;
 
 /**
@@ -27,13 +27,11 @@ struct users
 returns A estrutura de utilizadores
 */
 Users createUsers (long id, char* nome, char* bio, int rep){
-	Users u = malloc (sizeof(struct users));
-	u->id_user = id;
-	u->nome = mystrdup(nome);
-	u->bio = mystrdup(bio);
-	u->rep = rep;
-	u->prox = NULL;
-	return u;
+
+	int h = g_direct_hash(id)
+	Users *novo = g_hash_table_new(GHashFunc g_direct_hash(id),GEqualFunc g_direct_equal(id,novo[h]->id_user));
+// acho que so verifica a primeira celula na posiçao h da tabela
+	return novo;
 }
 
 /**
@@ -52,7 +50,7 @@ long getUserId (Users u){
 @returns Apontador para o nome do utilizador
 */
 char* getName (Users u){
-	return u->nome;
+	return mystrdup(u->nome);
 }
 
 /**
@@ -61,7 +59,7 @@ char* getName (Users u){
 @returns Apontador para a bio do utilizador
 */
 char* getBio (Users u){
-	return u->bio;
+	return mystrdup(u->bio);
 }
 
 /**

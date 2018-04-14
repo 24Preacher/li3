@@ -14,8 +14,7 @@ struct Posts_id
 	long id_post;
 	long id_user;
 	char* titulo;
-	Data data;
-	//struct Posts_id *esq, *dir;
+	Data data_post;
 }Posts_ID;
 
 /**
@@ -26,7 +25,11 @@ struct Posts_id
 @param data    Data do post
 returns A estrutura dos posts
 */
-// Posts_ID createPosts_ID ()
+Posts_ID createPosts_ID (long post, long user, char* title, Data d){
+	Posts_ID *r = g_tree_new((GCompareFunc)compareID(user,r->id_user));
+
+	return r;
+}
 
 /**
 \brief Função que busca o identificador do post
@@ -60,6 +63,6 @@ char* getTitle2 (Posts_ID posts){
 @param Estrutura dos posts
 @returns A data do post
 */
-Date getDate2 (Posts_ID posts){
-	return (cloneData(posts) -> data);
+Data getDate2 (Posts_ID posts){
+	return (cloneData(posts -> data_post));
 }
