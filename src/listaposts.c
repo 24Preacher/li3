@@ -7,17 +7,18 @@
 */
 struct lligada {
 	long id_post;
+    long id_user;
 	struct lligada *prox;
 }Lista;
 
 /**
-\struct Estrutura, array de listas ligadas, que guarda os id dos posts de cada utilizador.
-@param size Tamanho da lista ligada -- ta mal, ver depois
-@param lposts array de listas
+\struct Estrutura array de listas ligadas, que guarda os id dos posts de cada utilizador.
+@param id_user Identificador do utilizador a quem pertencem os posts
+@param lposts Array de listas
 */
 struct lposts {
-  int size;
-  Lista lposts[];
+  //long id_user;
+  Lista lposts;
 }Lista_Posts;
 
 /**
@@ -27,7 +28,7 @@ returns A lista com o id
 */
 Lista createLista (long id){
   Lista l = malloc(sizeof (struct lligada));
-  id_post = id;
+  l->id_post = id;
   (*l)->prox = NULL;
 
 	return l;
@@ -49,13 +50,12 @@ Lista addPost (Lista l, long id){
 /**
 \brief Função que aloca memória para o array de listas
 @param size Tamanho do array
-returns O array de listas
+@returns O array de listas
 */
 Lista_Posts createLPosts (int size){
   if (size <= 0)
     return NULL;
   Lista_Posts l = malloc (sizeof(Lista_Posts));
-  l->size = size;
   l->lposts = malloc(sizeof(Lista)* size);
   return l;
 }
@@ -63,20 +63,31 @@ Lista_Posts createLPosts (int size){
 /**
 \brief Função que busca o identificador do post
 @param l lista dos identificadores de posts
-returns O id do post
+@returns O id do post
 */
 long getPostId_L (Lista l){
   return l->post_id;
 }
 
 /**
+\brief
+@param l array de listas
+@param i índice do array
+@returns A lista que se encontrava no array i
+*/
+long getUserID (Lista_Posts l, int i){
+  return l[i]->id_user;
+}
+
+
+/**
 \brief Função que busca o identificador do post
 @param l array de listas
 @param i índice do array
-returns A lista que se encontrava no array i
+@returns A lista que se encontrava no array i
 */
-Lista getListaPosts (Lista_Posts l, int i){
-  return l->lposts[i];
+Lista getUserID (Lista_Posts l, int i){
+  return l[i]->lposts;
 }
 
 /**

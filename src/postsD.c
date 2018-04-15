@@ -1,5 +1,6 @@
 #include "postsD.h"
 #include "data.c"
+#include "glib.c"
 #include <glib.h>
 #include <stdlib.h>
 
@@ -34,21 +35,21 @@ struct Posts_data
 
 /**
 \brief Função que cria uma estrutura dos posts
-@param data_post Data do post
-@param id_user Identificador do utilizador
-@param id_post Identificador do post
-@param titulo  Título do post
-@param num_respostas Número de respostas do post
-@param post_type Tipo do post
-@param parent_id Identificador do pai
-@param num_comentarios Número de comentarios do post
+@param d Data do post
+@param user Identificador do utilizador
+@param post Identificador do post
+@param title  Título do post
+@param respostas Número de respostas do post
+@param ptype Tipo do post
+@param parent Identificador do pai
+@param com Número de comentarios do post
 @param score Score do post
-@param tags Tags presentes no post
+@param t Tags presentes no post
 returns A estrutura dos posts
 */
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-			Posts_D *r = g_tree_new((GCompareFunc)r->data_post);//criar func??
+			Posts_D *r = g_tree_new((GCompareFunc)data_ord(d, r->data_post));
 
 			return r;
 	}
@@ -58,8 +59,8 @@ Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 @param Estrutura dos posts
 @returns A data do post
 */
-Date getDate (Posts_D posts){
-	return (cloneData(posts) -> data);
+Data getDate (Posts_D posts){
+	return cloneData(posts->data_post);
 }
 
 /**
@@ -140,5 +141,5 @@ int getScore (Posts_D posts){
 @returns Apontador para as Tags do post
 */
 Tags getTags (Posts_D posts){
-	return (cloneTags(posts) -> data);
+	return (cloneTags(posts -> tags));
 }
