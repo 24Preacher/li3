@@ -11,7 +11,7 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 	int rep;
 	int num_users;
 
-	xmlNodePtr cur = xmlDocGetRootElement(doc)
+	xmlNodePtr cur = xmlDocGetRootElement(doc);
 
 //
 	if (doc == NULL ) {
@@ -40,20 +40,23 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 			}
 		}
 
-/* inserir na hash
-user = create_user;
-gboolean g_hash_table_insert (hash_table, id, user);
-*/
+
+		user = create_user(id, name, bio, rep);
+		gboolean g_hash_table_insert (hash_table, id, user);
+
 }
 
 
-//vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
-void parsePosts (xmlDocPtr doc,   ){
 
-	xmlNodePtr curr = xmlDocGetRootElement(doc)
+
+//vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
+//ver argumentos
+void parsePosts (xmlDocPtr doc, GTree *tree){
+
+	xmlNodePtr curr = xmlDocGetRootElement(doc);
 
 	long post_id;
-	int post_type;
+	short post_type;
 	xmlChar title;
 	Tags tags;
 	Data creation_date;
@@ -76,37 +79,81 @@ void parsePosts (xmlDocPtr doc,   ){
 	}
 
 //ver se é um a um
-while (cur != NULL) {
+while (curr != NULL) {
 	if ((!xmlStrcmp(cur->name, (const xmlChar *)"row"))) {
+		while((!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
+			post_id = atoi(xmlGetProp(cur,(const xmlChar *)"Id"));
+			post_type = atoi(xmlGetProp(cur,(const xmlChar *)"PostTypeId"));
+			title = xmlGetProp(cur,(const xmlChar *)"Title");
+			tags = atoi(xmlGetProp(cur,(const xmlChar *)"Tags"));
+			creation_date = atoi(xmlGetProp(cur,(const xmlChar *)"CreationDate"));
+			parent_id =(xmlChar*) "0";
+			user_id = atoi(xmlGetProp(cur,(const xmlChar *)"OwnerUserId"));
+			answer_count=(xmlChar*)"0";
+			comment_count = atoi(xmlGetProp(cur,(const xmlChar *)"CommentCount"));
+			score = atoi(xmlGetProp(cur,(const xmlChar *)"Score"));
+		}
 
-		post_id = atoi(xmlGetProp(cur,(const xmlChar *)"Id"));
-		post_type = atoi(xmlGetProp(cur,(const xmlChar *)"PostTypeId"));
-		title = xmlGetProp(cur,(const xmlChar *)"Title");
-		tags = atoi(xmlGetProp(cur,(const xmlChar *)"Tags"));
-		creation_date = atoi(xmlGetProp(cur,(const xmlChar *)"CreationDate"));
-		parent_id =(xmlChar*) "0";
-		user_id = atoi(xmlGetProp(cur,(const xmlChar *)"OwnerUserId"));
-		answer_count=(xmlChar*)"0";
-		comment_count = atoi(xmlGetProp(cur,(const xmlChar *)"CommentCount"));
-		score = atoi(xmlGetProp(cur,(const xmlChar *)"Score"));
+			if ((!xmlStrcmp(post_type, (const xmlChar *)"1"))){
+					answer_count=atoi(xmlGetProp(cur, (const xmlChar *)"AnswerCount"));
+			}
+			else if ((!xmlStrcmp(post_type, (const xmlChar *)"2"))){
+					parent_id = atoi(xmlGetProp(cur, (const xmlChar *)"ParentId"));
+			}
 
-		if ((!xmlStrcmp(post_type, (const xmlChar *)"1"))){
-				answer_count=atoi(xmlGetProp(cur, (const xmlChar *)"AnswerCount"));
+			curr = curr->next;
+	}
+
+
+//	Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,short ptype, long parent, int com, int score, Tags t)
+
+	post = createPostsD(creation_date, user_id, post_id, (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
+
+	long *key = malloc(sizeof(long));
+	*key = atol((char*) post_id);
+
+
+//	(GTree *tree, gpointer key,  gpointer value)
+	void g_tree_insert(tree, key, post);
+
 }
-		else if ((!xmlStrcmp(post_type, (const xmlChar *)"2"))){
-				parent_id = atoi(xmlGetProp(cur, (const xmlChar *)"ParentId"));
-
-
-}
 
 
 
 
-/*
+
+
+
 //vai buscar id_tag, tagname, count
-void parseTags (){
+void parseTags (xmlDocPtr doc, ){
+
+	xmlNodePtr nod = xmlDocGetRootElement(doc);
+
+	long id_tag;
+	xmlChar tagname;
+	long count_tags;
+
+	if (doc == NULL ) {
+		fprintf(stderr,"Document not parsed successfully. \n");
+			return;
+	}
+
+	if (nod == NULL) {
+		fprintf(stderr,"empty document\n");
+		xmlFreeDoc(doc);
+		return;
+	}
+
+	while (nod != NULL) {
+		if ((!xmlStrcmp(cur->name, (const xmlChar *)"row"))) {
+			while((!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
+				id_tag = atoi(xmlGetProp(cur,(const xmlChar *)"Id"));
+				tagname = xmlGetProp(cur,(const xmlChar *)"TagName");
+				// count_tags = atoi(xmlGetProp(cur,(const xmlChar *)"Count"));
+			}
+		}
+	}
+
+//ver depois
 
 }
-
-
-*/
