@@ -5,3 +5,4 @@
 #include <libxml/parser.h>
 #include <glib.h>
 #include "users.c"
+#include "postsD.c"

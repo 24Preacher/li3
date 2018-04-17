@@ -1,6 +1,35 @@
 #include "parser.h"
 
 
+
+gboolean teste (gpointer key,gpointer value, gpointer data)
+{
+	long	sKey = *(long*) (key);
+	char *title = getTitle(value);
+	short typeid = getPostType(value);
+	long	parentid=getParentId(value);
+	int   score=getScore(value);
+	int commentCount=getComments(value);
+	int answerCount =getAnswers(value);
+	long owner =getUserId(value);
+
+	int   reputation= get_REPUTACION_ownerPost(value);
+	int month =getMes(value);
+	int year =getAno(value);
+	int dia=getDia(value);
+	int minuto =getMinutos(value);
+	int hora= getHora(value);
+
+	g_print ("\n\nKey: %lu\ntitle: %s\ntypeid: %d\nowner: %lu\nparentid: %lu\nscore: %d\ncommentCount: %d\nanswerCount: %d\n\n\n", sKey,title,typeid,owner,parentid,score,commentCount,answerCount);
+
+	printf("id do user é %lu e a sua reputação é %d", owner,reputation);
+	printf("dia do post é %d o mes é %d e o ano é %d a hora é %d:%d\n",dia,month,year,hora,minuto );
+
+	return FALSE;
+}
+
+
+/*
 // vai ao users.xml buscar o id, reputation, displayname e aboutme
 //usar um contador para ver o total de users
 void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
@@ -46,7 +75,7 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 
 }
 
-
+*/
 
 
 //vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
@@ -114,7 +143,19 @@ while (curr != NULL) {
 
 
 //	(GTree *tree, gpointer key,  gpointer value)
-	void g_tree_insert(tree, key, post);
+	 g_tree_insert(tree, key, post);
+
+}
+
+
+int main(int argc, char **argv){
+
+	char *docname;
+	GTree	*tree;
+	docname = "/home/helena/Desktop/Posts.xml";
+	parsePosts(docname, tree);
+	g_tree_foreach(tree,&(teste),NULL);
+	return(1);
 
 }
 
@@ -123,6 +164,8 @@ while (curr != NULL) {
 
 
 
+
+/*
 
 //vai buscar id_tag, tagname, count
 void parseTags (xmlDocPtr doc, ){
@@ -157,3 +200,4 @@ void parseTags (xmlDocPtr doc, ){
 //ver depois
 
 }
+*/
