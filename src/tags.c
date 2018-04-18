@@ -39,3 +39,50 @@ Tags cloneTags (Tags t){
 	r -> nome = mystrdup(t -> nome);
 	return r;
 }
+
+/**
+\brief Função que conta o número de Tags
+@param String das Tags
+@returns Número de tags
+*/
+int contaTags(char a[]){
+	int i;
+	int cont = 0;
+	for (i = 0;a[i] == '\0'; i++){
+		if (a[i] == '<')
+		cont++;
+	}
+	return cont;
+}
+
+/**
+\brief Função que passa de uma strinf para uma lista ligada de Tags
+@param String das Tags
+@returns Lista ligada das Tags
+*/
+Tags strToTags(char a[]){
+	Tags t;
+	char b[];
+	int p = 0
+	int cont = contaTags(a[])
+	if (cont = 0){
+	t = NULL;
+	return t;
+}
+for (int i = 0; a[i] != '\0'; i++){
+		if(a[i] == '<'){
+			i++;
+			while(a[i] != '>'){
+				b[p] = a[i];
+				p++;
+				i++;
+			}
+			b[p] = '\0';
+		}
+		t = createTags(mystrdup(b));
+		t = t -> prox;
+		p = 0;
+	}
+}
+return t;
+}
