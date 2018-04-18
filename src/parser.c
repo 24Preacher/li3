@@ -13,7 +13,7 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 	int answerCount =getAnswers(value);
 	long owner =getUserId(value);
 
-	int   reputation= get_REPUTACION_ownerPost(value);
+	int reputation= getRep(value);
 	int month =getMes(value);
 	int year =getAno(value);
 	int dia=getDia(value);
@@ -32,6 +32,7 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 /*
 // vai ao users.xml buscar o id, reputation, displayname e aboutme
 //usar um contador para ver o total de users
+
 void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 
 	long id;
@@ -80,7 +81,7 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 
 //vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
 //ver argumentos
-void parsePosts (xmlDocPtr doc, GTree *tree){
+void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 
 	xmlNodePtr curr = xmlDocGetRootElement(doc);
 
@@ -123,27 +124,33 @@ while (curr != NULL) {
 			score = atoi(xmlGetProp(cur,(const xmlChar *)"Score"));
 		}
 
-			if ((!xmlStrcmp(post_type, (const xmlChar *)"1"))){
-					answer_count=atoi(xmlGetProp(cur, (const xmlChar *)"AnswerCount"));
-			}
-			else if ((!xmlStrcmp(post_type, (const xmlChar *)"2"))){
-					parent_id = atoi(xmlGetProp(cur, (const xmlChar *)"ParentId"));
-			}
+		if ((!xmlStrcmp(post_type, (const xmlChar *)"1"))){
+				answer_count=atoi(xmlGetProp(cur, (const xmlChar *)"AnswerCount"));
+		}
+		else if ((!xmlStrcmp(post_type, (const xmlChar *)"2"))){
+				parent_id = atoi(xmlGetProp(cur, (const xmlChar *)"ParentId"));
+		}
+
+
+			post = createPostsD(creation_date, user_id, post_id, (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
+			long *key = malloc(sizeof(long));
+
+			*key = atol((char*) post_id);
+
+			g_tree_insert(tree1, key, post);
+
+
+
+			post2 = createPostsID(post_id, user_id, (char *) title, creation_date);
+			long *key2 = malloc(sizeof(long));
+
+			*key2 = atol((char*) post_id);
+
+			g_tree_insert(tree2, key2, post2);
+
 
 			curr = curr->next;
 	}
-
-
-//	Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,short ptype, long parent, int com, int score, Tags t)
-
-	post = createPostsD(creation_date, user_id, post_id, (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
-
-	long *key = malloc(sizeof(long));
-	*key = atol((char*) post_id);
-
-
-//	(GTree *tree, gpointer key,  gpointer value)
-	 g_tree_insert(tree, key, post);
 
 }
 

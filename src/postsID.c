@@ -25,7 +25,7 @@ struct Posts_id
 @param data    Data do post
 returns A estrutura dos posts
 */
-Posts_ID createPosts_ID (long post, long user, char* title, Data d){
+Posts_ID createPostsID (long post, long user, char* title, Data d){
 	Posts_ID *r = g_tree_new((GCompareFunc)compareID(user,r->id_user));
 
 	return r;
