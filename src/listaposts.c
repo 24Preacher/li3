@@ -3,22 +3,23 @@
 
 /**
 \struct Definição de listas ligadas de ids de posts
-@param id_post Identificador do utilizador
+@param id_user Identificador do utilizador
+@param id_post Identificador do post
 */
 struct lligada {
+	long id_user;
 	long id_post;
-    long id_user;
-	struct lligada *prox;
+  struct lligada *prox;
 }Lista;
 
 /**
 \struct Estrutura array de listas ligadas, que guarda os id dos posts de cada utilizador.
-@param id_user Identificador do utilizador a quem pertencem os posts
+@param size Tamanho do array de listas
 @param lposts Array de listas
 */
 struct lposts {
-  //long id_user;
-  Lista lposts;
+	int size;
+	Lista lposts[];
 }Lista_Posts;
 
 /**
@@ -26,9 +27,10 @@ struct lposts {
 @param id_post Identificador do post
 returns A lista com o id
 */
-Lista createLista (long id){
+Lista createLista (long post, long user){
   Lista l = malloc(sizeof (struct lligada));
-  l->id_post = id;
+  l->id_user = user;
+	l->id_post = post;
   (*l)->prox = NULL;
 
 	return l;
@@ -37,10 +39,12 @@ Lista createLista (long id){
 /**
 \brief Função que adiciona um id à cabeça da lista
 @param id_post Identificador do post
+@param
+@param
 returns A lista com o id adicionado
 */
-Lista addPost (Lista l, long id){
-  Lista novo = createLista(id);
+Lista addPost (Lista l, long post, long user){
+  Lista novo = createLista(post, user);
   novo->prox = l;
   l = novo;
 
@@ -57,6 +61,7 @@ Lista_Posts createLPosts (int size){
     return NULL;
   Lista_Posts l = malloc (sizeof(Lista_Posts));
   l->lposts = malloc(sizeof(Lista)* size);
+	l->size = size;
   return l;
 }
 
@@ -65,20 +70,9 @@ Lista_Posts createLPosts (int size){
 @param l lista dos identificadores de posts
 @returns O id do post
 */
-long getPostId_L (Lista l){
-  return l->post_id;
+long getPostId_L(Lista l, int i){
+  return l->lposts[i]->id_post;
 }
-
-/**
-\brief
-@param l array de listas
-@param i índice do array
-@returns A lista que se encontrava no array i
-*/
-long getUserID (Lista_Posts l, int i){
-  return l[i]->id_user;
-}
-
 
 /**
 \brief Função que busca o identificador do post
@@ -87,7 +81,7 @@ long getUserID (Lista_Posts l, int i){
 @returns A lista que se encontrava no array i
 */
 Lista getUserID (Lista_Posts l, int i){
-  return l[i]->lposts;
+  return l->lposts[i]->id_user;
 }
 
 /**
