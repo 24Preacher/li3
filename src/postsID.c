@@ -8,6 +8,12 @@
 @param id_user Identificador do utilizador
 @param titulo  Título do post
 @param data    Data do post
+@param num_respostas Número de respostas do post
+@param post_type Tipo do post
+@param parent_id Identificador do pai
+@param num_comentarios Número de comentarios do post
+@param score Score do post
+@param tags Tags presentes no post
 */
 struct Posts_id
 {
