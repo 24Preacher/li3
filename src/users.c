@@ -28,9 +28,7 @@ returns A estrutura de utilizadores
 */
 Users createUsers (long id, char* nome, char* bio, int rep){
 
-	int h = g_direct_hash(id)
-	Users *novo = g_hash_table_new(GHashFunc g_direct_hash(id),GEqualFunc g_direct_equal(id,novo[h]->id_user));
-// acho que so verifica a primeira celula na posiçao h da tabela
+	Users *novo = g_hash_table_new_full(g_direct_hash,g_direct_equal, NULL, freeUsers);
 	return novo;
 }
 
