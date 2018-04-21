@@ -8,19 +8,21 @@
 #include "date.h"
 
 typedef struct *lligada Lista;
-
-typedef struct *lposts Lista_Posts;
+typedef struct *lposts PostsUsers;
+typedef struct *arraypost ArrayPosts;
 
 Lista createLista (long id);
-
 Lista addPost (Lista l, long id);
-
-Lista createLPosts (int size);
-
+PostsUsers createPostsUsers (long user, Lista l);
+ArrayPosts createArrayPosts (int size);
 long getPostId_L (Lista l);
+long getUserID_L (ArrayPosts p, int i);
+Lista getListaPosts (ArrayPosts p, int i);
+int getSizeArray (ArrayPosts p);
+void setSizeArray (ArrayPosts p, int size);
+PostsUsers getAPosts (ArrayPosts p, int i);
+void freePostsUsers (PostsUsers p);
+void freeArrayPosts (ArrayPosts p);
 
-Lista getListaPosts (Lista_Posts l);
-
-void freeListaPosts (Lista_Posts l);
 
 #endif
