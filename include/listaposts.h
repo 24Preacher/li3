@@ -20,9 +20,11 @@ long getUserID_L (ArrayPosts p, int i);
 Lista getListaPosts (ArrayPosts p, int i);
 int getSizeArray (ArrayPosts p);
 void setSizeArray (ArrayPosts p, int size);
+int getOcupados(ArrayPosts p);
+void setOcupados(ArrayPosts p, int o);
 PostsUsers getAPosts (ArrayPosts p, int i);
 void freePostsUsers (PostsUsers p);
 void freeArrayPosts (ArrayPosts p);
-
+void insere(ArrayPosts p, long user, long post);
 
 #endif

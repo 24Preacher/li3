@@ -27,6 +27,7 @@ struct lposts {
 */
 struct arraypost{
 	int size;
+	int ocupados;
 	PostsUsers aposts[];
 };
 
@@ -77,6 +78,7 @@ ArrayPosts createArrayPosts(int size){
 	if (size <= 0) return NULL;
 	ArrayPosts p = malloc(sizeof(struct arraypost));
 	p->size = size;
+	p->ocupados = 0;
 	p->aposts = malloc(sizeof(struct lposts)* size);
 	return p;
 }
@@ -121,10 +123,28 @@ int getSizeArray (ArrayPosts p){
 /**
 \brief Função que atualiza o tamanho do array
 @param p array de posts
-@param i Tamanho atualizado do array
+@param size Tamanho atualizado do array
 */
 void setSizeArray (ArrayPosts p, int size){
 	 p->size = size;
+}
+
+/**
+\brief Função que busca o número de índices ocupados do array
+@param p array de posts
+@returns O número de índices ocupados
+*/
+int getOcupados(ArrayPosts p){
+	return p->ocupados;
+}
+
+/**
+\brief Função que atualiza o número de índices ocupados do array
+@param p array de posts
+@param o Número de ocupados atualizado
+*/
+void setOcupados(ArrayPosts p, int o){
+	p->ocupados = o;
 }
 
 /**
@@ -134,6 +154,9 @@ void setSizeArray (ArrayPosts p, int size){
 */
 PostsUsers getAPosts (ArrayPosts p, int i){
 	return p->aposts[i];
+}
+void setAPosts(ArrayPosts p, int i, PostsUsers c){
+	p->aposts[i] = c;
 }
 /**
 \brief Função que liberta a lista dos posts de cada utilizador
@@ -151,4 +174,30 @@ void freePostsUsers (PostsUsers p){
 void freeArrayPosts (ArrayPosts p){
   for(int i = 0; i < getSize(p); i++)
 		freePostsUsers(getAPosts(p,i));
+}
+
+//Função que insere um post no array de posts
+void insere(ArrayPosts p, long user, long post){
+  int i = 0;
+  
+  while (getUserID_L(p,i) < user) i++;
+    if(getUserID_L(p,i) == user){
+      Lista l = getListaPosts(p, i);
+      if(l == NULL)
+        createLista(post);
+      else addPost(l, post);
+    }
+    else{
+      int pos = i;
+      int ocup = getOcupados(p);
+      for(int j = ocup; j > i; j++){
+        PostsUsers anterior = getAPosts(p, j-1);
+        setAPosts(p, j, anterior);
+        }
+      Lista l = createLista(post);
+      PostsUsers novo = createPostsUsers(user, l);
+      setAPosts(p, pos, novo);
+      ocup++;
+      setOcupados(p, ocup);
+      }
 }
