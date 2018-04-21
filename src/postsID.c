@@ -15,6 +15,12 @@ struct Posts_id
 	long id_user;
 	char* titulo;
 	Data data_post;
+	int num_respostas;
+	short post_type; //1 - pergunta, 2 - resposta
+	long parent_id;
+	int num_comentarios;
+	int score;
+	Tags tags;
 }Posts_ID;
 
 /**
@@ -25,7 +31,8 @@ struct Posts_id
 @param data    Data do post
 returns A estrutura dos posts
 */
-Posts_ID createPostsID (long post, long user, char* title, Data d){
+Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas,
+		short ptype, long parent, int com, int score, Tags t){
 	Posts_ID *r = g_tree_new((GCompareFunc)compareID(user,r->id_user));
 
 	return r;
@@ -65,4 +72,58 @@ char* getTitle2 (Posts_ID posts){
 */
 Data getDate2 (Posts_ID posts){
 	return (cloneData(posts -> data_post));
+}
+
+/**
+\brief Função que busca o número de resposta do post
+@param Estrutura dos posts
+@returns O número de respostas
+*/
+int getAnswers2 (Posts_D posts){
+	return posts->num_respostas;
+}
+
+/**
+\brief Função que busca o tipo de post
+@param Estrutura dos posts
+@returns O tipo de post
+*/
+short getPostType2 (Posts_D posts){
+	return posts->post_type;
+}
+
+/**
+\brief Função que busca o id do pai caso exista
+@param Estrutura dos posts
+@returns O id do pai
+*/
+long getParentId2 (Posts_D posts){
+	return posts->parent_id;
+}
+
+/**
+\brief Função que busca o número de comentarios
+@param Estrutura dos posts
+@returns O número de comentarios
+*/
+int getComments2 (Posts_D posts){
+	return posts->num_comentarios;
+}
+
+/**
+\brief Função que busca o score de um post
+@param Estrutura dos posts
+@returns O score do post
+*/
+int getScore2 (Posts_D posts){
+	return posts->score;
+}
+
+/**
+\brief Função que busca as Tags de um post
+@param Estrutura dos posts
+@returns Apontador para as Tags do post
+*/
+Tags getTags2 (Posts_D posts){
+	return (cloneTags(posts -> tags));
 }
