@@ -26,12 +26,48 @@ struct TCD_community {
   Posts_D postsbydata;
   Posts_ID postsbyid;
   Users users;
+  ArrayPosts arrayposts;
 };
 
 
-//TAD_community init();
+TAD_community init(){
 
-//TAD_community load(TAD_community com, char* dump_path);
+  TAD_community com = malloc(sizeof(struct TCD_community));
+  com->postsbydata = g_tree_new(&data_ord);
+  com->postsbyid = g_tree_new(&compareID)
+  com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, freeUsers);
+  com->arrayposts = createArrayPosts(0);
+
+  return com;
+}
+
+//query 0
+TAD_community load(TCD_community com, char* dump_path){
+
+  char *docname1;
+  char *docname2;
+	GTree	*treeid;
+  GTree *treed;
+  GHashTable *tab;
+
+	//docname1 = "/home/mercy/Desktop/Posts.xml";
+	parsePosts(docname1, treed, treeid);
+
+  com->postsbyid = treed;
+  com->postsbydata = treeid;
+
+  //docname2 = "/home/mercy/Desktop/Users.xml";
+
+  int num_users = parseUsers(docname2, tab);
+  com->users = tab;
+  ArrayPosts a = createArrayPosts(num_users);
+
+
+  g_tree_foreach(com->postsbydata, &insere, a);
+  com->arrayposts = a;
+
+  return com;
+}
 
 //q1
 STR_pair info_from_post(TAD_community com, long id){
@@ -115,9 +151,23 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
 USER get_user_info(TAD_community com, long id){
   USER res;
   Users u = g_hash_table_lookup(com->users, id);
-
+  int i = 0, j;
   res->bio = getBio(u);
   //parte dos ultimos 10 posts
+  while(getUserID_L(com->arrayposts) < id) i++;
+
+    LONG_list last10posts = create_list(10);
+    Lista l = getListaPosts(p, i);
+    for(j = 0; l != NULL && j < 10; l = l->prox, j++){
+      long post = getPostId_L(l);
+      set_list(last10posts, j, post);
+    }
+    if(j < 9){
+      for(; j < 10; j++)
+          set_list(last10posts, j, -1);
+    }
+
+  res->posts = last10posts;
 
   return res;
 }
