@@ -1,8 +1,16 @@
-#include "postsD.c"
-#include "postsID.c"
-#include "listaposts.c"
-#include "tags.c"
-#include "users.c"
+#include "data.h"
+#include "date.h"
+#include "interface.h"
+#include "list.h"
+#include "listaposts.h"
+#include "pair.h"
+#include "parser.h"
+#include "postsD.h"
+#include "postsID.h"
+#include "tags.h"
+#include "user.h"
+#include "users.h"
+
 #include "string.h"
 #include <glib.h>
 
