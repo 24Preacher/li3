@@ -1,3 +1,4 @@
+#include "topN.h"
 
 struct topn {
   long id;
@@ -63,7 +64,7 @@ void setTop(ArrayTop t, TopN n, int i){
   t->top[i]= n;
 }
 
-void freeArrayTop(ArratTop t){
+void freeArrayTop(ArrayTop t){
   free(t);
 }
 
