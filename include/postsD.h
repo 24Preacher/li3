@@ -32,5 +32,8 @@ int getScore (Posts_D posts);
 
 Tags getTags (Posts_D posts);
 
+void freePostsD (Posts_D posts);
+
+Posts_D clonePostsID (Posts_D posts);
 
 #endif

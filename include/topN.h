@@ -17,5 +17,7 @@ TopN getTop (ArrayTop t ,int i);
 void setTop(ArrayTop t, TopN n, int i);
 void freeArrayTop(ArratTop t);
 void insereTop (ArrayTop t, TopN n);
+TopN cloneTopN(TopN t);
+ArrayTop cloneArrayTop(ArrayTop t);
 
 #endif

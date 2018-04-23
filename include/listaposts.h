@@ -26,5 +26,8 @@ PostsUsers getAPosts (ArrayPosts p, int i);
 void freePostsUsers (PostsUsers p);
 void freeArrayPosts (ArrayPosts p);
 void insere(ArrayPosts p, long user, long post);
+Lista cloneLista (Lista l);
+PostsUsers clonePostUsers(PostsUsers l);
+ArrayPost cloneArrayPost(ArrayPost l);
 
 #endif

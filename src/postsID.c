@@ -139,3 +139,18 @@ void freePostsID (Posts_D posts){
 	 if (posts)
 	 	free(posts);
 }
+
+Posts_ID clonePostsID (Posts_ID posts){
+	Posts_ID p = malloc(sizeof(struct Posts_id));
+	p->id_post = posts->id_post;
+	p->id_user = posts->id_user;
+	p->id_titulo = posts->titulo;
+	p->data_post = posts -> data_post;
+	p->num_respostas = posts->num_respostas;
+	p->post_type = posts->post_type;
+	p->parent_id = posts->parent_id;
+	p->num_comentarios = posts->num_comentarios;
+	p->score = posts->score;
+	p->tags = posts -> tags;
+	return p;
+}

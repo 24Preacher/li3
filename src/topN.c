@@ -102,3 +102,20 @@ void insereTop (ArrayTop t, TopN n){
     }
   }
 }
+
+TopN cloneTopN(TopN t){
+  TopN a = malloc(sizeof(struct topn));
+  a->id = t->id;
+  a->count = t->count;
+  return a;
+}
+
+ArrayTop cloneArrayTop(ArrayTop t){
+  ArrayTop a = malloc(sizeof(struct topArray));
+  a->size = t->size;
+  a->ocupados = t->ocupados;
+  for(i=0;i<t->size;i++){
+    a->top[i] = t->top[i]
+  }
+  return a;
+}

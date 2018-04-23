@@ -201,3 +201,28 @@ void insere(ArrayPosts p, long user, long post){
       setOcupados(p, ocup);
       }
 }
+
+Lista cloneLista (Lista l){
+	Lista a = malloc(sizeof(struct lligada));
+	a->id_post = l->id_post;
+	a->prox = l->prox;
+	return a;
+}
+
+PostsUsers clonePostUsers(PostsUsers l){
+	PostsUsers a = malloc(sizeof(struct lposts));
+	a->id_user = l->id_user;
+	a->prox = l->prox;
+	return a;
+}
+
+ArrayPost cloneArrayPost(ArrayPost l){
+	ArrayPost a = malloc(sizeof(struct arraypost));
+	int i;
+	a->size = l->size;
+	a->ocupados = l->ocupados;
+	for(i=0;i<l->size;i++){
+	a->aposts[i] = l->aposts[i];
+}
+return a;
+}
