@@ -179,7 +179,7 @@ void freeArrayPosts (ArrayPosts p){
 //Função que insere um post no array de posts
 void insere(ArrayPosts p, long user, long post){
   int i = 0;
-  
+
   while (getUserID_L(p,i) < user) i++;
     if(getUserID_L(p,i) == user){
       Lista l = getListaPosts(p, i);
@@ -190,7 +190,7 @@ void insere(ArrayPosts p, long user, long post){
     else{
       int pos = i;
       int ocup = getOcupados(p);
-      for(int j = ocup; j > i; j++){
+      for(int j = ocup; j > i; j--){
         PostsUsers anterior = getAPosts(p, j-1);
         setAPosts(p, j, anterior);
         }
