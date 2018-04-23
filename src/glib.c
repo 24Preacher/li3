@@ -1,36 +1,43 @@
 #include <glib.h>
 #include "data.h"
 #include "date.h"
-#include "PostsID.h"
+#include "postsID.h"
+#include "postsD.h"
 
 
 
 
 int compareData(Data a, Data b){
 
-    if(a->ano > b->ano) return 1;
-    else if (a->ano < b->ano) return -1;
-    else if (a->mes > b->mes) return 1;
-    else (a->mes < b->mes) return -1;
-    else (a->dia > b->dia) return 1;
-    else (a->dia < b->dia) return -1;
-    else (a->hora > b->hora) return 1;
-    else (a->hora < b->hora) return -1;
-    else (a->min > b->min) return 1;
-    else (a->min < b->min) return -1
+    if (getAno(a) > getAno(a)) return 1;
+    else if (getAno(a) < getAno(b)) return -1;
+    else if (getMes(a) > getMes(b)) return 1;
+    else if (getMes(a) < getMes(b)) return -1;
+    else if (getDia(a) > getDia(b)) return 1;
+    else if (getDia(a) < getDia(b)) return -1;
+    else if (getHora(a) > getHora(b)) return 1;
+    else if (getHora(a) < getHora(b)) return -1;
+    else if (getMinutos(a) > getMinutos(b)) return 1;
+    else if (getMinutos(a) < getMinutos(b)) return -1;
     else return 0;
 
 }
 
 //Compara datas dos stores com as nossas
+int compareDate(Date a, Date b){
+    if
+
+}
+
+
+Date converteData(Data a){
+  Date d = createDate(a->dia, a->mes, a->ano);
+  return d;
+}
+
 int dataIgual(Date a, Data b){
-    if(a->ano > b->ano) return 1;
-    else if (a->ano < b->ano) return -1;
-    else if (a->mes > b->mes) return 1;
-    else (a->mes < b->mes) return -1;
-    else (a->dia > b->dia) return 1;
-    else (a->dia < b->dia) return -1;
-    else return 0;
+  b = converteData(b);
+
 }
 
 int data_ord (Posts_D a, Posts_D b){

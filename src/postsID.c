@@ -27,7 +27,7 @@ struct Posts_id
 	int num_comentarios;
 	int score;
 	Tags tags;
-}Posts_ID;
+};
 
 /**
 \brief Função que cria uma estrutura dos posts

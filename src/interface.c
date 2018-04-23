@@ -10,7 +10,6 @@
 #include "tags.h"
 #include "user.h"
 #include "users.h"
-
 #include "string.h"
 #include <glib.h>
 
@@ -222,7 +221,7 @@ int pertenceTitulo(char* palavra, Posts_D p){
 
 //q6
 
-gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
+/*gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
   Data data = getDate(p);
 
   if(dataIgual(end, data) == 0) return TRUE;
@@ -234,7 +233,7 @@ gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
   }
   return FALSE;
 }
-
+*/
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
@@ -256,7 +255,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
 //q7
 
 
-gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
+/*gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
   Data data = getDate(p);
 
   if(dataIgual(end, data) == 0) return TRUE;
@@ -268,7 +267,7 @@ gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
   }
   return FALSE;
 }
-
+*/
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
@@ -313,12 +312,13 @@ int valResposta(TAD_community com, Posts_D p){
   return val;
 }
 
-gboolean aux (Posts_D p, Date begin, long id){
+/*gboolean aux (Posts_D p, Date begin, long id){
   if((dataIgual(getDate(p), begin) > 0) && (getPostId(p) == 2)){
     if(getParentId(p) == id) return TRUE;
     }
   return FALSE;
 }
+*/
 
 //q10 erros no uso das funçoes do glib probably
 long better_answer(TAD_community com, int id){

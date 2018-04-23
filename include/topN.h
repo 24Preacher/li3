@@ -1,8 +1,8 @@
 #ifndef __TOPN__
 #define __TOPN__
 
-typedef struct *topn TopN;
-typedef struct *topArray ArrayTop;
+typedef struct topn* TopN;
+typedef struct topArray* ArrayTop;
 
 TopN createTopN (long id, int c);
 int getID_Top(TopN t);

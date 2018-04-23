@@ -6,7 +6,7 @@
    int ano;
    int hora;
    int minutos;
- }
+ };
 
 Data createData (int dia, int mes, int ano, int hora, int min){
   Data d = malloc (sizeof(struct data));

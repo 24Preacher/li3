@@ -1,5 +1,5 @@
-#ifndef USERS_H
-#define USERS_H
+#ifndef _USERS_H_
+#define _USERS_H_
 
 
 #include <stdlib.h>
@@ -8,11 +8,11 @@
 #include <glib.h>
 #include "date.h"
 
-typedef struct *users Users;
+typedef struct users* Users;
 
 Users createUsers (long id, char* nome, char* bio, int rep);
 
-long getUserId (Users u);
+long getUserId3 (Users u);
 
 char* getName (Users u);
 

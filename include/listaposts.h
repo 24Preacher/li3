@@ -7,9 +7,9 @@
 #include <glib.h>
 #include "date.h"
 
-typedef struct *lligada Lista;
-typedef struct *lposts PostsUsers;
-typedef struct *arraypost ArrayPosts;
+typedef struct lligada* Lista;
+typedef struct lposts* PostsUsers;
+typedef struct arraypost* ArrayPosts;
 
 Lista createLista (long id);
 Lista addPost (Lista l, long id);

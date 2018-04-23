@@ -149,7 +149,7 @@ void freePostsD (Posts_D posts){
 	 	free(posts);
 }
 
-Posts_D clonePostsID (Posts_D posts){
+Posts_D clonePostsD (Posts_D posts){
 	Posts_ID p = malloc(sizeof(struct Posts_data));
 	p->data_post = posts -> data_post;
 	p->id_user = posts->id_user;

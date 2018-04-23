@@ -160,7 +160,7 @@ int main(int argc, char **argv){
 
 	char *docname;
 	GTree	*tree;
-	docname = "/home/helena/Desktop/Posts.xml";
+	docname = "/Desktop/copy/src/Posts.xml";
 	parsePosts(docname, tree);
 	g_tree_foreach(tree,&(teste),NULL);
 	return(1);

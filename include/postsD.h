@@ -1,14 +1,15 @@
-#ifndef POSTSD_H
-#define POSTSD_H
+#ifndef _POSTS_D_H_
+#define _POSTS_D_H_
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
 #include "date.h"
+#include "tags.h"
 
 
-typedef struct *Posts_data Posts_D;
+typedef struct Posts_data* Posts_D;
 
 Date getDate (Posts_D posts);
 
@@ -34,6 +35,6 @@ Tags getTags (Posts_D posts);
 
 void freePostsD (Posts_D posts);
 
-Posts_D clonePostsID (Posts_D posts);
+Posts_D clonePostsD (Posts_D posts);
 
 #endif
