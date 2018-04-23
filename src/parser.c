@@ -29,11 +29,11 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 }
 
 
-
+/*
 // vai ao users.xml buscar o id, reputation, displayname e aboutme
 //usar um contador para ver o total de users
 
-void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
+int parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 
 	long id;
 	xmlChar bio;
@@ -43,7 +43,6 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 
 	xmlNodePtr cur = xmlDocGetRootElement(doc);
 
-//
 	if (doc == NULL ) {
 		fprintf(stderr,"Document not parsed successfully. \n");
 			return;
@@ -74,9 +73,10 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 		user = create_user(id, name, bio, rep);
 		gboolean g_hash_table_insert (hash_table, id, user);
 
+		return num_users;
 }
 
-
+*/
 
 
 //vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
@@ -168,10 +168,10 @@ int main(int argc, char **argv){
 
 
 
+/*
 
-
-//vai buscar id_tag, tagname, count
-void parseTags (xmlDocPtr doc, ){
+//vai buscar id_tag, tagname, count e inserir numa hash
+void parseTags (xmlDocPtr doc, GHashTable *hash_table){
 
 	xmlNodePtr nod = xmlDocGetRootElement(doc);
 
@@ -195,11 +195,13 @@ void parseTags (xmlDocPtr doc, ){
 			while((!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
 				id_tag = atoi(xmlGetProp(cur,(const xmlChar *)"Id"));
 				tagname = xmlGetProp(cur,(const xmlChar *)"TagName");
-				// count_tags = atoi(xmlGetProp(cur,(const xmlChar *)"Count"));
 			}
 		}
+		tag = createHashTag(tagname, id_tag);
+	 	g_hash_table_insert(hash_table, id_tag, tag);
+
 	}
 
-//ver depois
 
 }
+*/

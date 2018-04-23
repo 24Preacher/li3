@@ -20,6 +20,6 @@ char* getBio (Users u);
 
 int getRep (Users u);
 
-void freeUsers (Users u)
+void freeUsers (Users u);
 
-#endif 
+#endif
