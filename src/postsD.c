@@ -143,3 +143,8 @@ int getScore (Posts_D posts){
 Tags getTags (Posts_D posts){
 	return (cloneTags(posts -> tags));
 }
+
+void freePostsD (Posts_D posts){
+	 if (posts)
+	 	free(posts);
+}
