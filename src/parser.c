@@ -170,10 +170,6 @@ int main(int argc, char **argv){
 
 
 
-
-
-
-/*
 //vai buscar id_tag, tagname, count
 void parseTags (xmlDocPtr doc, ){
 
@@ -207,5 +203,3 @@ void parseTags (xmlDocPtr doc, ){
 //ver depois
 
 }
-
-*/
