@@ -29,7 +29,7 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 }
 
 
-/*
+
 // vai ao users.xml buscar o id, reputation, displayname e aboutme
 //usar um contador para ver o total de users
 
@@ -76,7 +76,7 @@ void parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 
 }
 
-*/
+
 
 
 //vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
@@ -172,8 +172,8 @@ int main(int argc, char **argv){
 
 
 
-/*
 
+/*
 //vai buscar id_tag, tagname, count
 void parseTags (xmlDocPtr doc, ){
 
@@ -207,4 +207,5 @@ void parseTags (xmlDocPtr doc, ){
 //ver depois
 
 }
+
 */
