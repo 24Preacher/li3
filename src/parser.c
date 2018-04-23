@@ -74,6 +74,7 @@ int parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 		gboolean g_hash_table_insert (hash_table, id, user);
 
 		return num_users;
+		//xmlFreeDoc(doc);
 }
 
 */
@@ -151,7 +152,7 @@ while (curr != NULL) {
 
 			curr = curr->next;
 	}
-
+	xmlFreeDoc(doc);
 }
 
 
@@ -202,6 +203,7 @@ void parseTags (xmlDocPtr doc, GHashTable *hash_table){
 
 	}
 
+//xmlFreeDoc(doc);
 
 }
 */

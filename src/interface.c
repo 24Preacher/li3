@@ -181,6 +181,75 @@ int pertenceTitulo(char* palavra, Posts_D p){
   return 0;
 }
 
+
+//q6
+
+gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
+  Data data = getDate(p);
+
+  if(dataIgual(end, data) == 0) return TRUE;
+  if(dataIgual(begin, data) == -1){
+  long id = getPostId(p);
+  int c = getScore(p);
+  TopN n = createTopN(id, c);
+  insereTop(t, n);
+  }
+  return FALSE;
+}
+
+
+LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
+  int i;
+  Posts_D inicio = g_tree_lookup(begin);
+  ArrayTop t = createArrayTop(N);
+  g_tree_foreach(inicio, topScore, t);
+
+  LONG_list res = create_list(N);
+
+  for(i = 0; i < N; i++){
+    TopN n = getTop(t, i);
+    long id = getID_Top(n);
+    set_list(res, i, id);
+  }
+  return res;
+}
+
+
+//q7
+
+
+gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
+  Data data = getDate(p);
+
+  if(dataIgual(end, data) == 0) return TRUE;
+  if(dataIgual(begin, data) == -1){
+  long id = getPostId(p);
+  int c = getAnswers(p);
+  TopN n = createTopN(id, c);
+  insereTop(t, n);
+  }
+  return FALSE;
+}
+
+
+LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
+  int i;
+  Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
+  ArrayTop t = createArrayTop(N);
+  g_tree_foreach(inicio, topAnswers, t);
+
+  LONG_list res = create_list(N);
+
+  for(i = 0; i < N; i++){
+    TopN n = getTop(t, i);
+    long id = getID_Top(n);
+    set_list(res, i, id);
+  }
+  return res;
+}
+
+
+
 //q8
 
 //LONG_list contains_word(TAD_community com, char* word, int N){
