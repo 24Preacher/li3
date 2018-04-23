@@ -39,7 +39,7 @@ returns A estrutura dos posts
 */
 Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-	Posts_ID *r = g_tree_new((GCompareFunc)compareID(user,r->id_user));
+	Posts_ID *r = g_tree_new(&compareID);
 
 	return r;
 }
@@ -85,7 +85,7 @@ Data getDate2 (Posts_ID posts){
 @param Estrutura dos posts
 @returns O número de respostas
 */
-int getAnswers2 (Posts_D posts){
+int getAnswers2 (Posts_ID posts){
 	return posts->num_respostas;
 }
 
@@ -94,7 +94,7 @@ int getAnswers2 (Posts_D posts){
 @param Estrutura dos posts
 @returns O tipo de post
 */
-short getPostType2 (Posts_D posts){
+short getPostType2 (Posts_ID posts){
 	return posts->post_type;
 }
 
@@ -103,7 +103,7 @@ short getPostType2 (Posts_D posts){
 @param Estrutura dos posts
 @returns O id do pai
 */
-long getParentId2 (Posts_D posts){
+long getParentId2 (Posts_ID posts){
 	return posts->parent_id;
 }
 
@@ -112,7 +112,7 @@ long getParentId2 (Posts_D posts){
 @param Estrutura dos posts
 @returns O número de comentarios
 */
-int getComments2 (Posts_D posts){
+int getComments2 (Posts_ID posts){
 	return posts->num_comentarios;
 }
 
@@ -121,7 +121,7 @@ int getComments2 (Posts_D posts){
 @param Estrutura dos posts
 @returns O score do post
 */
-int getScore2 (Posts_D posts){
+int getScore2 (Posts_ID posts){
 	return posts->score;
 }
 
@@ -130,7 +130,7 @@ int getScore2 (Posts_D posts){
 @param Estrutura dos posts
 @returns Apontador para as Tags do post
 */
-Tags getTags2 (Posts_D posts){
+Tags getTags2 (Posts_ID posts){
 	return (cloneTags(posts -> tags));
 }
 
