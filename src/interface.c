@@ -86,15 +86,53 @@ STR_pair info_from_post(TAD_community com, long id){
     }
   return res;
 }
-/*
-//q2
 
-LONG_list top_most_active(TAD_community com, int N){
 
-  g_tree_foreach(com->postsbydata, --, --)
 
+
+
+int lengthL(Lista l){
+  int tam = 0;
+  while(l){
+    tam++;
+    l = l->prox;
+  }
+  return tam;
 }
 
+void percorre(ArrayPosts p, ArrayTop t){
+  int i;
+
+  for(i = 0; i < getSizeArray(p); i++){
+    long id = getUserID_L(p, i);
+    Lista posts = getListaPosts(p,i);
+    int c = lengthL(posts);
+    TopN n = createTopN(id, c);
+    insereTop(t, n);
+  }
+}
+
+//q2
+LONG_list top_most_active(TAD_community com, int N){
+  int i;
+  LONG_list res = create_list(N);
+  ArrayTop t = createArrayTop(N);
+
+  percorre(com->arrayposts, t);
+
+  for(i = 0; i < N; i++){
+    TopN n = getTop(t, i);
+    long id = getID_Top(t);
+    set_list(res, i, id);
+  }
+
+  return res;
+}
+
+
+
+
+/*
 //q3
 LONG_pair total_posts(TAD_community com, Date begin, Date end){
     long respostas = 0;
