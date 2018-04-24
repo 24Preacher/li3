@@ -7,7 +7,7 @@
 #include <glib.h>
 #include "date.h"
 
-typedef struct *tags  Tags;
+typedef struct tags*  Tags;
 
 Tags createTags (char* nome, long id, int c);
 
@@ -17,6 +17,6 @@ long getIdTag (Tags t);
 
 long getCountTags (Tags t);
 
-void freeTags (Tags t)
+void freeTags (Tags t);
 
 #endif

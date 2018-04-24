@@ -1,6 +1,5 @@
 #include "tags.h"
 
-// Lista ligada para guardar as tags
 /**
 \struct Lista Ligada que armazena as Tags
 @param nome Nome da Tag
@@ -11,6 +10,11 @@ struct tags {
 	struct tags *prox;
 } Tags;
 
+/**
+\brief Função que cria a estrutura das Tags
+@param nome Nome da tag
+@returns A estrutura das Tags
+*/
 Tags createTags (char* nome){
 	Tags t = malloc(sizeof(struct tags));
 	t->nome = nome;
@@ -19,11 +23,19 @@ Tags createTags (char* nome){
 	return t;
 }
 
+/**
+\brief Função que busca o nome da tag
+@param t Estrutura das Tags
+@returns O nome da tag
+*/
 char* getNameTag (Tags t){
 	return mystrdup(t->nome);
 }
 
-
+/**
+\brief Função que liberta a estrutura das Tags
+@param t Estrutura das Tags
+*/
 void freeTags (Tags t){
 	 if (t)
 	 	free(t);
@@ -31,7 +43,7 @@ void freeTags (Tags t){
 
 /**
 \brief Função que clona a estrutura das Tags
-@param Estrutura das Tags
+@param t Estrutura das Tags
 @returns A estrutura clonada das Tags
 */
 Tags cloneTags (Tags t){
@@ -42,7 +54,7 @@ Tags cloneTags (Tags t){
 
 /**
 \brief Função que conta o número de Tags
-@param String das Tags
+@param a String das Tags
 @returns Número de tags
 */
 int contaTags(char a[]){
@@ -56,8 +68,8 @@ int contaTags(char a[]){
 }
 
 /**
-\brief Função que passa de uma strinf para uma lista ligada de Tags
-@param String das Tags
+\brief Função que passa de uma string para uma lista ligada de Tags
+@param a String das Tags
 @returns Lista ligada das Tags
 */
 Tags strToTags(char a[]){
@@ -85,4 +97,21 @@ for (int i = 0; a[i] != '\0'; i++){
 	}
 }
 return t;
+}
+
+/**
+\brief Função que verifica se uma tag existe numa lista ligada de tags
+@param tag Tag a procurar
+@param t Estrutura das Tags
+@returns 1 se a tag existir, 0 se não existir nas tags
+*/
+int existeTag(char* tag, Tags t){
+
+  if (!t) return 0;
+  while(t != NULL){
+    if(strcmp(tag, getNameTag(t)) == 0)
+      return 1;
+    else t = t->prox;
+  }
+  return 0;
 }

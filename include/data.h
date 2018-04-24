@@ -7,7 +7,7 @@
 #include <glib.h>
 #include "date.h"
 
-typedef struct *data Data;
+typedef struct data* Data;
 
 Data createData (int dia, int mes, int ano, int hora, int min);
 

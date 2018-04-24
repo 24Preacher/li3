@@ -16,7 +16,7 @@ struct users
 	char* nome;
 	char* bio;
 	int rep;
-}Users;
+};
 
 /**
 \brief Função que cria a estrutura de utilizadores
@@ -38,7 +38,7 @@ Users createUsers (long id, char* nome, char* bio, int rep){
 @returns O id do post
 */
 
-long getUserId (Users u){
+long getUserId3 (Users u){
 	return u->id_user;
 }
 
@@ -74,7 +74,5 @@ int getRep (Users u){
 @param Estrutura dos utilizadores
 */
 void freeUsers (Users u){
-	if (u){
-		free(u->prox);
-		free(u);
-	}
+		g_hash_table_remove_all(u);
+}
