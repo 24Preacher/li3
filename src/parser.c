@@ -70,7 +70,7 @@ int parseUsers (xmlNodePtr doc, GHashTable *hash_table){
 		}
 
 
-		user = create_user(id, name, bio, rep);
+		user = createUsers(id, name, bio, rep);
 		gboolean g_hash_table_insert (hash_table, id, user);
 
 		return num_users;
@@ -109,27 +109,31 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 		return;
 	}
 
+
+
+
+
 //ver se é um a um
 while (curr != NULL) {
 	if ((!xmlStrcmp(curr->name, (const xmlChar *)"row"))) {
 		while((!xmlStrcmp(curr->name, (const xmlChar *)"/>")){
-			post_id = atoi(xmlGetProp(curr,(const xmlChar *)"Id"));
-			post_type = atoi(xmlGetProp(curr,(const xmlChar *)"PostTypeId"));
+			post_id = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"Id")));
+			post_type = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"PostTypeId")));
 			title = xmlGetProp(curr,(const xmlChar *)"Title");
-			tags = strToTags(xmlGetProp(curr,(const xmlChar *)"Tags"));
-			creation_date = atoi(xmlGetProp(curr,(const xmlChar *)"CreationDate"));
+			tags = strToTags((char*)(xmlGetProp(curr,(const xmlChar *)"Tags")));
+			creation_date = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CreationDate")));
 			parent_id =(xmlChar*) "0";
-			user_id = atoi(xmlGetProp(curr,(const xmlChar *)"OwnerUserId"));
+			user_id = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"OwnerUserId")));
 			answer_count=(xmlChar*)"0";
-			comment_count = atoi(xmlGetProp(curr,(const xmlChar *)"CommentCount"));
-			score = atoi(xmlGetProp(curr,(const xmlChar *)"Score"));
+			comment_count = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CommentCount")));
+			score = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"Score")));
 		}
 
 		if ((!xmlStrcmp(post_type, (const xmlChar *)"1"))){
-				answer_count=atoi(xmlGetProp(curr, (const xmlChar *)"AnswerCount"));
+				answer_count=atoi((char*)(xmlGetProp(curr, (const xmlChar *)"AnswerCount")));
 		}
 		else if ((!xmlStrcmp(post_type, (const xmlChar *)"2"))){
-				parent_id = atoi(xmlGetProp(curr, (const xmlChar *)"ParentId"));
+				parent_id = atoi((char*)(xmlGetProp(curr, (const xmlChar *)"ParentId")));
 		}
 
 
