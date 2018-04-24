@@ -74,5 +74,5 @@ int getRep (Users u){
 @param Estrutura dos utilizadores
 */
 void freeUsers (Users u){
-		free(u);
+		g_hash_table_remove_all(u);
 }

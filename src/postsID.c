@@ -136,8 +136,7 @@ Tags getTags2 (Posts_ID posts){
 
 
 void freePostsID (Posts_D posts){
-	 if (posts)
-	 	free(posts);
+	 g_tree_destroy(posts);
 }
 
 Posts_ID clonePostsID (Posts_ID posts){
