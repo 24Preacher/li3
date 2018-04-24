@@ -11,9 +11,9 @@
 #include <glib.h>
 
 
-#include "users.c"
-#include "postsD.c"
-#include "hashtags.h"
+#include "users.h"
+#include "postsD.h"
+//#include "hashtags.h"
 
 
 

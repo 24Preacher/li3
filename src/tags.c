@@ -86,3 +86,14 @@ for (int i = 0; a[i] != '\0'; i++){
 }
 return t;
 }
+
+int existeTag(char* tag, Tags t){
+
+  if (!t) return 0;
+  while(t != NULL){
+    if(strcmp(tag, getNameTag(t)) == 0)
+      return 1;
+    else t = t->prox;
+  }
+  return 0;
+}

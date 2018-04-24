@@ -57,6 +57,15 @@ Lista addPost (Lista l, long post){
 	return novo;
 }
 
+int lengthL(Lista l){
+  int tam = 0;
+  while(l){
+    tam++;
+    l = l->prox;
+  }
+  return tam;
+}
+
 /**
 \brief Função que cria uma célula com o identificador de um utilizador e uma lista com os seus posts
 @param user Identificador do utilizador
@@ -216,7 +225,7 @@ PostsUsers clonePostUsers(PostsUsers l){
 	return a;
 }
 
-ArrayPost cloneArrayPost(ArrayPost l){
+ArrayPosts cloneArrayPosts(ArrayPosts l){
 	ArrayPost a = malloc(sizeof(struct arraypost));
 	int i;
 	a->size = l->size;

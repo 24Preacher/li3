@@ -25,29 +25,36 @@ int compareData(Data a, Data b){
 
 //Compara datas dos stores com as nossas
 int compareDate(Date a, Date b){
-    if
+  if (get_year(a) > get_year(b)) return 1;
+  else if (get_year(a) < get_year(b)) return -1;
+  else if (get_month(a) > get_month(b)) return 1;
+  else if (get_month(a) < get_month(b)) return -1;
+  else if (get_day(a) > get_day(b)) return 1;
+  else if (get_day(a) < get_day(b)) return -1;
+  else return 0;
 
 }
 
 
 Date converteData(Data a){
-  Date d = createDate(a->dia, a->mes, a->ano);
+  Date d = createDate(getDia(a), getMes(a), getAno(a));
   return d;
 }
 
 int dataIgual(Date a, Data b){
   b = converteData(b);
+  return(compareDate(a ,b));
 
 }
 
 int data_ord (Posts_D a, Posts_D b){
-  return (compareData(a->data_post, b->data_post));
+  return (compareData(getDate(a), getDate(b)));
 }
 
 int compareID(Posts_ID a, Posts_ID b){
-    if(a->id_user > b->id_user)
+    if(getUserId2(a) > getUserId2(b))
         return 1;
-    else if (a->id_user < b->id_user)
+    else if (getUserId2(a) < getUserId2(b))
         return -1;
     else return 0;
 }

@@ -28,6 +28,6 @@ void freeArrayPosts (ArrayPosts p);
 void insere(ArrayPosts p, long user, long post);
 Lista cloneLista (Lista l);
 PostsUsers clonePostUsers(PostsUsers l);
-ArrayPost cloneArrayPost(ArrayPost l);
+ArrayPosts cloneArrayPosts(ArrayPosts l);
 
 #endif

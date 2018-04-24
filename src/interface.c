@@ -12,6 +12,8 @@
 #include "users.h"
 #include "string.h"
 #include <glib.h>
+#include "glib.c"
+#include "topN.h"
 
 
 
@@ -33,7 +35,7 @@ TAD_community init(){
 
   TAD_community com = malloc(sizeof(struct TCD_community));
   com->postsbydata = g_tree_new(&data_ord);
-  com->postsbyid = g_tree_new(&compareID)
+  com->postsbyid = g_tree_new(&compareID);
   com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, freeUsers);
   com->arrayposts = createArrayPosts(0);
 
@@ -41,7 +43,7 @@ TAD_community init(){
 }
 
 //query 0
-TAD_community load(TCD_community com, char* dump_path){
+TAD_community load(TAD_community com, char* dump_path){
 
   char *docname1;
   char *docname2;
@@ -90,14 +92,7 @@ STR_pair info_from_post(TAD_community com, long id){
 
 
 
-int lengthL(Lista l){
-  int tam = 0;
-  while(l){
-    tam++;
-    l = l->prox;
-  }
-  return tam;
-}
+
 
 void percorre(ArrayPosts p, ArrayTop t){
   int i;
@@ -145,16 +140,7 @@ LONG_pair total_posts(TAD_community com, Date begin, Date end){
 */
 
 //Função que verifica se uma tag está numa lista de tags - aux p/ q4
-int existeTag(char* tag, Tags t){
 
-  if (!t) return 0;
-  while(t != NULL){
-    if(strcmp(tag, getNameTag(t)) == 0)
-      return 1;
-    else t = t->prox;
-  }
-  return 0;
-}
 /*
 Lista func(Posts_D posts, char* tag, LONG_list l){
     int n = 0;
@@ -191,10 +177,10 @@ USER get_user_info(TAD_community com, long id){
   int i = 0, j;
   res->bio = getBio(u);
   //parte dos ultimos 10 posts
-  while(getUserID_L(com->arrayposts) < id) i++;
+  while(getUserID_L(com->arrayposts, i) < id) i++;
 
     LONG_list last10posts = create_list(10);
-    Lista l = getListaPosts(p, i);
+    Lista l = getListaPosts(com->arrayposts, i);
     for(j = 0; l != NULL && j < 10; l = l->prox, j++){
       long post = getPostId_L(l);
       set_list(last10posts, j, post);
@@ -213,7 +199,7 @@ USER get_user_info(TAD_community com, long id){
 //Função que ve se uma palavra pertence a uma string - usar a strstr -aux a q8
 int pertenceTitulo(char* palavra, Posts_D p){
 
-  if (strstr(getTitle(t), palavra) != NULL)
+  if (strstr(getTitle(p), palavra) != NULL)
     return 1;
   return 0;
 }
@@ -221,7 +207,7 @@ int pertenceTitulo(char* palavra, Posts_D p){
 
 //q6
 
-/*gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
+gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
   Data data = getDate(p);
 
   if(dataIgual(end, data) == 0) return TRUE;
@@ -233,11 +219,11 @@ int pertenceTitulo(char* palavra, Posts_D p){
   }
   return FALSE;
 }
-*/
+
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
-  Posts_D inicio = g_tree_lookup(begin);
+  Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
   ArrayTop t = createArrayTop(N);
   g_tree_foreach(inicio, topScore, t);
 
@@ -255,7 +241,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
 //q7
 
 
-/*gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
+gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
   Data data = getDate(p);
 
   if(dataIgual(end, data) == 0) return TRUE;
@@ -267,7 +253,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   }
   return FALSE;
 }
-*/
+
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
@@ -305,7 +291,7 @@ int valResposta(TAD_community com, Posts_D p){
   scr = vot = getScore(p);
   comt = getComments(p);
 
-  User u = g_hash_table_lookup(com->users, getUserId(p));
+  Users u = g_hash_table_lookup(com->users, getUserId(p));
   rep = getRep(u);
 
   val = (scr * 0.45 + rep * 0.25 + vot * 0.2 + comt * 0.1);
@@ -319,7 +305,7 @@ int valResposta(TAD_community com, Posts_D p){
   return FALSE;
 }
 */
-
+/*
 //q10 erros no uso das funçoes do glib probably
 long better_answer(TAD_community com, int id){
   int respostas;
@@ -330,13 +316,13 @@ long better_answer(TAD_community com, int id){
 
   Posts_ID post = g_tree_lookup(com->postsbyid, id);
   Data d = getDate2(post);
-  Posts_D pergunta = g_tree_lookup(com->postsbydata, d));
+  Posts_D pergunta = g_tree_lookup(com->postsbydata, d);
 
   repostas = getAnswers(pergunta);
 
   while(respostas > 0){
     tree = pergunta;
-    g_tree_foreach(tree, aux(tree, d, getPostId), *tree)
+    g_tree_foreach(tree, aux(tree, d, getPostId), *tree);
     //Posts_D r = g_tree_lookup(tree, getParentId2(pergunta));
       if(getPostType(r) == 2){
         val = valResposta(com, r);
@@ -351,3 +337,4 @@ long better_answer(TAD_community com, int id){
 
   return melhor;
 }
+*/

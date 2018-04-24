@@ -47,11 +47,11 @@ int getSizeTop (ArrayTop t){
 	 return t->size;
 }
 
-int getOcupados(ArrayTop t){
+int getOcupados2(ArrayTop t){
 	return t->ocupados;
 }
 
-void setOcupados(ArrayTop t, int o){
+void setOcupados2(ArrayTop t, int o){
 	t->ocupados = o;
 }
 
