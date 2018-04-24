@@ -45,21 +45,19 @@ TAD_community init(){
 //query 0
 TAD_community load(TAD_community com, char* dump_path){
 
-  char *docname1;
-  char *docname2;
+  char *docname1 = "";
+  char *docname2 = "";
 	GTree	*treeid;
   GTree *treed;
   GHashTable *tab;
 
-	//docname1 = "/home/mercy/Desktop/Posts.xml";
-	parsePosts(docname1, treed, treeid);
+	parsePosts((docname1 ++ dump_path), treed, treeid);
 
   com->postsbyid = treed;
   com->postsbydata = treeid;
 
-  //docname2 = "/home/mercy/Desktop/Users.xml";
 
-  int num_users = parseUsers(docname2, tab);
+  int num_users = parseUsers((docname2 ++ dump_path), tab);
   com->users = tab;
   ArrayPosts a = createArrayPosts(num_users);
 
@@ -124,20 +122,41 @@ LONG_list top_most_active(TAD_community com, int N){
 }
 
 
+gboolean incrementaPar (Posts_D p,LONG_pair par, Date begin, Date end){
 
+  long perguntas = get_fst_long(par);
+  long respostas = get_snd_long(par);
+  Data data = getDate(p);
 
-/*
-//q3
-LONG_pair total_posts(TAD_community com, Date begin, Date end){
-    long respostas = 0;
-    long perguntas = 0;
+  if(dataIgual(end, data) == 0) return TRUE;
+  if(dataIgual(begin, data) == -1){
+    short ptype = getPostType(p);
+    if(ptyte == 1)
+        perguntas ++;
+    else if (ptype == 2)
+        respostas ++;
 
-  gpointer *inicio = g_tree_lookup(com->postsbydata, begin);
-
-  g_tree_foreach(inicio, (GTraverseFunc) compareData(inicio->data_post ,end),
+    set_fst_long(par, perguntas);
+    set_snd_long(par, respostas);
+    }
+  return FALSE;
 
 }
-*/
+
+
+
+//q3
+LONG_pair total_posts(TAD_community com, Date begin, Date end){
+    LONG_pair par = create_long_pair(0, 0);
+
+    gpointer *inicio = g_tree_lookup(com->postsbydata, begin);
+
+    g_tree_foreach(inicio, &incrementaPar, par);
+
+    return par;
+
+}
+
 
 //Função que verifica se uma tag está numa lista de tags - aux p/ q4
 
@@ -175,8 +194,8 @@ USER get_user_info(TAD_community com, long id){
   USER res;
   Users u = g_hash_table_lookup(com->users, id);
   int i = 0, j;
-  res->bio = getBio(u);
-  //parte dos ultimos 10 posts
+  char* bio = getBio(u);
+
   while(getUserID_L(com->arrayposts, i) < id) i++;
 
     LONG_list last10posts = create_list(10);
@@ -190,18 +209,9 @@ USER get_user_info(TAD_community com, long id){
           set_list(last10posts, j, -1);
     }
 
-  res->posts = last10posts;
+  res = create_user(bio, last10posts);
 
   return res;
-}
-
-
-//Função que ve se uma palavra pertence a uma string - usar a strstr -aux a q8
-int pertenceTitulo(char* palavra, Posts_D p){
-
-  if (strstr(getTitle(p), palavra) != NULL)
-    return 1;
-  return 0;
 }
 
 
@@ -225,7 +235,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
   Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
   ArrayTop t = createArrayTop(N);
-  g_tree_foreach(inicio, topScore, t);
+  g_tree_foreach(inicio, &topScore, t);
 
   LONG_list res = create_list(N);
 
@@ -239,7 +249,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
 
 
 //q7
-
+/* query 7 ta mal
 
 gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
   Data data = getDate(p);
@@ -259,7 +269,7 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
   int i;
   Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
   ArrayTop t = createArrayTop(N);
-  g_tree_foreach(inicio, topAnswers, t);
+  g_tree_foreach(inicio, &topAnswers, t);
 
   LONG_list res = create_list(N);
 
@@ -271,7 +281,15 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
   return res;
 }
 
+*/
 
+//Função que ve se uma palavra pertence a uma string - usar a strstr -aux a q8
+int pertenceTitulo(char* palavra, Posts_D p){
+
+  if (strstr(getTitle(p), palavra) != NULL)
+    return 1;
+  return 0;
+}
 
 //q8
 
