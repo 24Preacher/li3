@@ -118,7 +118,7 @@ void setOcupados2(ArrayTop t, int o){
 @returns O TopN na posição i do array
 */
 TopN getTop (ArrayTop t ,int i){
-  return t->top[i];
+  return cloneTopN(t->top[i]);
 }
 
 /**

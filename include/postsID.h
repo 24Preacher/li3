@@ -1,5 +1,5 @@
-#ifndef _POSTSID_H_
-#define _POSTSID_H_
+#define __POSTSID__
+#ifndef __POSTSID__
 
 
 #include <stdlib.h>

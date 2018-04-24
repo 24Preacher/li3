@@ -1,5 +1,5 @@
-#ifndef _USERS_H_
-#define _USERS_H_
+#ifndef __USERS__
+#define __USERS__
 
 
 #include <stdlib.h>

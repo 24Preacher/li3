@@ -1,5 +1,5 @@
-#ifndef LISTAPOSTS_H
-#define LISTAPOSTS_H
+#ifndef __LISTAPOSTS__
+#define __LISTAPOSTS__
 
 #include <stdlib.h>
 #include <stdio.h>

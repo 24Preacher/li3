@@ -1,5 +1,5 @@
-#ifndef TAGS_H
-#define TAGS_H
+#ifndef __TAGS__
+#define __TAGS__
 
 #include <stdlib.h>
 #include <stdio.h>

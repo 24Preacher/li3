@@ -1,5 +1,5 @@
-#ifndef _POSTS_D_H_
-#define _POSTS_D_H_
+#ifndef __POSTSD__
+#define __POSTSD__
 
 #include <stdlib.h>
 #include <stdio.h>

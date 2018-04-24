@@ -113,7 +113,7 @@ long getPostId_L(Lista l){
 @returns O identificador do utilizador no índice i
 */
 long getUserID_L (ArrayPosts p, int i){
-  return p->a->posts[i]->id_user;
+  return p->aposts[i]->id_user;
 }
 
 /**
@@ -123,7 +123,7 @@ long getUserID_L (ArrayPosts p, int i){
 @returns A lista dos posts que está no índice i
 */
 Lista getListaPosts (ArrayPosts p, int i){
-	return p->a->posts[i]->lposts;
+	return clonePostUsers(p->aposts[i]->lposts);
 }
 
 /**
@@ -168,7 +168,7 @@ void setOcupados(ArrayPosts p, int o){
 @returns Conteúdo do array na posição i
 */
 PostsUsers getAPosts (ArrayPosts p, int i){
-	return p->aposts[i];
+	return clone(p->aposts[i]);
 }
 
 /**
