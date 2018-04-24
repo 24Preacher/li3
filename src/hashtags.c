@@ -10,23 +10,22 @@ typedef struct htags{
 };
 
 
-TagHash createHashTag(char *tagname, long id){
+HashTags createHashTag(char *tagname, long id){
   Tag t =g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
   return t;
 }
 
 
 
-char* getTagName (TagHash t){
+char* getTagName (HashTags t){
 	return mystrdup(t->tagname);
 }
 
-long getIDTag(TagHash t){
+long getIDTag(HashTags t){
   return (t->id);
 }
 
 
-void freeTagHash (TagHash t){
-	 if (t)
-	 	free(t);
+void freeHashTag (HashTags t){
+	 g_hash_table_remove_all(t);
 }

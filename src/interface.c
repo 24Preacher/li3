@@ -28,6 +28,7 @@ struct TCD_community {
   Posts_ID postsbyid;
   Users users;
   ArrayPosts arrayposts;
+  HashTags tabtags;
 };
 
 
@@ -36,8 +37,9 @@ TAD_community init(){
   TAD_community com = malloc(sizeof(struct TCD_community));
   com->postsbydata = g_tree_new(&data_ord);
   com->postsbyid = g_tree_new(&compareID);
-  com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, freeUsers);
+  com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, free, freeUsers);
   com->arrayposts = createArrayPosts(0);
+  com->tabtags = g_hash_table_new_full(g_str_hash, g_str_equal, free, freeHashTag);
 
   return com;
 }
@@ -47,9 +49,11 @@ TAD_community load(TAD_community com, char* dump_path){
 
   char *docname1 = "";
   char *docname2 = "";
+  char *docname3 = "";
 	GTree	*treeid;
   GTree *treed;
   GHashTable *tab;
+  GHashTable *tags;
 
 	parsePosts((docname1 ++ dump_path), treed, treeid);
 
@@ -64,6 +68,9 @@ TAD_community load(TAD_community com, char* dump_path){
 
   g_tree_foreach(com->postsbydata, &insere, a);
   com->arrayposts = a;
+
+  parseTags((docname3 ++ dump_path), tags);
+  com->tabtags = tags;
 
   return com;
 }
