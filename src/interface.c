@@ -255,7 +255,7 @@ gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
 }
 
 
-LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
+LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end){
   int i;
   Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
   ArrayTop t = createArrayTop(N);
