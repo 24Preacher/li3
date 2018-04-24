@@ -49,10 +49,12 @@ returns A estrutura dos posts
 */
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-			Posts_D *r = g_tree_new((GCompareFunc)data_ord(d, r->data_post));
+			Posts_D *r = g_tree_new(&data_ord);
 
 			return r;
 	}
+
+
 
 /**
 \brief Função que busca a data do post

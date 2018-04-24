@@ -1,12 +1,13 @@
 #include "glib.c"
 #include <glib.h>
 #include "common.c"
+#include "hashtags.h"
 
 
 typedef struct htags{
     char *tagname;
     long id;
-}TagHash;
+};
 
 
 TagHash createHashTag(char *tagname, long id){
