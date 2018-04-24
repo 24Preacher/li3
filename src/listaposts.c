@@ -28,7 +28,7 @@ struct lposts {
 struct arraypost{
 	int size;
 	int ocupados;
-	PostsUsers aposts[];
+	PostsUsers * aposts;
 };
 
 /**
@@ -57,6 +57,11 @@ Lista addPost (Lista l, long post){
 	return novo;
 }
 
+/**
+\brief Função que calcula o tamanho de uma lista
+@param l Lista
+@returns O tamanho da lista
+*/
 int lengthL(Lista l){
   int tam = 0;
   while(l){
@@ -70,7 +75,7 @@ int lengthL(Lista l){
 \brief Função que cria uma célula com o identificador de um utilizador e uma lista com os seus posts
 @param user Identificador do utilizador
 @param l Lista dos posts
-@returns A lista dos posts associados ao utilizador a qu e pertencem
+@returns A lista dos posts associados ao utilizador a que pertencem
 */
 PostsUsers createPostsUsers (long user, Lista l){
   PostsUsers p = malloc(sizeof(struct lposts));
@@ -91,9 +96,10 @@ ArrayPosts createArrayPosts(int size){
 	p->aposts = malloc(sizeof(struct lposts)* size);
 	return p;
 }
+
 /**
 \brief Função que busca o identificador do post
-@param l lista dos identificadores de posts
+@param l Lista dos identificadores de posts
 @returns O id do post
 */
 long getPostId_L(Lista l){
@@ -102,8 +108,8 @@ long getPostId_L(Lista l){
 
 /**
 \brief Função que busca o identificador do utilizador
-@param p array de posts
-@param i índice do array
+@param p Array de posts
+@param i Índice do array
 @returns O identificador do utilizador no índice i
 */
 long getUserID_L (ArrayPosts p, int i){
@@ -112,8 +118,8 @@ long getUserID_L (ArrayPosts p, int i){
 
 /**
 \brief Função que busca a lista dos posts de um utilizador
-@param p array de posts
-@param i índice do array
+@param p Array de posts
+@param i Índice do array
 @returns A lista dos posts que está no índice i
 */
 Lista getListaPosts (ArrayPosts p, int i){
@@ -122,7 +128,7 @@ Lista getListaPosts (ArrayPosts p, int i){
 
 /**
 \brief Função que busca o tamanho do array
-@param p array de posts
+@param p Array de posts
 @returns Tamanho do array
 */
 int getSizeArray (ArrayPosts p){
@@ -131,7 +137,7 @@ int getSizeArray (ArrayPosts p){
 
 /**
 \brief Função que atualiza o tamanho do array
-@param p array de posts
+@param p Array de posts
 @param size Tamanho atualizado do array
 */
 void setSizeArray (ArrayPosts p, int size){
@@ -140,7 +146,7 @@ void setSizeArray (ArrayPosts p, int size){
 
 /**
 \brief Função que busca o número de índices ocupados do array
-@param p array de posts
+@param p Array de posts
 @returns O número de índices ocupados
 */
 int getOcupados(ArrayPosts p){
@@ -149,7 +155,7 @@ int getOcupados(ArrayPosts p){
 
 /**
 \brief Função que atualiza o número de índices ocupados do array
-@param p array de posts
+@param p Array de posts
 @param o Número de ocupados atualizado
 */
 void setOcupados(ArrayPosts p, int o){
@@ -158,15 +164,23 @@ void setOcupados(ArrayPosts p, int o){
 
 /**
 \brief Função que busca o conteúdo num certo índice do array
-@param p array de posts
+@param p Array de posts
 @returns Conteúdo do array na posição i
 */
 PostsUsers getAPosts (ArrayPosts p, int i){
 	return p->aposts[i];
 }
+
+/**
+\brief Função que atualiza o PostsUsers da posição i do array
+@param p Array de posts
+@param i Índice do array
+@param c PostsUsers atualizado
+*/
 void setAPosts(ArrayPosts p, int i, PostsUsers c){
 	p->aposts[i] = c;
 }
+
 /**
 \brief Função que liberta a lista dos posts de cada utilizador
 @param p Posts de cada utilizador associado ao seu identificador
@@ -176,16 +190,22 @@ void freePostsUsers (PostsUsers p){
 				free(p->lposts);
 	free(p);
 }
+
 /**
 \brief Função que liberta o array de listas dos posts de cada utilizador
-@param l array de listas
+@param p Array de listas
 */
 void freeArrayPosts (ArrayPosts p){
   for(int i = 0; i < getSize(p); i++)
 		freePostsUsers(getAPosts(p,i));
 }
 
-//Função que insere um post no array de posts
+/**
+\brief Função que insere o identificador de um post na lista de posts de um certo utilizador
+@param p Array de listas
+@param user Identificador do utilizador
+@param post Identificador do post
+*/
 void insere(ArrayPosts p, long user, long post){
   int i = 0;
 
@@ -211,6 +231,11 @@ void insere(ArrayPosts p, long user, long post){
       }
 }
 
+/**
+\brief Função que clona uma lista
+@param l Lista a clonar
+@returns A lista clonada
+*/
 Lista cloneLista (Lista l){
 	Lista a = malloc(sizeof(struct lligada));
 	a->id_post = l->id_post;
@@ -218,6 +243,11 @@ Lista cloneLista (Lista l){
 	return a;
 }
 
+/**
+\brief Função que clona a estrutura dos PostsUsers
+@param l PostsUsers a clonar
+@returns A estrutura clonada dos PostsUsers
+*/
 PostsUsers clonePostUsers(PostsUsers l){
 	PostsUsers a = malloc(sizeof(struct lposts));
 	a->id_user = l->id_user;
@@ -225,6 +255,11 @@ PostsUsers clonePostUsers(PostsUsers l){
 	return a;
 }
 
+/**
+\brief Função que clona a estrutura do ArrayPosts
+@param l ArrayPosts a clonar
+@returns A estrutura clonada do ArrayPosts
+*/
 ArrayPosts cloneArrayPosts(ArrayPosts l){
 	ArrayPost a = malloc(sizeof(struct arraypost));
 	int i;
