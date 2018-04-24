@@ -13,7 +13,8 @@
 
 #include "users.h"
 #include "postsD.h"
-//#include "hashtags.h"
+#include "tags.c"
+#include "hashtags.h"
 
 
 

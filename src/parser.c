@@ -111,25 +111,25 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 
 //ver se é um a um
 while (curr != NULL) {
-	if ((!xmlStrcmp(cur->name, (const xmlChar *)"row"))) {
-		while((!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
-			post_id = atoi(xmlGetProp(cur,(const xmlChar *)"Id"));
-			post_type = atoi(xmlGetProp(cur,(const xmlChar *)"PostTypeId"));
-			title = xmlGetProp(cur,(const xmlChar *)"Title");
-			tags = atoi(xmlGetProp(cur,(const xmlChar *)"Tags"));
-			creation_date = atoi(xmlGetProp(cur,(const xmlChar *)"CreationDate"));
+	if ((!xmlStrcmp(curr->name, (const xmlChar *)"row"))) {
+		while((!xmlStrcmp(curr->name, (const xmlChar *)"/>")){
+			post_id = atoi(xmlGetProp(curr,(const xmlChar *)"Id"));
+			post_type = atoi(xmlGetProp(curr,(const xmlChar *)"PostTypeId"));
+			title = xmlGetProp(curr,(const xmlChar *)"Title");
+			tags = strToTags(xmlGetProp(curr,(const xmlChar *)"Tags"));
+			creation_date = atoi(xmlGetProp(curr,(const xmlChar *)"CreationDate"));
 			parent_id =(xmlChar*) "0";
-			user_id = atoi(xmlGetProp(cur,(const xmlChar *)"OwnerUserId"));
+			user_id = atoi(xmlGetProp(curr,(const xmlChar *)"OwnerUserId"));
 			answer_count=(xmlChar*)"0";
-			comment_count = atoi(xmlGetProp(cur,(const xmlChar *)"CommentCount"));
-			score = atoi(xmlGetProp(cur,(const xmlChar *)"Score"));
+			comment_count = atoi(xmlGetProp(curr,(const xmlChar *)"CommentCount"));
+			score = atoi(xmlGetProp(curr,(const xmlChar *)"Score"));
 		}
 
 		if ((!xmlStrcmp(post_type, (const xmlChar *)"1"))){
-				answer_count=atoi(xmlGetProp(cur, (const xmlChar *)"AnswerCount"));
+				answer_count=atoi(xmlGetProp(curr, (const xmlChar *)"AnswerCount"));
 		}
 		else if ((!xmlStrcmp(post_type, (const xmlChar *)"2"))){
-				parent_id = atoi(xmlGetProp(cur, (const xmlChar *)"ParentId"));
+				parent_id = atoi(xmlGetProp(curr, (const xmlChar *)"ParentId"));
 		}
 
 
@@ -208,7 +208,45 @@ xmlFreeDoc(doc);
 }
 
 
-void parseDoc(){
 
-	
+
+void parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2){
+
+	xmlDocPtr doc1, doc2, doc3;
+	xmlNodePtr cur1, cur2, cur3;
+
+	doc1 = xmlParseFile(doctags);
+	doc2 = xmlParseFile(docusers);
+	doc3 = xmlParseFile(docposts);
+
+
+	if (doc1 == NULL || doc2==NULL || doc3==NULL) {
+		fprintf(stderr,"Document not parsed successfully. \n");
+		return;
+	}
+
+	cur1 = xmlDocGetRootElement(doc1);
+	cur2 = xmlDocGetRootElement(doc2);
+	cur3 = xmlDocGetRootElement(doc3);
+
+	if (cur1 == NULL || cur2 == NULL || cur3 == NULL) {
+		fprintf(stderr,"empty document\n");
+		xmlFreeDoc(doc1);
+		xmlFreeDoc(doc2);
+		xmlFreeDoc(doc3);
+	return;
+	}
+
+
+	parseTags(doc1, hash_tags);
+	parseUsers(doc2, hash_users);
+	parsePosts(doc3, tree1, tree2);
+
+
+	xmlFreeDoc(doc1);
+	xmlFreeDoc(doc2);
+	xmlFreeDoc(doc3);
+
+	return;
+
 }
