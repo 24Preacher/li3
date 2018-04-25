@@ -13,6 +13,7 @@ typedef struct user_dataTop* UserDataTop;
 typedef struct user_dataPar* UserDataPar;
 typedef struct user_dataTitle* UserDataTitle;
 typedef struct user_dataRes* UserDataRes;
+typedef struct user_dataTag* UserDataTag;
 
 UserDataTop createUserDataTop(Date i, Date f, ArrayTop t);
 Date getDataInicio(UserDataTop d);
@@ -39,5 +40,12 @@ void setAnswers (UserDataRes u, int r);
 TopN getTopU (UserDataRes u);
 void setTopU (UserDataRes u, TopN n);
 void freeUserDataRes(UserDataRes u);
+UserDataTag createUserDataTag (Date i, Date f,  char* tag, Lista l);
+Date getDataInicioTag(UserDataTag d);
+Date getDataFimTag(UserDataTag d);
+char* getTagU (UserDataTag d);
+Lista getListaUTag (UserDataTag d);
+void setListaUTag (UserDataTag d, Lista l);
+void freeUserDataTag(UserDataTag d);
 
 #endif

@@ -10,19 +10,19 @@ struct user_dataTop {
 
 UserDataTop createUserDataTop (Date i, Date f, ArrayTop t){
   UserDataTop novo = malloc(sizeof(struct user_dataTop));
-  novo->inicio = converteData(cloneData(i));
-  novo->fim = converteData(cloneData(f));
+  novo->inicio = i;
+  novo->fim = f;
   novo->t = cloneArrayTop(t);
 
   return novo;
 }
 
 Date getDataInicioTop(UserDataTop d){
-  return converteData(cloneData(d->inicio));
+  return d->inicio;
 }
 
 Date getDataFimTop(UserDataTop d){
-  return converteData(cloneData(d->fim));
+  return d->fim;
 }
 
 ArrayTop getArray(UserDataTop d){
@@ -39,26 +39,26 @@ void freeUserDataTop(UserDataTop d){
 }
 
 struct user_dataPar {
-  Data inicio;
-  Data fim;
+  Date inicio;
+  Date fim;
   LONG_pair par;
 };
 
 UserDataPar createUserDataPar (Date i, Date f,  LONG_pair par){
   UserDataPar novo = malloc(sizeof(struct user_dataPar));
-  novo->inicio = converteData(cloneData(i));
-  novo->fim = converteData(cloneData(f));
+  novo->inicio = i;
+  novo->fim = f;
   novo->par = create_long_pair(get_fst_long(par), get_snd_long(par));
 
   return novo;
 }
 
 Date getDataInicioPar(UserDataPar d){
-  return converteData(cloneData(d->inicio));
+  return d->inicio;
 }
 
 Date getDataFimPar(UserDataPar d){
-  return converteData(cloneData(d->fim));
+  return d->fim;
 }
 
 LONG_pair getPar(UserDataPar d){
@@ -89,20 +89,19 @@ char* getPal (UserDataTitle d){
 }
 
 Lista getListaU (UserDataTitle d){
-	return cloneLista(p->l);
+	return cloneLista(d->l);
 }
 
 void setListaU (UserDataTitle d, Lista l){
   d->l = l;
 }
+
 void freeUserDataTitle(UserDataTitle d){
   if(d->l != NULL)
     free(d->l)
   free(d);
 }
 
-
------
 struct user_dataRes {
   Data d;
   int rep;
@@ -146,9 +145,51 @@ TopN getTopU (UserDataRes u){
 }
 
 void setTopU (UserDataRes u, TopN n){
-  u->melhor = cloneTopN(n);
+  u->melhor = n;
 }
 
 void freeUserDataRes(UserDataRes u){
   free (u);
+}
+
+struct user_dataTag {
+  Date inicio;
+  Date fim;
+  char* nome;
+  Lista l;
+};
+
+UserDataTag createUserDataTag (Date i, Date f,  char* tag, Lista l){
+  UserDataPar novo = malloc(sizeof(struct user_dataPar));
+  novo->inicio = i;
+  novo->fim = f;
+  novo->nome = mystrdup(tag);
+  novo->l = l;
+  return novo;
+}
+
+Date getDataInicioTag(UserDataTag d){
+  return d->inicio;
+}
+
+Date getDataFimTag(UserDataTag d){
+  return d->fim;
+}
+
+char* getTagU (UserDataTag d){
+	return mystrdup(d->nome);
+}
+
+Lista getListaUTag (UserDataTag d){
+	return cloneLista(d->l);
+}
+
+void setListaUTag (UserDataTag d, Lista l){
+  d->l = l;
+}
+
+void freeUserDataTag(UserDataTag d){
+  if(d->l != NULL)
+    free(d->l)
+  free(d);
 }
