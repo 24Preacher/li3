@@ -21,6 +21,8 @@ int compareMyData(Data a, Data b){
     else if (getMinutos(a) < getMinutos(b)) return -1;
     else if (getSegundos(a) > getSegundos(b)) return 1;
     else if(getSegundos(a) < getSegundos(b)) return -1;
+    else if(getmSeg(a) > getmSeg(b)) return 1;
+    else if(getmSeg(a) < getmSeg(b)) return -1;
     else return 0;
 
 }

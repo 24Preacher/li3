@@ -7,9 +7,10 @@
    int hora;
    int minutos;
    int segundos;
+   int msegundos;
  };
 
-Data createData (int dia, int mes, int ano, int hora, int min, int seg){
+Data createData (int dia, int mes, int ano, int hora, int min, int seg, int mseg){
   Data d = malloc (sizeof(struct data));
   d->dia = dia;
   d->mes = mes;
@@ -17,6 +18,7 @@ Data createData (int dia, int mes, int ano, int hora, int min, int seg){
   d->hora = hora;
   d->minutos = min;
   d->segundos = seg;
+  d->msegundos = mseg;
 
   return d;
 }
@@ -45,6 +47,10 @@ int getSegundos(Data d){
   return d->segundos;
 }
 
+int getmSeg (Data d){
+  return d->msegundos;
+}
+
 void freeData (Data d){
   free (d);
 }
@@ -57,5 +63,6 @@ Data cloneData (Data d){
   r->hora = d->hora;
   r->minutos = d->minutos;
   r->segundos = d->segundos;
+  r->msegundos = d->msegundos;
   return r;
 }
