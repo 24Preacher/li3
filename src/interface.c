@@ -14,6 +14,7 @@
 #include <glib.h>
 #include "glib.c"
 #include "topN.h"
+#include "userdata.h"
 
 
 
@@ -128,12 +129,15 @@ LONG_list top_most_active(TAD_community com, int N){
   return res;
 }
 
+// aux q3
+gboolean incrementaPar (Posts_D p, UserDataPar u){
 
-gboolean incrementaPar (Posts_D p,LONG_pair par, Date begin, Date end){
-
+  LONG_pair par = getPar(u);
   long perguntas = get_fst_long(par);
   long respostas = get_snd_long(par);
   Data data = getDate(p);
+  Date begin = getDataInicioPar(u);
+  Date end = getDataFimPar(u);
 
   if(dataIgual(end, data) == 0) return TRUE;
   if(dataIgual(begin, data) == -1){
@@ -155,11 +159,13 @@ gboolean incrementaPar (Posts_D p,LONG_pair par, Date begin, Date end){
 //q3
 LONG_pair total_posts(TAD_community com, Date begin, Date end){
     LONG_pair par = create_long_pair(0, 0);
+    UserDataPar u = createUserDataPar (begin, end, par);
 
     gpointer *inicio = g_tree_lookup(com->postsbydata, begin);
 
-    g_tree_foreach(inicio, &incrementaPar, par);
+    g_tree_foreach(inicio, &incrementaPar, u);
 
+    par = getPar(u);
     return par;
 
 }
@@ -189,9 +195,9 @@ Lista func(Posts_D posts, char* tag, LONG_list l){
 //q4
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end){
       gpointer *inicio = g_tree_lookup(com->postsbydata, begin);
-
+      User
       LONG_list res = create_list(0);
-      g_tree_foreach(inicio, (GTraverseFunc) dataIgual(end, getDate(inicio)), *func(inicio, tag, res));
+      g_tree_foreach(inicio, &checkTags, u);
 
 }
 */
@@ -224,14 +230,18 @@ USER get_user_info(TAD_community com, long id){
 
 //q6
 
-gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
+gboolean topScore(Posts_D p, UserDataTop top){
   Data data = getDate(p);
+  Date begin = getDataInicioTop(top);
+  Date end = getDataFimTop(top);
+  ArrayTop t = getArray(top);
 
   if(dataIgual(end, data) == 0) return TRUE;
   if(dataIgual(begin, data) == -1){
   long id = getPostId(p);
   int c = getScore(p);
   TopN n = createTopN(id, c);
+
   insereTop(t, n);
   }
   return FALSE;
@@ -240,12 +250,15 @@ gboolean topScore(ArrayTop t, Posts_D p, Date begin, Date end){
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
-  Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
+
   ArrayTop t = createArrayTop(N);
-  g_tree_foreach(inicio, &topScore, t);
+  UserDataTop top = createUserDataTop(begin, end, t);
+
+  Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
+  g_tree_foreach(inicio, &topScore, top);
 
   LONG_list res = create_list(N);
-
+  t = getArray(top);
   for(i = 0; i < N; i++){
     TopN n = getTop(t, i);
     long id = getID_Top(n);
@@ -292,74 +305,91 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
 
 //Função que ve se uma palavra pertence a uma string - usar a strstr -aux a q8
 int pertenceTitulo(char* palavra, Posts_D p){
-
   if (strstr(getTitle(p), palavra) != NULL)
     return 1;
   return 0;
 }
 
-//q8
+gboolean temPalavra(Posts_D p, UserDataTitle u){
+  Lista l = getListaU(u);
+  char* pal = getPal(u);
 
-//LONG_list contains_word(TAD_community com, char* word, int N){
-
-
-
-//}
-
-
-//Funçao que calcula o valor da resposta para q10
-
-int valResposta(TAD_community com, Posts_D p){
-  int val;
-  int rep, scr, vot, comt;
-
-  scr = vot = getScore(p);
-  comt = getComments(p);
-
-  Users u = g_hash_table_lookup(com->users, getUserId(p));
-  rep = getRep(u);
-
-  val = (scr * 0.45 + rep * 0.25 + vot * 0.2 + comt * 0.1);
-  return val;
-}
-
-/*gboolean aux (Posts_D p, Date begin, long id){
-  if((dataIgual(getDate(p), begin) > 0) && (getPostId(p) == 2)){
-    if(getParentId(p) == id) return TRUE;
+  if(getPostType(p) == 1){
+    if(pertenceTitulo(pal, p)){
+     long post = getPostId(p);
+     Lista res = addPost(l, post);
+     setListaU(u, res);
     }
+  }
   return FALSE;
 }
-*/
-/*
-//q10 erros no uso das funçoes do glib probably
-long better_answer(TAD_community com, int id){
-  int respostas;
-  long melhor;
+
+//q8
+
+LONG_list contains_word(TAD_community com, char* word, int N){
+
+  Lista guarda = NULL;
+  UserDataTitle u = createUserDataTitle(word, guarda);
+  g_tree_foreach(com->postsbydata, &temPalavra, u);
+
+  LONG_list res = create_list(N);
+
+  for(int i = 0; i < N; i++){
+    guarda = getListaU(u);
+    long id = getUserID_L(guarda);
+    set_list(res, i, id);
+  }
+  return res;
+}
+
+int valResposta(Posts_D p, int rep){
+  int scr, comt;
+
+  scr = getScore(p);
+  comt = getComments(p);
+
+  int res = (scr * 0.65 + rep * 0.25 + comt * 0.1);
+  return res;
+}
+
+gboolean melhor(Posts_D p, UserDataRes u){
+  int respostas = getAnswersRes(u);
   int val;
-  int maxval = 0;
-  GTree *tree;
+  TopN max = getTopU(u);
+  TopN novo;
 
-  Posts_ID post = g_tree_lookup(com->postsbyid, id);
-  Data d = getDate2(post);
-  Posts_D pergunta = g_tree_lookup(com->postsbydata, d);
-
-  repostas = getAnswers(pergunta);
-
-  while(respostas > 0){
-    tree = pergunta;
-    g_tree_foreach(tree, aux(tree, d, getPostId), *tree);
-    //Posts_D r = g_tree_lookup(tree, getParentId2(pergunta));
-      if(getPostType(r) == 2){
-        val = valResposta(com, r);
-        if(val > maxval){
-          melhor = getPostId(r);
-          maxval = val;
-        }
+  if(respostas <= 0) return TRUE;
+  if(compareData(getDate(p), getDataPergunta(u)) == -1){
+    if(getParentId(p) == getIdPergunta(u)){
+      val = valResposta(p, getRepU(u));
+      if(max == NULL || val > getCount(max)) {
+        novo = createTopN(getPostId(p),val);
+        setTopU(u, novo);
       }
       respostas--;
-      tree = r;
+      setAnswers(u, respostas);
     }
-
-  return melhor;
+  }
+  return FALSE;
 }
-*/
+
+//q10
+long better_answer(TAD_community com, long id){
+
+  Posts_ID p = g_tree_lookup(com->postsbyid, id);
+  long user = getUserId2(p);
+  Users u = g_hash_table_lookup(com->users);
+  int rep = getRep(u);
+
+  Data d = getDate2(p);
+  Posts_D post = g_tree_lookup(com->postsbydata, d);
+
+  long pergunta = getPostId(post);
+  int r = getAnswers(post);
+  TopN melhor = NULL;
+  UserDataRes ud = createUserDataRes(d, rep, pergunta, r, melhor);
+  g_tree_foreach(post, &melhor, ud);
+
+  long melhor_resposta = getID_Top(getTopU(ud));
+  return melhor_resposta;
+}
