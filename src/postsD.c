@@ -1,8 +1,4 @@
 #include "postsD.h"
-#include "data.c"
-#include "glib.c"
-#include <glib.h>
-#include <stdlib.h>
 
 
 /**
@@ -88,7 +84,7 @@ long getPostId (Posts_D posts){
 @param Estrutura dos posts
 @returns Apontador para o título do post
 */
-char* getTitle (Posts_ID posts){
+char* getTitle (Posts_D posts){
 	return mystrdup(posts->titulo);
 }
 
@@ -164,3 +160,8 @@ Posts_D clonePostsD (Posts_D posts){
 	p->tags = posts -> tags;
 	return p;
 }
+
+gint data_ord (Posts_D a, Posts_D b){
+  return (compareMyData(getDate(a), getDate(b)));
+}
+

@@ -1,5 +1,6 @@
-#define __POSTSID__
 #ifndef __POSTSID__
+#define __POSTSID__
+
 
 
 #include <stdlib.h>
@@ -8,8 +9,10 @@
 #include <glib.h>
 #include "date.h"
 #include "tags.h"
+#include "data.h"
 
 typedef struct Posts_id* Posts_ID;
+gint compareID(Posts_ID a, Posts_ID b);
 Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas,short ptype, long parent, int com, int score, Tags t);
 long getPostId2 (Posts_ID posts);
 long getUserId2 (Posts_ID posts);
@@ -23,5 +26,6 @@ int getScore2 (Posts_ID posts);
 Tags getTags2 (Posts_ID posts);
 void freePostsID (Posts_ID posts);
 Posts_ID clonePostsID (Posts_ID posts);
+
 
 #endif

@@ -66,3 +66,47 @@ Data cloneData (Data d){
   r->msegundos = d->msegundos;
   return r;
 }
+
+gint compareMyData(Data a, Data b){
+
+    if (a->ano > b->ano) return 1;
+    else if (a->ano < b->ano) return -1;
+    else if (a->mes > b->mes) return 1;
+    else if (a->mes < b->mes) return -1;
+    else if (a->dia) > b->dia) return 1;
+    else if (a->dia < b->dia) return -1;
+    else if (a->hora > b->hora) return 1;
+    else if (a->hora < b->hora) return -1;
+    else if (a->minutos > b->minutos) return 1;
+    else if (a->minutos < b->minutos) return -1;
+    else if (a->segundos > b->segundos) return 1;
+    else if (a->segundos < b->segundos) return -1;
+    else if (a->msegundos > b->msegundos) return 1;
+    else if (a->msegundos  < b->msegundos) return -1;
+    else return 0;
+
+}
+
+int compareDate(Date a, Date b){
+  if (get_year(a) > get_year(b)) return 1;
+  else if (get_year(a) < get_year(b)) return -1;
+  else if (get_month(a) > get_month(b)) return 1;
+  else if (get_month(a) < get_month(b)) return -1;
+  else if (get_day(a) > get_day(b)) return 1;
+  else if (get_day(a) < get_day(b)) return -1;
+  else return 0;
+
+}
+
+Date converteData(Data a){
+  Date d = createDate(a->dia, a->mes, a->ano);
+  return d;
+}
+
+int dataIgual(Date a, Data b){
+  Date n = converteData(b);
+  return(compareDate(a ,n));
+
+}
+
+

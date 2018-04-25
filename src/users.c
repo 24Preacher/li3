@@ -1,7 +1,4 @@
 #include "users.h"
-#include "common.c"
-#include "glib.c"
-#include <glib.h>
 
 /**
 \struct Estrutura(Tabela de Hash com chaining) que armazena os utilizadores
@@ -24,11 +21,12 @@ struct users
 @param nome    Nome do utilizador
 @param bio     Descrição do utilizador
 @param rep 		 Reputação do utilizador
-returns A estrutura de utilizadores
+@returns A estrutura de utilizadores
 */
 Users createUsers (long id, char* nome, char* bio, int rep){
+    GHashTable* tab = g_hash_table_new_full(g_direct_hash,g_direct_equal, free, freeUsers);
 
-	Users *novo = g_hash_table_new_full(g_direct_hash,g_direct_equal, free, freeUsers);
+	Users novo = &(tab);
 	return novo;
 }
 
@@ -73,6 +71,6 @@ int getRep (Users u){
 \brief Função que liberta a estrutura dos utilizadores
 @param Estrutura dos utilizadores
 */
-void freeUsers (Users u){
+void freeUsers (gpointer u){
 		g_hash_table_remove_all(u);
 }

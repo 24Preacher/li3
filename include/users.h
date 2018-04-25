@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "date.h"
+#include "common.h"
+
 
 typedef struct users* Users;
 
@@ -20,6 +21,6 @@ char* getBio (Users u);
 
 int getRep (Users u);
 
-void freeUsers (Users u);
+void freeUsers (gpointer u);
 
 #endif

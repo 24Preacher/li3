@@ -270,3 +270,8 @@ ArrayPosts cloneArrayPosts(ArrayPosts l){
 }
 return a;
 }
+
+
+Lista getProx(Lista l){
+    return l->prox;
+}

@@ -7,6 +7,7 @@
 #include <glib.h>
 #include "date.h"
 #include "tags.h"
+#include "data.h"
 
 
 typedef struct Posts_data* Posts_D;
@@ -36,5 +37,7 @@ Tags getTags (Posts_D posts);
 void freePostsD (Posts_D posts);
 
 Posts_D clonePostsD (Posts_D posts);
+
+gint data_ord (Posts_D a, Posts_D b);
 
 #endif

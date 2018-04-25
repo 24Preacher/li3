@@ -33,7 +33,7 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 // vai ao users.xml buscar o id, reputation, displayname e aboutme
 //usar um contador para ver o total de users
 
-int parseUsers (xmlNodePtr doc, GHashTable *hash_table){
+int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 
 	long id;
 	xmlChar bio;
@@ -214,7 +214,7 @@ xmlFreeDoc(doc);
 
 
 
-void parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2){
+int parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2){
 
 	xmlDocPtr doc1, doc2, doc3;
 	xmlNodePtr cur1, cur2, cur3;
@@ -243,7 +243,7 @@ void parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_ta
 
 
 	parseTags(doc1, hash_tags);
-	parseUsers(doc2, hash_users);
+	int num_users = parseUsers(doc2, hash_users);
 	parsePosts(doc3, tree1, tree2);
 
 
@@ -251,6 +251,6 @@ void parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_ta
 	xmlFreeDoc(doc2);
 	xmlFreeDoc(doc3);
 
-	return;
+	return num_users;
 
 }

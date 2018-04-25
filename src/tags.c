@@ -8,7 +8,7 @@
 struct tags {
 	char* nome;
 	struct tags *prox;
-} Tags;
+};
 
 /**
 \brief Função que cria a estrutura das Tags
@@ -17,7 +17,7 @@ struct tags {
 */
 Tags createTags (char* nome){
 	Tags t = malloc(sizeof(struct tags));
-	t->nome = nome;
+	t->nome = mystrdup(nome);
 	t->prox = NULL;
 
 	return t;
@@ -57,7 +57,7 @@ Tags cloneTags (Tags t){
 @param a String das Tags
 @returns Número de tags
 */
-int contaTags(char a[]){
+int contaTags(char* a){
 	int i;
 	int cont = 0;
 	for (i = 0;a[i] == '\0'; i++){
@@ -72,15 +72,14 @@ int contaTags(char a[]){
 @param a String das Tags
 @returns Lista ligada das Tags
 */
-Tags strToTags(char a[]){
+Tags strToTags(char *a){
 	Tags t;
-	char b[];
-	int p = 0
-	int cont = contaTags(a[])
-	if (cont = 0){
-	t = NULL;
-	return t;
-}
+	char *b = "";
+	int p = 0;
+	int cont = contaTags(a);
+	if (cont == 0)
+        t = NULL;
+    else{
 for (int i = 0; a[i] != '\0'; i++){
 		if(a[i] == '<'){
 			i++;
@@ -94,8 +93,8 @@ for (int i = 0; a[i] != '\0'; i++){
 		t = createTags(mystrdup(b));
 		t = t -> prox;
 		p = 0;
-	}
-}
+        }
+    }
 return t;
 }
 

@@ -14,15 +14,15 @@
 #include "users.h"
 #include "postsD.h"
 
-#include "tags.c"
-#include "users.c"
-#include "postsID.c"
+#include "tags.h"
+#include "users.h"
+#include "postsID.h"
 
 
-int parseUsers (xmlNodePtr doc, GHashTable *hash_table);
+int parseUsers (xmlDocPtr doc, GHashTable *hash_table);
 void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2);
 void parseTags (xmlDocPtr doc, GHashTable *hash_table);
-void parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2);
+int parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2);
 
 
 

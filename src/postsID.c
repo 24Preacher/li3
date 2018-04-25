@@ -1,6 +1,4 @@
 #include "postsID.h"
-#include <glib.h>
-#include "data.c"
 
 /**
 \struct Estrutura(AVL) que armazena os posts ordenados pelo identificador deste
@@ -29,6 +27,16 @@ struct Posts_id
 	Tags tags;
 };
 
+
+gint compareID(Posts_ID a, Posts_ID b){
+    if(a->id_user> b->id_user)
+        return 1;
+    else if (a->id_user < b->id_user)
+        return -1;
+    else return 0;
+}
+
+
 /**
 \brief Função que cria uma estrutura dos posts
 @param id_post Identificador do post
@@ -37,7 +45,7 @@ struct Posts_id
 @param data    Data do post
 returns A estrutura dos posts
 */
-Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas,
+(Posts_ID)* createPostsID (long post, long user, char* title, Data d, int respostas,
 		short ptype, long parent, int com, int score, Tags t){
 	Posts_ID *r = g_tree_new(&compareID);
 

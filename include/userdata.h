@@ -4,7 +4,6 @@
 #include "topN.h"
 #include "data.h"
 #include "pair.h"
-#include "glib.c"
 #include "common.h"
 #include "listaposts.h"
 #include <stdlib.h>
@@ -29,7 +28,7 @@ void freeUserDataPar(UserDataPar d);
 UserDataTitle createUserDataTitle (char* pal, Lista l);
 char* getPal (UserDataTitle d);
 Lista getListaU (UserDataTitle d);
-void setListaU (UserDataTitle d, Lista l)
+void setListaU (UserDataTitle d, Lista l);
 void freeUserDataTitle(UserDataTitle d);
 UserDataRes createUserDataRes (Data i, int rep, long id, int r, TopN t);
 Data getDataPergunta (UserDataRes u);

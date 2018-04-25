@@ -13,6 +13,7 @@ typedef struct arraypost* ArrayPosts;
 
 Lista createLista (long id);
 Lista addPost (Lista l, long id);
+int lengthL(Lista l);
 PostsUsers createPostsUsers (long user, Lista l);
 ArrayPosts createArrayPosts (int size);
 long getPostId_L (Lista l);
@@ -29,5 +30,6 @@ void insere(ArrayPosts p, long user, long post);
 Lista cloneLista (Lista l);
 PostsUsers clonePostUsers(PostsUsers l);
 ArrayPosts cloneArrayPosts(ArrayPosts l);
+Lista getProx(Lista l);
 
 #endif

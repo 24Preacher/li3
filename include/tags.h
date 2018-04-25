@@ -5,18 +5,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include "date.h"
+#include "common.h"
 
-typedef struct tags*  Tags;
+typedef struct tags* Tags;
 
-Tags createTags (char* nome, long id, int c);
+Tags createTags (char* nome);
 
 char* getNameTag (Tags t);
 
-long getIdTag (Tags t);
-
-long getCountTags (Tags t);
-
 void freeTags (Tags t);
+
+Tags cloneTags(Tags t);
+
+int contaTags(char *a);
+
+Tags strToTags(char *a);
+
+int existeTag(char* tag, Tags t);
 
 #endif
