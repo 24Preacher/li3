@@ -1,13 +1,23 @@
 #include "userdata.h"
 
-//structs auxiliar para o foreach
+/**struct Estrutura que armazena duas datas (inicial e final) e um array de tamanho N
+@param inicio Data de inicio
+@param fim    Data de fim
+@param t      Array com tamanho N para os top N elementos
+*/
 struct user_dataTop {
   Date inicio;
   Date fim;
   ArrayTop t;
 };
 
-
+/**
+\brief Função que cria uma estrutura dos user_dataTop
+@param i Data de inicio
+@param f Data de fim
+@param t Array com tamanho N para os top N elementos
+returns A estrutura para os top N
+*/
 UserDataTop createUserDataTop (Date i, Date f, ArrayTop t){
   UserDataTop novo = malloc(sizeof(struct user_dataTop));
   novo->inicio = i;
@@ -17,33 +27,69 @@ UserDataTop createUserDataTop (Date i, Date f, ArrayTop t){
   return novo;
 }
 
+/**
+\brief Função que busca a data de inico
+@param Estrutura dos top N
+returns A data de inicio
+*/
 Date getDataInicioTop(UserDataTop d){
   return d->inicio;
 }
 
+/**
+\brief Função que busca a data de fim
+@param Estrutura dos top N
+returns A data de fim
+*/
 Date getDataFimTop(UserDataTop d){
   return d->fim;
 }
 
+/**
+\brief Função que busca o Array dos Top N
+@param Estrutura dos top N
+returns O array dos top N
+*/
 ArrayTop getArray(UserDataTop d){
   return cloneArrayTop(d->t);
 }
 
+/**
+\brief Função que atualiza o Array da estrutura Top N
+@param Estrutura dos top N
+@param Novo Array top N
+returns Estrutura dos top N atualizada
+*/
 void setArray(UserDataTop d, ArrayTop n){
   d->t = cloneArrayTop(n);
 }
 
-
+/**
+\brief Função que liberta a estrutura
+@param Estrutura dos top N
+*/
 void freeUserDataTop(UserDataTop d){
   free(d);
 }
 
+/**struct Estrutura que armazena duas datas (inicial e final) e um par para o numero total de respostas e perguntas num intervalo de tempo
+@param inicio Data de inicio
+@param fim    Data de fim
+@param par    Par de Longs
+*/
 struct user_dataPar {
   Date inicio;
   Date fim;
   LONG_pair par;
 };
 
+/**
+\brief Função que cria uma estrutura dos user_dataPar
+@param i Data de inicio
+@param f Data de fim
+@param par Par com dois Longs
+returns A estrutura para o numero total de respostas e perguntas
+*/
 UserDataPar createUserDataPar (Date i, Date f,  LONG_pair par){
   UserDataPar novo = malloc(sizeof(struct user_dataPar));
   novo->inicio = i;
@@ -53,14 +99,29 @@ UserDataPar createUserDataPar (Date i, Date f,  LONG_pair par){
   return novo;
 }
 
+/**
+\brief Função que busca a Data de inicio
+@param Estrututa das Respostas e perguntas
+@returns Data de Inicio
+*/
 Date getDataInicioPar(UserDataPar d){
   return d->inicio;
 }
 
+/**
+\brief Função que busca a Data de fim
+@param Estrututa das Respostas e perguntas
+@returns Data de Fim
+*/
 Date getDataFimPar(UserDataPar d){
   return d->fim;
 }
 
+/**
+\brief Função que busca o par de Respostas e perguntas
+@param Estrututa das Respostas e Perguntas
+@returns Apontador para o numero de Respostas e Perguntas
+*/
 LONG_pair getPar(UserDataPar d){
   LONG_pair novo = malloc(sizeof(struct long_pair));
   novo->fst = get_fst_long(d->par);
@@ -68,9 +129,14 @@ LONG_pair getPar(UserDataPar d){
   return novo;
 }
 
+/**
+\brief Função que liberta a estrutura do par das Respostas e perguntas
+@Estrutura das Respostas e Perguntas
+*/
 void freeUserDataPar(UserDataPar d){
   free(d);
 }
+
 
 struct user_dataTitle {
   char* pal;
