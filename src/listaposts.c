@@ -8,7 +8,7 @@
 struct lligada {
 	long id_post;
   struct lligada *prox;
-}Lista;
+};
 
 /**
 \struct Estrutura com o identificador do utilizador e a lista dos seus posts
@@ -39,7 +39,7 @@ returns A lista com o id
 Lista createLista (long post){
   Lista l = malloc(sizeof (struct lligada));
 	l->id_post = post;
-  (*l)->prox = NULL;
+    l->prox = NULL;
 	return l;
 }
 
@@ -196,7 +196,7 @@ void freePostsUsers (PostsUsers p){
 @param p Array de listas
 */
 void freeArrayPosts (ArrayPosts p){
-  for(int i = 0; i < getSize(p); i++)
+  for(int i = 0; i < getSizeArray(p); i++)
 		freePostsUsers(getAPosts(p,i));
 }
 
@@ -251,7 +251,7 @@ Lista cloneLista (Lista l){
 PostsUsers clonePostUsers(PostsUsers l){
 	PostsUsers a = malloc(sizeof(struct lposts));
 	a->id_user = l->id_user;
-	a->prox = l->prox;
+	a->lposts = l->lposts;
 	return a;
 }
 
@@ -261,7 +261,7 @@ PostsUsers clonePostUsers(PostsUsers l){
 @returns A estrutura clonada do ArrayPosts
 */
 ArrayPosts cloneArrayPosts(ArrayPosts l){
-	ArrayPost a = malloc(sizeof(struct arraypost));
+	ArrayPosts a = malloc(sizeof(struct arraypost));
 	int i;
 	a->size = l->size;
 	a->ocupados = l->ocupados;

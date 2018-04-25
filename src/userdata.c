@@ -30,7 +30,7 @@ ArrayTop getArray(UserDataTop d){
 }
 
 void setArray(UserDataTop d, ArrayTop n){
-  d->t = cloneArrayTop(n);
+  d->t = n;
 }
 
 
@@ -62,9 +62,9 @@ Date getDataFimPar(UserDataPar d){
 }
 
 LONG_pair getPar(UserDataPar d){
-  LONG_pair novo = malloc(sizeof(struct long_pair));
-  novo->fst = get_fst_long(d->par);
-  novo->snd = get_snd_long(d->par);
+   long fst = get_fst_long(d->par);
+   long snd = get_snd_long(d->par);
+  LONG_pair novo = create_long_pair(fst, snd);
   return novo;
 }
 
@@ -98,7 +98,7 @@ void setListaU (UserDataTitle d, Lista l){
 
 void freeUserDataTitle(UserDataTitle d){
   if(d->l != NULL)
-    free(d->l)
+    free(d->l);
   free(d);
 }
 
@@ -115,7 +115,7 @@ UserDataRes createUserDataRes (Data i, int rep, long id, int r, TopN t){
   novo->d = cloneData(i);
   novo->rep = rep;
   novo->id = id;
-  novo->num_res = res;
+  novo->num_res = r;
   novo->melhor = cloneTopN(t);
   return novo;
 }
@@ -160,7 +160,7 @@ struct user_dataTag {
 };
 
 UserDataTag createUserDataTag (Date i, Date f,  char* tag, Lista l){
-  UserDataPar novo = malloc(sizeof(struct user_dataPar));
+  UserDataTag novo = malloc(sizeof(struct user_dataPar));
   novo->inicio = i;
   novo->fim = f;
   novo->nome = mystrdup(tag);
@@ -190,6 +190,6 @@ void setListaUTag (UserDataTag d, Lista l){
 
 void freeUserDataTag(UserDataTag d){
   if(d->l != NULL)
-    free(d->l)
+    free(d->l);
   free(d);
 }
