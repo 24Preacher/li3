@@ -7,7 +7,7 @@
 
 
 
-int compareData(Data a, Data b){
+int compareMyData(Data a, Data b){
 
     if (getAno(a) > getAno(a)) return 1;
     else if (getAno(a) < getAno(b)) return -1;
@@ -19,6 +19,8 @@ int compareData(Data a, Data b){
     else if (getHora(a) < getHora(b)) return -1;
     else if (getMinutos(a) > getMinutos(b)) return 1;
     else if (getMinutos(a) < getMinutos(b)) return -1;
+    else if (getSegundos(a) > getSegundos(b)) return 1;
+    else if(getSegundos(a) < getSegundos(b)) return -1;
     else return 0;
 
 }
@@ -48,7 +50,7 @@ int dataIgual(Date a, Data b){
 }
 
 int data_ord (Posts_D a, Posts_D b){
-  return (compareData(getDate(a), getDate(b)));
+  return (compareMyData(getDate(a), getDate(b)));
 }
 
 int compareID(Posts_ID a, Posts_ID b){
