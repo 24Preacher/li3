@@ -28,7 +28,7 @@ returns A estrutura de utilizadores
 */
 Users createUsers (long id, char* nome, char* bio, int rep){
 
-	Users *novo = g_hash_table_new_full(g_direct_hash,g_direct_equal, NULL, freeUsers);
+	Users *novo = g_hash_table_new_full(g_direct_hash,g_direct_equal, free, freeUsers);
 	return novo;
 }
 

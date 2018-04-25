@@ -34,6 +34,15 @@ int getID_Top(TopN t){
 }
 
 /**
+\brief Função que atualiza o id dentro do TopN
+@param t TopN
+@param novo id
+*/
+void setID_Top(TopN t, long id){
+  t->id = id;
+}
+
+/**
 \brief Função que busca o contador dentro do TopN
 @param t TopN
 @returns contador
@@ -45,7 +54,7 @@ int getCount(TopN t){
 /**
 \brief Função que atualiza o contador dentro do TopN
 @param t TopN
-@param novo valor do contador
+@param c novo valor do contador
 */
 void setCount(TopN t, int c){
   t->count = c;
