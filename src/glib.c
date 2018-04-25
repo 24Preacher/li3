@@ -23,7 +23,7 @@ int compareData(Data a, Data b){
 
 }
 
-//Compara datas dos stores com as nossas
+//Compara as datas dos stores
 int compareDate(Date a, Date b){
   if (get_year(a) > get_year(b)) return 1;
   else if (get_year(a) < get_year(b)) return -1;

@@ -94,12 +94,7 @@ STR_pair info_from_post(TAD_community com, long id){
   return res;
 }
 
-
-
-
-
-
-
+//aux para q2
 void percorre(ArrayPosts p, ArrayTop t){
   int i;
 
@@ -170,37 +165,50 @@ LONG_pair total_posts(TAD_community com, Date begin, Date end){
 
 }
 
+//aux q4
+gboolean checkTags(Posts_D p, UserDataTag u){
+    Data d = getDate(p);
+    Date begin = getDataInicioTag(u);
+    Date end = getDataFimTag(u);
+    char* tag = getTagU(u);
+    Lista t = getTags(p);
+    Lista temtags = getListaUTag(u);
 
-//Função que verifica se uma tag está numa lista de tags - aux p/ q4
 
-/*
-Lista func(Posts_D posts, char* tag, LONG_list l){
-    int n = 0;
-    Lista guarda = NULL;
-    if(getPostType(posts) == 1){
-      if(existeTag(tag, getTags(posts))){
-        if(!guarda)
-            guarda = createLista(getPostId(posts));
-        else{
-        guarda = addPost(guarda, getPostId(posts));
+  if(dataIgual(end, d) == 0) return TRUE;
+  if(dataIgual(begin, d) == -1){
+    if(getPostType(p) == 1){
+      if (existeTag(tag, t) == 1){
+        addPost(temtags, getPostId(p));
+        setListaUTag(u, temtags);
       }
-      n++;
     }
   }
-    l->size = n;
-    return guarda;
+  return FALSE;
 }
+
+
+
 
 
 //q4
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end){
-      gpointer *inicio = g_tree_lookup(com->postsbydata, begin);
-      User
-      LONG_list res = create_list(0);
+      Posts_D p = g_tree_lookup(com->postsbydata, begin);
+      Lista l = NULL;
+      UserDataTag u = createUserDataTag(begin, end, tag, l);
+      LONG_list res;
       g_tree_foreach(inicio, &checkTags, u);
 
+      l = getListaUTag(u);
+      int tam = lengthL(l);
+      res = create_list(tam);
+
+      for(int i = 0; i < tam; i++, l = l->prox){
+        set_list(res, i, getPostId_L);
+      }
+      return res;
 }
-*/
+
 //q5
 
 USER get_user_info(TAD_community com, long id){
