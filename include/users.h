@@ -11,7 +11,7 @@
 
 typedef struct users* Users;
 
-GHashTable* createUsers (long id, char* nome, char* bio, int rep);
+Users createUsers (long id, char* nome, char* bio, int rep);
 
 long getUserId3 (Users u);
 

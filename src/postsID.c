@@ -45,9 +45,19 @@ gint compareID(Posts_ID a, Posts_ID b){
 @param data    Data do post
 returns A estrutura dos posts
 */
-GTree* createPostsID (long post, long user, char* title, Data d, int respostas,
+Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-	GTree* r = g_tree_new((GCompareFunc)&compareID);
+	Posts_ID r = malloc(sizeof(struct Posts_id));
+	r->id_post = post;
+	r->id_user = user;
+	r->titulo = mystrdup(title);
+	r->data = clone(d);
+	r->num_respostas = respostas;
+	r->post_type = ptype;
+	r->parent_id = parent;
+	r->num_comentarios = com;
+	r->score = score;
+	r->tags = clone(t);
 
 	return r;
 }

@@ -22,7 +22,7 @@ struct Posts_data
 	long id_post;
 	char* titulo;
 	int num_respostas;
-	short post_type; //1 - pergunta, 2 - resposta
+	short post_type;
 	long parent_id;
 	int num_comentarios;
 	int score;
@@ -43,10 +43,19 @@ struct Posts_data
 @param t Tags presentes no post
 @returns A estrutura dos posts
 */
-GTree* createPostsD (Data d, long user, long post, char* title,int respostas,
+Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-			GTree* r = g_tree_new((GCompareFunc)data_ord);
-
+			Posts_D r = malloc(sizeof(struct Posts_data));
+			r->data = clone(d);
+			r->id_user = user;
+			r->id_post = post;
+			r->titulo = mystrdup(title);
+			r->num_respostas = respostas;
+			r->post_type = ptype;
+			r->parent_id = parent;
+			r->num_comentarios = com;
+			r->score = score;
+			r->tags = cloneTags(t);
 			return r;
 	}
 
@@ -164,4 +173,3 @@ Posts_D clonePostsD (Posts_D posts){
 gint data_ord (Posts_D a, Posts_D b){
   return (compareMyData(getDate(a), getDate(b)));
 }
-

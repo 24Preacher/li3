@@ -12,7 +12,7 @@
 
 typedef struct Posts_data* Posts_D;
 
-GTree* createPostsD (Data d, long user, long post, char* title,int respostas,
+Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int com, int score, Tags t);
 
 Data getDate (Posts_D posts);

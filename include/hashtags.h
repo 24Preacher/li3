@@ -8,7 +8,7 @@
 
 typedef struct htags* HashTags;
 
-GHashTable* createHashTag(char *tagname, long id);
+HashTags* createHashTag(char *tagname, long id);
 char* getTagName (HashTags t);
 long getIDTag(HashTags t);
 void freeHashTag (HashTags t);

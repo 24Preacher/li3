@@ -7,8 +7,10 @@ struct htags{
 };
 
 
-GHashTable* createHashTag(char *tagname, long id){
-  GHashTable* t = g_hash_table_new_full(g_str_hash, g_str_equal, free,  (GDestroyNotify) freeHashTag);
+HashTags createHashTag(char *tagname, long id){
+  HashTags t = malloc(sizeof(struct htags));
+  t->tagname = mystrdup(tagname);
+  t->id = id;
   return t;
 }
 
