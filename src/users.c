@@ -23,11 +23,10 @@ struct users
 @param rep 		 Reputação do utilizador
 @returns A estrutura de utilizadores
 */
-Users createUsers (long id, char* nome, char* bio, int rep){
+GHashTable* createUsers (long id, char* nome, char* bio, int rep){
     GHashTable* tab = g_hash_table_new_full(g_direct_hash,g_direct_equal, free, freeUsers);
 
-	Users novo = &(tab);
-	return novo;
+	return tab;
 }
 
 /**

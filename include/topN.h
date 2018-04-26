@@ -1,6 +1,9 @@
 #ifndef __TOPN__
 #define __TOPN__
 
+#include <stdlib.h>
+
+
 typedef struct topn* TopN;
 typedef struct topArray* ArrayTop;
 

@@ -20,7 +20,7 @@ struct Posts_id
 	char* titulo;
 	Data data_post;
 	int num_respostas;
-	short post_type; //1 - pergunta, 2 - resposta
+	short post_type;
 	long parent_id;
 	int num_comentarios;
 	int score;
@@ -45,9 +45,9 @@ gint compareID(Posts_ID a, Posts_ID b){
 @param data    Data do post
 returns A estrutura dos posts
 */
-(Posts_ID)* createPostsID (long post, long user, char* title, Data d, int respostas,
+GTree* createPostsID (long post, long user, char* title, Data d, int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-	Posts_ID *r = g_tree_new(&compareID);
+	GTree* r = g_tree_new((GCompareFunc)&compareID);
 
 	return r;
 }
@@ -143,15 +143,15 @@ Tags getTags2 (Posts_ID posts){
 }
 
 
-void freePostsID (Posts_D posts){
-	 g_tree_destroy(posts);
+void freePostsID (Posts_ID posts){
+	 g_tree_destroy((GTree*)posts);
 }
 
 Posts_ID clonePostsID (Posts_ID posts){
 	Posts_ID p = malloc(sizeof(struct Posts_id));
 	p->id_post = posts->id_post;
 	p->id_user = posts->id_user;
-	p->id_titulo = posts->titulo;
+	p->titulo = posts->titulo;
 	p->data_post = posts -> data_post;
 	p->num_respostas = posts->num_respostas;
 	p->post_type = posts->post_type;

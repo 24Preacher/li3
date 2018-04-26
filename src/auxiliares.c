@@ -3,11 +3,10 @@
 
 
 //aux para q2
-  if(dataIgual(begin, data) == -1){
-    short ptype = getPostType(p);
+ 
 void percorre(ArrayPosts p, ArrayTop t){
   int i;
-
+    
   for(i = 0; i < getSizeArray(p); i++){
     long id = getUserID_L(p, i);
     Lista posts = getListaPosts(p,i);
@@ -28,7 +27,9 @@ gboolean incrementaPar (Posts_D p, UserDataPar u){
   Date end = getDataFimPar(u);
 
   if(dataIgual(end, data) == 0) return TRUE;
-    if(ptyte == 1)
+  if((dataIgual(begin, data)) == -1){
+    short ptype = getPostType(p);
+    if(ptype == 1)
         perguntas ++;
     else if (ptype == 2)
         respostas ++;
@@ -46,7 +47,7 @@ gboolean checkTags(Posts_D p, UserDataTag u){
     Date begin = getDataInicioTag(u);
     Date end = getDataFimTag(u);
     char* tag = getTagU(u);
-    Lista t = getTags(p);
+    Tags t = getTags(p);
     Lista temtags = getListaUTag(u);
 
 
@@ -121,7 +122,7 @@ gboolean melhor(Posts_D p, UserDataRes u){
   TopN novo;
 
   if(respostas <= 0) return TRUE;
-  if(compareData(getDate(p), getDataPergunta(u)) == -1){
+  if(compareMyData(getDate(p), getDataPergunta(u)) == -1){
     if(getParentId(p) == getIdPergunta(u)){
       val = valResposta(p, getRepU(u));
       if(max == NULL || val > getCount(max)) {

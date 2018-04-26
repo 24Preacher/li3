@@ -15,10 +15,10 @@ typedef struct user_dataRes* UserDataRes;
 typedef struct user_dataTag* UserDataTag;
 
 UserDataTop createUserDataTop(Date i, Date f, ArrayTop t);
-Date getDataInicio(UserDataTop d);
-Date getDataFim(UserDataTop d);
+Date getDataInicioTop(UserDataTop d);
+Date getDataFimTop(UserDataTop d);
 ArrayTop getArray(UserDataTop d);
-void setArray(UserDataTop d);
+void setArray(UserDataTop d, ArrayTop n);
 void freeUserData(UserDataTop d);
 UserDataPar createUserDataPar (Date i, Date f,  LONG_pair par);
 Date getDataInicioPar(UserDataPar d);

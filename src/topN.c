@@ -155,7 +155,7 @@ void freeArrayTop(ArrayTop t){
 void insereTop (ArrayTop t, TopN n){
   int i = 0,pos;
   int tam = getSizeTop(t);
-  int ocup = getOcupados(t);
+  int ocup = getOcupados2(t);
   int cont = getCount(n);
 
   if(ocup == tam){
@@ -165,7 +165,7 @@ void insereTop (ArrayTop t, TopN n){
           pos = i;
           for(int j = ocup-1; j > i; j--){
             TopN anterior = getTop(t, j-1);
-            setTop(t, n, j);
+            setTop(t, anterior, j);
           }
           setTop(t, n, pos);
         }
@@ -177,11 +177,11 @@ void insereTop (ArrayTop t, TopN n){
       pos = i;
       for(int k = ocup; k > i; k--){
         TopN anterior = getTop(t, k-1);
-        setTop(t, n, k);
+        setTop(t, anterior, k);
       }
       setTop(t, n, pos);
       ocup++;
-      setOcupados(t, ocup);
+      setOcupados2(t, ocup);
     }
   }
 }
@@ -207,8 +207,8 @@ ArrayTop cloneArrayTop(ArrayTop t){
   ArrayTop a = malloc(sizeof(struct topArray));
   a->size = t->size;
   a->ocupados = t->ocupados;
-  for(i=0;i<t->size;i++){
-    a->top[i] = t->top[i]
+  for(int i=0;i<t->size;i++){
+    a->top[i] = t->top[i];
   }
   return a;
 }

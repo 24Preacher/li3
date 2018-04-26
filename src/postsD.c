@@ -27,7 +27,7 @@ struct Posts_data
 	int num_comentarios;
 	int score;
 	Tags tags;
-}Posts_D;
+};
 
 /**
 \brief Função que cria uma estrutura dos posts
@@ -41,11 +41,11 @@ struct Posts_data
 @param com Número de comentarios do post
 @param score Score do post
 @param t Tags presentes no post
-returns A estrutura dos posts
+@returns A estrutura dos posts
 */
-Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
+GTree* createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int com, int score, Tags t){
-			Posts_D *r = g_tree_new(&data_ord);
+			GTree* r = g_tree_new((GCompareFunc)data_ord);
 
 			return r;
 	}
@@ -143,15 +143,15 @@ Tags getTags (Posts_D posts){
 }
 
 void freePostsD (Posts_D posts){
-	 g_tree_destroy(posts);
+	 g_tree_destroy((GTree*)posts);
 }
 
 Posts_D clonePostsD (Posts_D posts){
-	Posts_ID p = malloc(sizeof(struct Posts_data));
+	Posts_D p = malloc(sizeof(struct Posts_data));
 	p->data_post = posts -> data_post;
 	p->id_user = posts->id_user;
 	p->id_post = posts->id_post;
-	p->id_titulo = posts->titulo;
+	p->titulo = posts->titulo;
 	p->num_respostas = posts->num_respostas;
 	p->post_type = posts->post_type;
 	p->parent_id = posts->parent_id;

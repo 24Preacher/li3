@@ -36,9 +36,9 @@ TAD_community init(){
   com->postsbydata = treedata;
   GTree *treeid = g_tree_new((GCompareFunc)&compareID);
   com->postsbyid = treeid;
-  com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, free, freeUsers);
+  com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, free,(GDestroyNotify) freeUsers);
   com->arrayposts = createArrayPosts(0);
-  com->tabtags = g_hash_table_new_full(g_str_hash, g_str_equal, free, freeHashTag);
+  com->tabtags = g_hash_table_new_full(g_str_hash, g_str_equal, free, (GDestroyNotify)freeHashTag);
 
   return com;
 }
@@ -49,10 +49,10 @@ TAD_community load(TAD_community com, char* dump_path){
   char *docname1 = "";
   char *docname2 = "";
   char *docname3 = "";
-  GTree	*treeid;
-  GTree *treed;
-  GHashTable *tab;
-  GHashTable *tags;
+  GTree	*treeid = NULL;
+  GTree *treed = NULL;
+  GHashTable *tab = NULL;
+  GHashTable *tags = NULL;
 
   
   int num_users = parseDoc(docname3, docname2, docname1, tags, tab, treed, treeid);
@@ -256,7 +256,7 @@ LONG_list contains_word(TAD_community com, char* word, int N){
 
   for(int i = 0; i < N; i++){
     guarda = getListaU(u);
-    long id = getPostID_L(guarda);
+    long id = getPostId_L(guarda);
     set_list(res, i, id);
   }
   return res;
