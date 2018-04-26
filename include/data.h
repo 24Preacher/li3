@@ -38,6 +38,8 @@ Date converteData(Data a);
 
 int dataIgual(Date a, Data b);
 
+Data strToData (char *d);
+
 
 
 #endif
