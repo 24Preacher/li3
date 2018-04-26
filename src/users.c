@@ -29,7 +29,7 @@ Users createUsers (long id, char* nome, char* bio, int rep){
 		u->nome = mystrdup(nome);
 		u->bio = mystrdup(nome);
 		u->rep = rep;
-	return tab;
+	return u;
 }
 
 /**

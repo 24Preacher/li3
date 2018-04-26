@@ -46,7 +46,7 @@ struct Posts_data
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 		short ptype, long parent, int com, int score, Tags t){
 			Posts_D r = malloc(sizeof(struct Posts_data));
-			r->data = clone(d);
+			r->data_post = d;
 			r->id_user = user;
 			r->id_post = post;
 			r->titulo = mystrdup(title);
@@ -55,7 +55,7 @@ Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 			r->parent_id = parent;
 			r->num_comentarios = com;
 			r->score = score;
-			r->tags = cloneTags(t);
+			r->tags = t;
 			return r;
 	}
 

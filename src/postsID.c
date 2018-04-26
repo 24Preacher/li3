@@ -51,13 +51,13 @@ Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas
 	r->id_post = post;
 	r->id_user = user;
 	r->titulo = mystrdup(title);
-	r->data = clone(d);
+	r->data_post = d;
 	r->num_respostas = respostas;
 	r->post_type = ptype;
 	r->parent_id = parent;
 	r->num_comentarios = com;
 	r->score = score;
-	r->tags = clone(t);
+	r->tags = t;
 
 	return r;
 }
