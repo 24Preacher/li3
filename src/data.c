@@ -110,3 +110,27 @@ int dataIgual(Date a, Data b){
 }
 
 
+Data strToData (char *d){
+  int i = 0;
+  Data d;
+  char ano[4];
+  char mes[2];
+  char dia[2];
+  char hora[2];
+  char minutos[2];
+  char segundos[2];
+  char msegundos[3];
+
+  while(d[i] != '\0'){
+    if(d[i] == '-' || d[i] == ':' d[i] == 'T' || d[i] == '.'){
+      strncpy(d->ano, *d, 4);
+      strncpy(d->mes, *(d+5), 2);
+      strncpy(d->dia, *(d+8), 2);
+      strncpy(d->hora, *(d+11), 2);
+      strncpy(d->minutos, *(d+14), 2);
+      strncpy(d->segundos, *(d+17), 2);
+      strncpy(d->msegundos, *(d+20), 3);
+    }
+  }
+  return d;
+}
