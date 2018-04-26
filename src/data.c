@@ -73,7 +73,7 @@ gint compareMyData(Data a, Data b){
     else if (a->ano < b->ano) return -1;
     else if (a->mes > b->mes) return 1;
     else if (a->mes < b->mes) return -1;
-    else if (a->dia) > b->dia) return 1;
+    else if (a->dia > b->dia) return 1;
     else if (a->dia < b->dia) return -1;
     else if (a->hora > b->hora) return 1;
     else if (a->hora < b->hora) return -1;
@@ -112,7 +112,7 @@ int dataIgual(Date a, Data b){
 
 Data strToData (char *d){
   int i = 0;
-  Data d;
+  Data nova;
   char ano[4];
   char mes[2];
   char dia[2];
@@ -121,16 +121,22 @@ Data strToData (char *d){
   char segundos[2];
   char msegundos[3];
 
-  while(d[i] != '\0'){
-    if(d[i] == '-' || d[i] == ':' d[i] == 'T' || d[i] == '.'){
-      strncpy(d->ano, *d, 4);
-      strncpy(d->mes, *(d+5), 2);
-      strncpy(d->dia, *(d+8), 2);
-      strncpy(d->hora, *(d+11), 2);
-      strncpy(d->minutos, *(d+14), 2);
-      strncpy(d->segundos, *(d+17), 2);
-      strncpy(d->msegundos, *(d+20), 3);
+  if(d[i] != '\0'){
+      strncpy(ano, d, 4);
+      strncpy(mes, d+5, 2);
+      strncpy(dia, d+8, 2);
+      strncpy(hora, d+11, 2);
+      strncpy(minutos, d+14, 2);
+      strncpy(segundos, d+17, 2);
+      strncpy(msegundos, d+20, 3);
     }
-  }
-  return d;
+    int year = atoi(ano);
+    int month = atoi(mes);
+    int day = atoi(dia);
+    int hour = atoi(hora);
+    int min = atoi(minutos);
+    int sec = atoi(segundos);
+    int msec = atoi(msegundos);
+    nova = createData(day, month, year, hour, min, sec, msec);
+  return nova;
 }

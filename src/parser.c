@@ -2,7 +2,7 @@
 
 
 
-gboolean teste (gpointer key,gpointer value, gpointer data)
+/*gboolean teste (gpointer key,gpointer value, gpointer data)
 {
 	long	sKey = *(long*) (key);
 	char *title = getTitle(value);
@@ -29,7 +29,7 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 }
 
 
-
+*/
 // vai ao users.xml buscar o id, reputation, displayname e aboutme
 //usar um contador para ver o total de users
 
@@ -70,11 +70,11 @@ int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 		}
 
 
-		gpointer user = createUsers(id, (char*) name,(char*) bio, rep);
+		Users user = createUsers(id, (char*) name,(char*) bio, rep);
 		g_hash_table_insert (hash_table, (gpointer) id, (gpointer)user);
-    
-       
-		
+
+
+
     }
      xmlFreeDoc(doc);
     return num_users;
@@ -89,13 +89,12 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 	xmlNodePtr curr = xmlDocGetRootElement(doc);
 
 	long post_id;
-    
+
 	short post_type;
     xmlChar* ptype;
 	xmlChar* title;
 	Tags tags;
-	//Data creation_date;
-    xmlChar* creation_date;
+	Data creation_date;
 	long parent_id;
 	long user_id;
 	int answer_count;
@@ -126,7 +125,7 @@ while (curr != NULL) {
 			ptype = (xmlGetProp(curr,(const xmlChar *)"PostTypeId"));
 			title = xmlGetProp(curr,(const xmlChar *)"Title");
 			tags = strToTags((char*)(xmlGetProp(curr,(const xmlChar *)"Tags")));
-			creation_date = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CreationDate")));
+			creation_date = strToData((char*)(xmlGetProp(curr,(const xmlChar *)"CreationDate")));
 			user_id = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"OwnerUserId")));
 			comment_count = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CommentCount")));
 			score = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"Score")));
@@ -140,7 +139,7 @@ while (curr != NULL) {
 		}
 
 
-			GTree* post = createPostsD(creation_date, user_id, post_id, (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
+			Posts_D post = createPostsD(creation_date, user_id, post_id, (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
 			long *key = malloc(sizeof(long));
 
 			*key = atol((char*) post_id);
@@ -149,7 +148,7 @@ while (curr != NULL) {
 
 
 
-			GTree* post2 = createPostsID(post_id, user_id,(char *) title,creation_date, answer_count, post_type, parent_id, comment_count, score, tags);
+			Posts_ID post2 = createPostsID(post_id, user_id,(char *) title,creation_date, answer_count, post_type, parent_id, comment_count, score, tags);
 			long *key2 = malloc(sizeof(long));
 
 			*key2 = atol((char*) post_id);
@@ -185,7 +184,7 @@ void parseTags (xmlDocPtr doc, GHashTable *hash_table){
 
 	long id_tag;
 	xmlChar* tagname;
-    
+
 	if (doc == NULL ) {
 		fprintf(stderr,"Document not parsed successfully. \n");
 			return;
@@ -204,7 +203,7 @@ void parseTags (xmlDocPtr doc, GHashTable *hash_table){
 				tagname = xmlGetProp(nod,(const xmlChar *)"TagName");
 			}
 		}
-		GHashTable* tag = createHashTag((char*)tagname, id_tag);
+		HashTags tag = createHashTag((char*)tagname, id_tag);
 	 	g_hash_table_insert(hash_table, (gpointer) id_tag, (gpointer)tag);
 
 	}
