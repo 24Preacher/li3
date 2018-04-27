@@ -19,7 +19,7 @@ Date getDataInicioTop(UserDataTop d);
 Date getDataFimTop(UserDataTop d);
 ArrayTop getArray(UserDataTop d);
 void setArray(UserDataTop d, ArrayTop n);
-void freeUserData(UserDataTop d);
+void freeUserDataTop(UserDataTop d);
 UserDataPar createUserDataPar (Date i, Date f,  LONG_pair par);
 Date getDataInicioPar(UserDataPar d);
 Date getDataFimPar(UserDataPar d);

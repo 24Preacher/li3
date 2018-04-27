@@ -275,3 +275,7 @@ return a;
 Lista getProx(Lista l){
     return l->prox;
 }
+
+void freeLista(Lista l){
+	free(l);
+}

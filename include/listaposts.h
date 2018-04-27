@@ -31,5 +31,6 @@ Lista cloneLista (Lista l);
 PostsUsers clonePostUsers(PostsUsers l);
 ArrayPosts cloneArrayPosts(ArrayPosts l);
 Lista getProx(Lista l);
+void freeLista(Lista l);
 
 #endif

@@ -30,12 +30,11 @@ struct TCD_community {
 
 
 TAD_community init(){
-    
-  GTree *treedata = g_tree_new((GCompareFunc)&data_ord);
+
   TAD_community com = malloc(sizeof(struct TCD_community));
-  com->postsbydata = treedata;
-  GTree *treeid = g_tree_new((GCompareFunc)&compareID);
-  com->postsbyid = treeid;
+
+  com->postsbyid = g_tree_new((GCompareFunc)&compareID);
+  com->postsbydata = g_tree_new((GCompareFunc)&data_ord);
   com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, free,(GDestroyNotify) freeUsers);
   com->arrayposts = createArrayPosts(0);
   com->tabtags = g_hash_table_new_full(g_str_hash, g_str_equal, free, (GDestroyNotify)freeHashTag);
@@ -54,9 +53,9 @@ TAD_community load(TAD_community com, char* dump_path){
   GHashTable *tab = NULL;
   GHashTable *tags = NULL;
 
-  
-  int num_users = parseDoc(docname3, docname2, docname1, tags, tab, treed, treeid);
+
   //parsePosts(docname1 ++ dump_path, treed, treeid);
+  int num_users = parseDoc(docname3, docname2, docname1, tags, tab, treed, treeid);
 
   com->postsbyid = treed;
   com->postsbydata = treeid;
@@ -81,7 +80,7 @@ STR_pair info_from_post(TAD_community com, long id){
   STR_pair res;
   long id_pai;
   long id_user;
-  Posts_ID p = g_tree_lookup((GTree*)com->postsbyid, (gconstpointer)id);
+  gpointer p = g_tree_lookup((GTree*)com->postsbyid, (gconstpointer)id);
     if(getPostId2(p) == 1){
         id_user = getUserId2(p);
         Users u = g_hash_table_lookup((GHashTable*)com->users,(gconstpointer) id_user);
@@ -102,14 +101,18 @@ LONG_list top_most_active(TAD_community com, int N){
   int i;
   LONG_list res = create_list(N);
   ArrayTop t = createArrayTop(N);
-
+  TopN n = NULL;
   percorre(com->arrayposts, t);
 
   for(i = 0; i < N; i++){
-    TopN n = getTop(t, i);
+    n = getTop(t, i);
     long id = getID_Top(n);
     set_list(res, i, id);
   }
+  freeTop(n);
+  for(;i < N-1; i++)
+    set_list(res, i, -1);
+  freeArrayTop(t);
 
   return res;
 }
@@ -121,11 +124,12 @@ LONG_pair total_posts(TAD_community com, Date begin, Date end){
     LONG_pair par = create_long_pair(0, 0);
     UserDataPar u = createUserDataPar (begin, end, par);
 
-    gpointer *inicio = g_tree_lookup((GTree *)com->postsbydata, (gconstpointer)begin);
+    gpointer inicio = g_tree_lookup((GTree *)com->postsbydata, (gconstpointer)begin);
 
-    g_tree_foreach((GTree*)inicio, (GTraverseFunc) incrementaPar, (gpointer)u);
+    g_tree_foreach((GTree*)inicio, (GTraverseFunc) &incrementaPar, (gpointer)u);
 
     par = getPar(u);
+    freeUserDataPar(u);
     return par;
 
 }
@@ -134,11 +138,13 @@ LONG_pair total_posts(TAD_community com, Date begin, Date end){
 
 //q4
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end){
-      Posts_D p = g_tree_lookup((GTree*) com->postsbydata, (gconstpointer)begin);
+
       Lista l = NULL;
       UserDataTag u = createUserDataTag(begin, end, tag, l);
       LONG_list res;
-      g_tree_foreach((GTree *) p, (GTraverseFunc) checkTags,(gpointer) u);
+
+      gpointer p = g_tree_lookup((GTree*) com->postsbydata, (gconstpointer)begin);
+      g_tree_foreach((GTree *) p, (GTraverseFunc) &checkTags,(gpointer) u);
 
       l = getListaUTag(u);
       int tam = lengthL(l);
@@ -149,6 +155,9 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
         set_list(res, i, post);
         aux = getProx(aux);
       }
+      freeLista(l);
+      freeLista(aux);
+      freeUserDataTag(u);
       return res;
 }
 
@@ -156,7 +165,7 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
 
 USER get_user_info(TAD_community com, long id){
   USER res;
-  Users u = g_hash_table_lookup((GHashTable*) com->users, (gconstpointer)id);
+  gpointer u = g_hash_table_lookup((GHashTable*) com->users, (gconstpointer)id);
   int i = 0, j;
   char* bio = getBio(u);
 
@@ -165,7 +174,7 @@ USER get_user_info(TAD_community com, long id){
     LONG_list last10posts = create_list(10);
     Lista l = getListaPosts(com->arrayposts, i);
     Lista aux = cloneLista(l);
-  
+
     for(j = 0; j < 10 && aux != NULL; j++){
       long post = getPostId_L(aux);
       set_list(last10posts, j, post);
@@ -175,7 +184,8 @@ USER get_user_info(TAD_community com, long id){
       for(; j < 10; j++)
           set_list(last10posts, j, -1);
     }
-
+  freeLista(l);
+  freeLista(aux);
   res = create_user(bio,(long *) last10posts);
 
   return res;
@@ -192,17 +202,24 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
 
   ArrayTop t = createArrayTop(N);
   UserDataTop top = createUserDataTop(begin, end, t);
+  TopN n = NULL;
 
-  Posts_D inicio = g_tree_lookup((GTree *) com->postsbydata, begin);
-  g_tree_foreach((GTree *) inicio, (GTraverseFunc) topScore, (gpointer)top);
+  gpointer inicio = g_tree_lookup((GTree *) com->postsbydata, begin);
+  g_tree_foreach((GTree *) inicio, (GTraverseFunc) &topScore, (gpointer)top);
 
   LONG_list res = create_list(N);
   t = getArray(top);
   for(i = 0; i < N; i++){
-    TopN n = getTop(t, i);
+    n = getTop(t, i);
     long id = getID_Top(n);
     set_list(res, i, id);
   }
+  for(; i < N-1; i++)
+    set_list(res, i, -1);
+
+  freeTop(n);
+  freeUserDataTop(top);
+
   return res;
 }
 
@@ -247,38 +264,45 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
 //q8
 
 LONG_list contains_word(TAD_community com, char* word, int N){
-
+  int i;
   Lista guarda = NULL;
   UserDataTitle u = createUserDataTitle(word, guarda);
-  g_tree_foreach((GTree *)com->postsbydata, (GTraverseFunc) temPalavra, (gpointer)u);
+  g_tree_foreach((GTree *)com->postsbydata, (GTraverseFunc) &temPalavra, (gpointer)u);
 
   LONG_list res = create_list(N);
 
-  for(int i = 0; i < N; i++){
+  for(i = 0; i < N; i++){
     guarda = getListaU(u);
     long id = getPostId_L(guarda);
     set_list(res, i, id);
   }
+  for(; i< N-1; i++)
+    set_list(res, i, -1);
+
+  freeLista(guarda);
+  freeUserDataTitle(u);
   return res;
 }
 
 //q10
 long better_answer(TAD_community com, long id){
 
-  gpointer p = g_tree_lookup((GTree*) com->postsbyid, (gconstpointer)id); //no arg da arvore
+  gpointer p = g_tree_lookup((GTree*) com->postsbyid, (gconstpointer)id);
   long user = getUserId2(p);
-  Users u = g_hash_table_lookup((GHashTable*)com->users, (gconstpointer)user);
+  gpointer u = g_hash_table_lookup((GHashTable*)com->users, (gconstpointer)user);
   int rep = getRep(u);
 
-  Data d = getDate2(p); // erro tem haver ficheiro postid
+  Data d = getDate2(p);
   gpointer post = g_tree_lookup((GTree*)(com->postsbydata), (gconstpointer)d);
 
   long pergunta = getPostId(post);
   int r = getAnswers(post);
   TopN melhor = NULL;
   UserDataRes ud = createUserDataRes(d, rep, pergunta, r, melhor);
-  g_tree_foreach(post, (GTraverseFunc) melhor, ud);
+  g_tree_foreach((GTree*) post, (GTraverseFunc) melhor,(gpointer) ud);
 
   long melhor_resposta = getID_Top(getTopU(ud));
+
+  freeUserDataRes(ud);
   return melhor_resposta;
 }

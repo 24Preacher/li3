@@ -1,10 +1,19 @@
 #include <date.h>
 #include <stdio.h>
-#include "parser.c"
-/*
+#include "interface.h"
+#include "time.h"
+
+
+
 int main(){
-  Date d = createDate(1,2,2017);
-  printf("Dia: %i\n", get_day(d));
-  return 0;
+  clock_t tempo;
+tempo = clock();
+
+TAD_community novo = init();
+novo = load(novo, NULL);
+
+tempo = clock() - tempo;
+printf("Load demorou %f segundos", ((float)tempo/CLOCKS_PER_SEC));
+
+return 0;
 }
-*/
