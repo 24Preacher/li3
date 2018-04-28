@@ -21,6 +21,8 @@ void percorre(ArrayPosts p, ArrayTop t);
 gboolean incrementaPar (Posts_D p, UserDataPar u);
 gboolean checkTags(Posts_D p, UserDataTag u);
 gboolean topScore(Posts_D p, UserDataTop top);
+gboolean inserePerguntas(Posts_D p, UserDataTop top);
+gboolean incrementaRespostas(Posts_D p, UserDataTop top);
 int pertenceTitulo(char* palavra, Posts_D p);
 gboolean temPalavra(Posts_D p, UserDataTitle u);
 int valResposta(Posts_D p, int rep);

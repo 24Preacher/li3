@@ -3,10 +3,10 @@
 
 
 //aux para q2
- 
+
 void percorre(ArrayPosts p, ArrayTop t){
   int i;
-    
+
   for(i = 0; i < getSizeArray(p); i++){
     long id = getUserID_L(p, i);
     Lista posts = getListaPosts(p,i);
@@ -81,8 +81,41 @@ gboolean topScore(Posts_D p, UserDataTop top){
   }
   return FALSE;
 }
+//auxs q7
+gboolean inserePerguntas(Posts_D p, UserDataTop top){
+      Data data = getDate(p);
+      Date begin = getDataInicioTop(top);
+      Date end = getDataFimTop(top);
+      ArrayTop t = getArray(top);
 
-//aux q8
+      if(dataIgual(end, data) == 0) return TRUE;
+      if(dataIgual(begin, data) == -1){
+        if(getPostType(p) == 1){
+          long post = getPostId(p);
+          TopN novo = createTopN(post, 0);
+          insereResTop(t, novo);
+        }
+      }
+      return FALSE;
+}
+
+gboolean incrementaRespostas(Posts_D p, UserDataTop top){
+      Data data = getDate(p);
+      Date begin = getDataInicioTop(top);
+      Date end = getDataFimTop(top);
+      ArrayTop t = getArray(top);
+
+      if(dataIgual(end, data) == 0) return TRUE;
+      if(dataIgual(begin, data) == -1){
+        if(getPostType(p) == 2){
+          long id_pai = getPostId(p);
+          alteraCount(t, id_pai);
+        }
+      }
+      return FALSE;
+}
+
+//auxs q8
 int pertenceTitulo(char* palavra, Posts_D p){
   if (strstr(getTitle(p), palavra) != NULL)
     return 1;
@@ -135,4 +168,3 @@ gboolean melhor(Posts_D p, UserDataRes u){
   }
   return FALSE;
 }
-

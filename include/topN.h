@@ -22,5 +22,7 @@ void freeArrayTop(ArrayTop t);
 void insereTop (ArrayTop t, TopN n);
 TopN cloneTopN(TopN t);
 ArrayTop cloneArrayTop(ArrayTop t);
+void insereResTop(ArrayTop t, TopN n);
+void alteraCount(ArrayTop t, long id);
 
 #endif

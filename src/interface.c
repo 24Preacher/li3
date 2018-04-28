@@ -45,9 +45,9 @@ TAD_community init(){
 //query 0
 TAD_community load(TAD_community com, char* dump_path){
 
-  char *docname1 = "";
-  char *docname2 = "";
-  char *docname3 = "";
+  char *docname1 = "/home/mercy/Desktop/nana/src/Posts.xml";
+  char *docname2 = "/home/mercy/Desktop/nana/src/Users.xml";
+  char *docname3 = "/home/mercy/Desktop/nana/src/Tags.xml";
   GTree	*treeid = NULL;
   GTree *treed = NULL;
   GHashTable *tab = NULL;
@@ -223,43 +223,43 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   return res;
 }
 
-/*
+
 //q7
- query 7 ta mal
-
-gboolean topAnswers(ArrayTop t, Posts_D p, Date begin, Date end){
-  Data data = getDate(p);
-
-  if(dataIgual(end, data) == 0) return TRUE;
-  if(dataIgual(begin, data) == -1){
-  long id = getPostId(p);
-  int c = getAnswers(p);
-  TopN n = createTopN(id, c);
-  insereTop(t, n);
-  }
-  return FALSE;
-}
-
-
 LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end){
-  int i;
-  Posts_D inicio = g_tree_lookup(com->postsbydata, begin);
-  ArrayTop t = createArrayTop(N);
-  g_tree_foreach(inicio, &topAnswers, t);
+      LONG_pair par = create_long_pair(0, 0);
+      UserDataPar u = createUserDataPar (begin, end, par);
+      int i;
+      TopN c = NULL;
 
-  LONG_list res = create_list(N);
+    gpointer inicio = g_tree_lookup((GTree *)com->postsbydata, (gconstpointer)begin);
 
-  for(i = 0; i < N; i++){
-    TopN n = getTop(t, i);
-    long id = getID_Top(n);
-    set_list(res, i, id);
-  }
-  return res;
+    g_tree_foreach((GTree*)inicio, (GTraverseFunc) &incrementaPar, (gpointer)u);
+        par = getPar(u);
+        int size = (int)(get_fst_long(par));
+        freeUserDataPar(u);
+
+   ArrayTop t = createArrayTop(size);
+   UserDataTop n = createUserDataTop(begin, end, t);
+
+   g_tree_foreach((GTree*)inicio, (GTraverseFunc)&inserePerguntas, (gpointer) n);
+   g_tree_foreach((GTree*)inicio, (GTraverseFunc)&incrementaRespostas, (gpointer)n);
+
+   t = getArray(n);
+   //ordenar o array
+
+   LONG_list l = create_list(N);
+   for(i = 0; i < N; i++){
+     c = getTop(t, i);
+     long id = getID_Top(c);
+     set_list(l, i, id);
+   }
+   for(; i < N-1; i++)
+     set_list(l, i, -1);
+
+   freeTop(c);
+   freeUserDataTop(n);
+   return l;
 }
-
-*/
-
-//Função que ve se uma palavra pertence a uma string - usar a strstr -aux a q8
 
 //q8
 

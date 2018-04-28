@@ -1,5 +1,4 @@
 #include "listaposts.h"
-#include <stdlib.h>
 
 /**
 \struct Definição de listas ligadas de ids de posts
@@ -271,11 +270,20 @@ ArrayPosts cloneArrayPosts(ArrayPosts l){
 return a;
 }
 
-
+/**
+\brief Função que busca o resto da lista
+@param l Lista
+@returns A lista l sem a cabeça
+*/
 Lista getProx(Lista l){
     return l->prox;
 }
 
+/**
+\brief Função que liberta a lista
+@param l Lista
+*/
 void freeLista(Lista l){
+	free(l->prox);
 	free(l);
 }

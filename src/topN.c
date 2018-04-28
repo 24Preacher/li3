@@ -212,3 +212,34 @@ ArrayTop cloneArrayTop(ArrayTop t){
   }
   return a;
 }
+
+void insereResTop(ArrayTop t, TopN n){
+  int i = 0, pos;
+  int ocup = getOcupados2(t);
+
+  while(i < ocup && getID_Top(n) > getID_Top(getTop(t,i))) i++;
+    if (i == ocup) setTop(t, n, i);
+    else{
+      pos = i;
+      for(int k = ocup; k > i; k--){
+        TopN anterior = getTop(t, k-1);
+        setTop(t, anterior, k);
+      }
+      setTop(t, n, pos);
+      ocup++;
+      setOcupados2(t, ocup);
+    }
+}
+
+void alteraCount(ArrayTop t, long id){
+  int i = 0;
+  int tam = getSizeTop(t);
+
+  while(i < tam && id > getID_Top(getTop(t,i))) i++;
+
+  if (id == getID_Top(getTop(t,i))) {
+      int c = getCount(getTop(t,i));
+      c++;
+      setCount(getTop(t,i), c);
+    }
+}
