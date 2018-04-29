@@ -222,6 +222,7 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
 
    t = getArray(n);
    //ordenar o array
+   qsort(&t, N, sizeof(TopN), cmpCount);
 
    LONG_list l = converteTopList(t, N);
    freeUserDataTop(n);

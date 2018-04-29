@@ -1,5 +1,13 @@
 #include "auxiliares.h"
 
+int cmpCount(const void* top1, const void* top2){
+  int c1 = getCount((TopN)top1);
+  int c2 = getCount((TopN)top2);
+
+  if(c1 > c2) return -1;
+  else if(c1 < c2) return 1;
+  else return 0;
+}
 
 LONG_list converteTopList(ArrayTop t, int N){
   LONG_list res = create_list(N);

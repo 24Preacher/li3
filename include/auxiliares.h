@@ -17,6 +17,7 @@
 #include "topN.h"
 #include "list.h"
 
+int cmpCount(const void* top1, const void* top2);
 LONG_list converteTopList(ArrayTop t, int N);
 void percorre(ArrayPosts p, ArrayTop t);
 gboolean incrementaPar (Posts_D p, UserDataPar u);
