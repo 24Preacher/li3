@@ -253,6 +253,7 @@ AuxData createAuxData(Data d, long p){
   AuxData nova = malloc(sizeof(struct auxdata));
   nova->data = cloneData(d);
   nova->id = p;
+  return nova;
 }
 
 Data getData_Aux (AuxData c){
@@ -295,7 +296,7 @@ void setOcupadosData (ArrayData c, int o){
 }
 
 AuxData getAuxData (ArrayData c, int i){
-  return c->array[i];
+  return c->p[i];
 }
 
 void setAuxData (ArrayData c, AuxData nova, int i){

@@ -2,7 +2,7 @@
 
 
 LONG_list converteTopList(ArrayTop t, int N){
-  LONG_list novo = create_list(N);
+  LONG_list res = create_list(N);
   int i, ocup = getOcupados2(t);
   TopN n = NULL;
 
@@ -17,7 +17,7 @@ LONG_list converteTopList(ArrayTop t, int N){
       set_list(res, i, -1);
   }
   freeTop(n);
-  return novo;
+  return res;
 }
 
 //aux para q2
