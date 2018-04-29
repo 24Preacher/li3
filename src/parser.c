@@ -35,10 +35,12 @@
 
 int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 
-	long id;
+	//long id;
+	char* id;
 	xmlChar* bio;
 	xmlChar* name;
-	int rep;
+	//int rep;
+	char* rep;
 	int num_users;
 
 	xmlNodePtr cur = xmlDocGetRootElement(doc);
@@ -54,31 +56,28 @@ int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 		return 0;
 	}
 
-
+	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
 
-		if (xmlStrcmp(cur->name, (const xmlChar *)"row")) {
-			while(!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
-				id = atol((char*)(xmlGetProp(cur, (const xmlChar*)"Id")));
+		if (xmlStrcmp(cur->name, (const xmlChar *)"row") == 0) {
+			//while(!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
+				id = (char*)(xmlGetProp(cur, (const xmlChar*)"Id"));
 				bio = xmlGetProp(cur, (const xmlChar *)"AboutMe");
 				name = xmlGetProp(cur, (const xmlChar *)"DisplayName");
-				rep = atoi((char*)(xmlGetProp(cur, (const xmlChar*)"Reputation")));
+				rep = (char*)(xmlGetProp(cur, (const xmlChar*)"Reputation"));
 
-				cur = cur->next;
-				num_users ++;
+				long *key = malloc(sizeof(long));
+        *key = atol(id);
+
+				Users user = createUsers(atol(id), (char*) name,(char*) bio, atoi(rep));
+				g_hash_table_insert (hash_table, (gpointer) id, (gpointer)user);
+			//}
 			}
-		}
+		cur = cur->next;
+		num_users ++;
 
-
-		Users user = createUsers(id, (char*) name,(char*) bio, rep);
-		g_hash_table_insert (hash_table, (gpointer) id, (gpointer)user);
-
-
-
-    }
-     xmlFreeDoc(doc);
+    	}
     return num_users;
-
 }
 
 
@@ -91,10 +90,10 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 	long post_id;
 
 	short post_type;
-    xmlChar* ptype;
+  xmlChar* ptype;
 	xmlChar* title;
-	Tags tags;
-	Data creation_date;
+	Tags tags = NULL;
+	Data creation_date = NULL;
 	long parent_id;
 	long user_id;
 	int answer_count;
@@ -113,23 +112,20 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 		return;
 	}
 
+	curr = curr->xmlChildrenNode;
 
-
-
-
-//ver se é um a um
 while (curr != NULL) {
-	if ((!xmlStrcmp(curr->name, (const xmlChar *)"row"))) {
-		while(!xmlStrcmp(curr->name, (const xmlChar *)"/>")){
+	if (xmlStrcmp(curr->name, (const xmlChar *)"row") == 0) {
+		//while(!xmlStrcmp(curr->name, (const xmlChar *)"/>")){
 			post_id = atol((char*)(xmlGetProp(curr,(const xmlChar *)"Id")));
-			ptype = (xmlGetProp(curr,(const xmlChar *)"PostTypeId"));
+			ptype = xmlGetProp(curr,(const xmlChar *)"PostTypeId");
 			title = xmlGetProp(curr,(const xmlChar *)"Title");
 			tags = strToTags((char*)(xmlGetProp(curr,(const xmlChar *)"Tags")));
 			creation_date = strToData((char*)(xmlGetProp(curr,(const xmlChar *)"CreationDate")));
 			user_id = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"OwnerUserId")));
 			comment_count = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CommentCount")));
 			score = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"Score")));
-		}
+		//}
         post_type = atoi((char*) ptype);
 		if ((!xmlStrcmp(ptype, (const xmlChar *)"1"))){
 				answer_count=atoi((char*)(xmlGetProp(curr, (const xmlChar *)"AnswerCount")));
@@ -140,10 +136,12 @@ while (curr != NULL) {
 
 
 			Posts_D post = createPostsD(creation_date, user_id, post_id, (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
-			long *key = malloc(sizeof(long));
+			//long *key = malloc(sizeof(long));
 
-			*key = atol((char*) post_id);
+			//*key = atol((char*) post_id);
 
+			Data *key = malloc(sizeof(Data));
+			*key = creation_date;
 			g_tree_insert(tree1, key, post);
 
 
@@ -151,14 +149,11 @@ while (curr != NULL) {
 			Posts_ID post2 = createPostsID(post_id, user_id,(char *) title,creation_date, answer_count, post_type, parent_id, comment_count, score, tags);
 			long *key2 = malloc(sizeof(long));
 
-			*key2 = atol((char*) post_id);
-
+			//*key2 = atol((char*) post_id);
+			*key2 = post_id;
 			g_tree_insert(tree2, key2, post2);
-
-
+		}
 			curr = curr->next;
-	}
-	xmlFreeDoc(doc);
     }
 }
 /*
@@ -196,20 +191,19 @@ void parseTags (xmlDocPtr doc, GHashTable *hash_table){
 		return;
 	}
 
+	nod = nod->xmlChildrenNode;
 	while (nod != NULL) {
 		if (!xmlStrcmp(nod->name, (const xmlChar *)"row")) {
-			while(!xmlStrcmp(nod->name, (const xmlChar *)"/>")){
+			//while(!xmlStrcmp(nod->name, (const xmlChar *)"/>")){
 				id_tag = atol((char*)(xmlGetProp(nod,(const xmlChar *)"Id")));
 				tagname = xmlGetProp(nod,(const xmlChar *)"TagName");
+			//}
+
+			HashTags tag = createHashTag((char*)tagname, id_tag);
+		 	g_hash_table_insert(hash_table, (gpointer) id_tag, (gpointer)tag);
 			}
+		nod = nod->next;
 		}
-		HashTags tag = createHashTag((char*)tagname, id_tag);
-	 	g_hash_table_insert(hash_table, (gpointer) id_tag, (gpointer)tag);
-
-	}
-
-xmlFreeDoc(doc);
-
 }
 
 

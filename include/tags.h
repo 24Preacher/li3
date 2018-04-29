@@ -11,13 +11,13 @@ typedef struct tags* Tags;
 
 Tags createTags (char* nome);
 
+Tags addTag(Tags t, char* tag);
+
 char* getNameTag (Tags t);
 
 void freeTags (Tags t);
 
 Tags cloneTags(Tags t);
-
-int contaTags(char *a);
 
 Tags strToTags(char *a);
 

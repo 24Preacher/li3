@@ -195,7 +195,7 @@ void freePostsUsers (PostsUsers p){
 @param p Array de listas
 */
 void freeArrayPosts (ArrayPosts p){
-  for(int i = 0; i < getSizeArray(p); i++)
+  for(int i = 0; i < p->size; i++)
 		freePostsUsers(getAPosts(p,i));
 }
 

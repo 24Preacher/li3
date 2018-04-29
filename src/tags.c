@@ -23,6 +23,13 @@ Tags createTags (char* nome){
 	return t;
 }
 
+Tags addTag(Tags t, char* tag){
+    Tags novo = createTags(tag);
+    novo->prox = t;
+    t = novo;
+    return t;
+}
+
 /**
 \brief Função que busca o nome da tag
 @param t Estrutura das Tags
@@ -53,49 +60,28 @@ Tags cloneTags (Tags t){
 }
 
 /**
-\brief Função que conta o número de Tags
-@param a String das Tags
-@returns Número de tags
-*/
-int contaTags(char* a){
-	int i;
-	int cont = 0;
-	for (i = 0;a[i] == '\0'; i++){
-		if (a[i] == '<')
-		cont++;
-	}
-	return cont;
-}
-
-/**
 \brief Função que passa de uma string para uma lista ligada de Tags
 @param a String das Tags
 @returns Lista ligada das Tags
 */
-Tags strToTags(char *a){
-	Tags t;
-	char *b = "";
-	int p = 0;
-	int cont = contaTags(a);
-	if (cont == 0)
-        t = NULL;
-    else{
-for (int i = 0; a[i] != '\0'; i++){
-		if(a[i] == '<'){
-			i++;
-			while(a[i] != '>'){
-				b[p] = a[i];
-				p++;
-				i++;
-			}
-			b[p] = '\0';
-		}
-		t = createTags(mystrdup(b));
-		t = t -> prox;
-		p = 0;
-        }
+Tags strToTags(char* a){
+    Tags t;
+    char* b;
+    int i,j, k = 0;
+
+    if(a == NULL) return NULL;
+
+    for(i = 0; a[i] != '\0'; i++){
+        if(a[i] == '>');
+           b = malloc((i-k)*sizeof(char));
+        for(j = 0; j < (i-k-1); j++)
+            b[j] = a[j+k+1];
+        b[j] = '\0';
+
+        t = addTag(t, b);
+        k = i+1;
     }
-return t;
+    return t;
 }
 
 /**
