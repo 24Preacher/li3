@@ -99,24 +99,16 @@ STR_pair info_from_post(TAD_community com, long id){
 //q2
 LONG_list top_most_active(TAD_community com, int N){
   int i;
-  LONG_list res = create_list(N);
+  LONG_list res;
   ArrayTop t = createArrayTop(N);
-  TopN n = NULL;
+
   percorre(com->arrayposts, t);
 
-  for(i = 0; i < N; i++){
-    n = getTop(t, i);
-    long id = getID_Top(n);
-    set_list(res, i, id);
-  }
-  freeTop(n);
-  for(;i < N-1; i++)
-    set_list(res, i, -1);
+  res = converteTopList(t, N);
   freeArrayTop(t);
 
   return res;
 }
-
 
 
 //q3
@@ -180,7 +172,7 @@ USER get_user_info(TAD_community com, long id){
       set_list(last10posts, j, post);
       aux = getProx(aux);
     }
-    if(j < 9){
+    if(j < 10){
       for(; j < 10; j++)
           set_list(last10posts, j, -1);
     }
@@ -194,30 +186,18 @@ USER get_user_info(TAD_community com, long id){
 
 //q6
 
-
-
-
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   int i;
 
   ArrayTop t = createArrayTop(N);
   UserDataTop top = createUserDataTop(begin, end, t);
-  TopN n = NULL;
 
   gpointer inicio = g_tree_lookup((GTree *) com->postsbydata, begin);
   g_tree_foreach((GTree *) inicio, (GTraverseFunc) &topScore, (gpointer)top);
 
-  LONG_list res = create_list(N);
+  LONG_list res;
   t = getArray(top);
-  for(i = 0; i < N; i++){
-    n = getTop(t, i);
-    long id = getID_Top(n);
-    set_list(res, i, id);
-  }
-  for(; i < N-1; i++)
-    set_list(res, i, -1);
-
-  freeTop(n);
+  res = converteTopList(t, N);
   freeUserDataTop(top);
 
   return res;
@@ -229,7 +209,6 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
       LONG_pair par = create_long_pair(0, 0);
       UserDataPar u = createUserDataPar (begin, end, par);
       int i;
-      TopN c = NULL;
 
     gpointer inicio = g_tree_lookup((GTree *)com->postsbydata, (gconstpointer)begin);
 
@@ -247,16 +226,7 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
    t = getArray(n);
    //ordenar o array
 
-   LONG_list l = create_list(N);
-   for(i = 0; i < N; i++){
-     c = getTop(t, i);
-     long id = getID_Top(c);
-     set_list(l, i, id);
-   }
-   for(; i < N-1; i++)
-     set_list(l, i, -1);
-
-   freeTop(c);
+   LONG_list l = converteTopList(t, N);
    freeUserDataTop(n);
    return l;
 }
@@ -271,16 +241,89 @@ LONG_list contains_word(TAD_community com, char* word, int N){
 
   LONG_list res = create_list(N);
 
-  for(i = 0; i < N; i++){
-    guarda = getListaU(u);
+  guarda = getListaU(u);
+  for(i = 0; guarda != NULL && i < N; i++){
     long id = getPostId_L(guarda);
     set_list(res, i, id);
   }
-  for(; i< N-1; i++)
+  if(i < N){
+  for(; i< N; i++)
     set_list(res, i, -1);
-
+  }
   freeLista(guarda);
   freeUserDataTitle(u);
+  return res;
+}
+
+//q9
+LONG_list both_participated(TAD_community com, long id1, long id2, int N){
+  LONG_list res = create_list(N);
+  int i, j, pos1, pos2;
+  ArrayData c = createArrayData(N);
+  Lista a, b;
+  a = b = NULL;
+  AuxData new = NULL;
+
+  for(i = 0; i < getSizeArray(com->arrayposts); i++){
+    long user = getUserID_L(com->arrayposts, i);
+    if(user == id1) pos1 = i;
+    if(user == id2) pos2 = i;
+  }
+
+  Lista posts1 = getListaPosts(com->arrayposts, pos1);
+  for(; posts1 != NULL; posts1 = getProx(posts1)){
+    long postid1 = getPostId_L(posts1);
+    gpointer p = g_tree_lookup((GTree*)com->postsbyid, (gconstpointer) postid1);
+    if(getPostType2(p) == 2){
+      parent = getParentId2(p);
+      a = addPost(a, parent);
+      if(pertence(getListaPosts(com->arrayposts,pos2), parent)){
+        gpointer n = g_tree_lookup(com->postsbyid, parent);
+        AuxData nova = createAuxData(getDate2(n), parent);
+        inserePelaData(c, nova);
+      }
+    }
+  }
+
+  for(; posts2 != NULL; posts2 = getProx(posts2)){
+    long postid2 = getPostId_L(posts2);
+    gpointer p2 = g_tree_lookup((GTree*)com->postsbyid, (gconstpointer) postid2);
+    if(getPostType2(p2) == 2){
+      parent2 = getParentId2(p2);
+      b = addPost(b, parent2);
+      if(pertence(getListaPosts(com->arrayposts,pos1), parent2)){
+        gpointer n2 = g_tree_lookup(com->postsbyid, parent2);
+        AuxData nova2 = createAuxData(getDate2(n2), parent2);
+        inserePelaData(c, nova2);
+      }
+    }
+  }
+
+while(a != NULL){
+  while(b != NULL){
+    long pergunta = getPostId_L(a);
+    if(pertence(b, pergunta))
+      gpointer pai = g_tree_lookup(com->postsbyid, pergunta);
+      AuxData nova3 = createAuxData(getDate2(pai), pergunta);
+      inserePelaData(c, nova3);
+      b = getProx(b);
+  }
+  a = getProx(a);
+}
+  int ocup = getOcupadosData(c);
+  for(j = 0; ocup > 0 && j < N; j++){
+    new = getAuxData(c, j);
+    long val = getId_Aux(new);
+    set_list(res, j, val);
+    ocup--;
+  }
+  if(j < N){
+    for(; j < N; j++)
+    set_list(res, j, -1);
+  }
+  freeAuxData(new);
+  freeArrayData(c);
+
   return res;
 }
 
