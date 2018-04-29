@@ -1,6 +1,24 @@
 #include "auxiliares.h"
 
 
+LONG_list converteTopList(ArrayTop t, int N){
+  LONG_list novo = create_list(N);
+  int i, ocup = getOcupados2(t);
+  TopN n = NULL;
+
+  for(i = 0; ocup > 0 && i < N; i++){
+    n = getTop(t, i);
+    long id = getID_Top(n);
+    set_list(res, i, id);
+    ocup--;
+  }
+  if(i < N){
+    for(;i < N; i++)
+      set_list(res, i, -1);
+  }
+  freeTop(n);
+  return novo;
+}
 
 //aux para q2
 
@@ -135,6 +153,12 @@ gboolean temPalavra(Posts_D p, UserDataTitle u){
   }
   return FALSE;
 }
+
+struct cel{
+  Data data;
+  long id;
+};
+
 
 //aux q10
 

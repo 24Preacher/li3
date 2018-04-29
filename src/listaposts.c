@@ -287,3 +287,12 @@ void freeLista(Lista l){
 	free(l->prox);
 	free(l);
 }
+
+int pertence(Lista l, long p){
+	while(l != NULL){
+		if(getPostId_L(l) == p)
+			return 1;
+		else l = getProx(l);
+	}
+	return 0;
+}

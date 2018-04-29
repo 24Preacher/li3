@@ -159,7 +159,7 @@ void insereTop (ArrayTop t, TopN n){
   int cont = getCount(n);
 
   if(ocup == tam){
-    TopN ultimo = getTop(t, tam);
+    TopN ultimo = getTop(t, tam-1);
     if (cont > getCount(ultimo)){
           while(i < tam && getCount(getTop(t, i)) >= cont) i++;
           pos = i;
@@ -242,4 +242,102 @@ void alteraCount(ArrayTop t, long id){
       c++;
       setCount(getTop(t,i), c);
     }
+}
+
+struct auxdata{
+  Data data;
+  long id;
+};
+
+AuxData createAuxData(Data d, long p){
+  AuxData nova = malloc(sizeof(struct auxdata));
+  nova->data = cloneData(d);
+  nova->id = p;
+}
+
+Data getData_Aux (AuxData c){
+  return cloneData(c->data);
+}
+
+long getId_Aux (AuxData c){
+  return c->id;
+}
+
+void freeAuxData(AuxData c){
+  free(c);
+}
+
+struct arraydata{
+  int size;
+  int ocupados;
+  AuxData *p;
+};
+
+ArrayData createArrayData (int size){
+  if (size <= 0) return NULL;
+  ArrayData novo = malloc(sizeof(struct arraydata));
+  novo->size = size;
+  novo->ocupados = 0;
+  novo->p = malloc((sizeof(struct auxdata)) * size);
+  return novo;
+}
+
+int getSizeArrayData (ArrayData c){
+  return c->size;
+}
+
+int getOcupadosData (ArrayData c){
+  return c->ocupados;
+}
+
+void setOcupadosData (ArrayData c, int o){
+  c->ocupados = o;
+}
+
+AuxData getAuxData (ArrayData c, int i){
+  return c->array[i];
+}
+
+void setAuxData (ArrayData c, AuxData nova, int i){
+  c->p[i] = nova;
+}
+
+void freeArrayData (ArrayData c){
+  for (int i = 0; i < getSizeArrayData(c); i++)
+    freeAuxData(getAuxData(c, i));
+}
+
+
+void inserePelaData(ArrayData c, AuxData nova){
+  int i = 0,pos;
+  int tam = getSizeArrayData(c);
+  int ocup = getOcupadosData(c);
+  Data d = getData_Aux(nova);
+
+  if(ocup == tam){
+    AuxData ultimo = getAuxData(c, tam-1);
+    if(compareMyData(getData_Aux(ultimo), d) == -1){
+      while(i < tam && compareMyData(getData_Aux(getAuxData(c, i)), d) == 1) i++;
+      pos = i;
+      for(int j = ocup-1; j > i; j--){
+        AuxData ant = getAuxData(c, j-1);
+        setAuxData(c, ant, j);
+      }
+      setAuxData(c, nova, pos);
+    }
+  }
+  else{
+  while(i < ocup && compareMyData(getData_Aux(getAuxData(c, i)), d) == 1) i++;
+  if (i == ocup) setAuxData(c, nova, i);
+  else{
+    pos = i;
+    for(int k = ocup; k > i; k--){
+      AuxData ant = getAuxData(c, k-1);
+      setAuxData(c, ant, k);
+    }
+    setAuxData(c, nova, pos);
+    ocup++;
+    setOcupadosData(c, ocup);
+    }
+  }
 }
