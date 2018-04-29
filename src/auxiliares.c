@@ -154,12 +154,6 @@ gboolean temPalavra(Posts_D p, UserDataTitle u){
   return FALSE;
 }
 
-struct cel{
-  Data data;
-  long id;
-};
-
-
 //aux q10
 
 int valResposta(Posts_D p, int rep){

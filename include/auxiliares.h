@@ -15,8 +15,9 @@
 #include "string.h"
 #include <glib.h>
 #include "topN.h"
+#include "list.h"
 
-
+LONG_list converteTopList(ArrayTop t, int N);
 void percorre(ArrayPosts p, ArrayTop t);
 gboolean incrementaPar (Posts_D p, UserDataPar u);
 gboolean checkTags(Posts_D p, UserDataTag u);

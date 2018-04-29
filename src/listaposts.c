@@ -287,7 +287,12 @@ void freeLista(Lista l){
 	free(l->prox);
 	free(l);
 }
-
+/**
+\brief Função que vê se um id de um post existe numa lista
+@param l Lista
+@param p id do post
+@returns 1 se o id pertence à lista, 0 caso contrário
+*/
 int pertence(Lista l, long p){
 	while(l != NULL){
 		if(getPostId_L(l) == p)

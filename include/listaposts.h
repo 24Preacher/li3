@@ -24,6 +24,7 @@ void setSizeArray (ArrayPosts p, int size);
 int getOcupados(ArrayPosts p);
 void setOcupados(ArrayPosts p, int o);
 PostsUsers getAPosts (ArrayPosts p, int i);
+void setAPosts(ArrayPosts p, int i, PostsUsers c);
 void freePostsUsers (PostsUsers p);
 void freeArrayPosts (ArrayPosts p);
 void insere(ArrayPosts p, long user, long post);
@@ -32,5 +33,6 @@ PostsUsers clonePostUsers(PostsUsers l);
 ArrayPosts cloneArrayPosts(ArrayPosts l);
 Lista getProx(Lista l);
 void freeLista(Lista l);
+int pertence(Lista l, long p);
 
 #endif
