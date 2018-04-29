@@ -24,7 +24,7 @@ long getParentId2 (Posts_ID posts);
 int getComments2 (Posts_ID posts);
 int getScore2 (Posts_ID posts);
 Tags getTags2 (Posts_ID posts);
-void freePostsID (Posts_ID posts);
+void freePostsID (gpointer posts);
 Posts_ID clonePostsID (Posts_ID posts);
 
 

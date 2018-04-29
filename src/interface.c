@@ -347,7 +347,24 @@ long better_answer(TAD_community com, long id){
   freeUserDataRes(ud);
   return melhor_resposta;
 }
+/*
+LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
+  ArrayTop t = createArrayTop(N);
+  g_hash_table_foreach((GHashTable*)com->users,(GTraverseFunc) &topRep, (gpointer)t);
+  g_tree_foreach((GTree*)com->postsbydata, (GTraverseFunc), );
 
-//LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end);
+}*/
 
-//TAD_community clean(TAD_community com);
+TAD_community clean(TAD_community com){
+
+  if(com != NULL){
+    freePostsD(com->postsbydata);
+    freePostsID(com->postsbyid);
+    freeUsers(com->users);
+    freeArrayPosts(com->arrayposts);
+    freeHashTag(com->tabtags);
+    free(com);
+    com = NULL;
+  }
+  return com;
+}

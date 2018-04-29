@@ -151,7 +151,7 @@ Tags getTags (Posts_D posts){
 	return (cloneTags(posts -> tags));
 }
 
-void freePostsD (Posts_D posts){
+void freePostsD (gpointer posts){
 	 g_tree_destroy((GTree*)posts);
 }
 

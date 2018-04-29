@@ -153,7 +153,7 @@ Tags getTags2 (Posts_ID posts){
 }
 
 
-void freePostsID (Posts_ID posts){
+void freePostsID (gpointer posts){
 	 g_tree_destroy((GTree*)posts);
 }
 

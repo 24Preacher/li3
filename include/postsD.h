@@ -37,7 +37,7 @@ int getScore (Posts_D posts);
 
 Tags getTags (Posts_D posts);
 
-void freePostsD (Posts_D posts);
+void freePostsD (gpointer posts);
 
 Posts_D clonePostsD (Posts_D posts);
 
