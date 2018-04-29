@@ -186,3 +186,12 @@ gboolean melhor(Posts_D p, UserDataRes u){
   }
   return FALSE;
 }
+
+gboolean topRep(Users u, ArrayTop t){
+  long id = getUserId3(u);
+  int c = getRep(u);
+  TopN n = createTopN(id, c);
+  insereTop(t, n);
+
+  return FALSE;
+}

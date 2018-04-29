@@ -28,5 +28,6 @@ int pertenceTitulo(char* palavra, Posts_D p);
 gboolean temPalavra(Posts_D p, UserDataTitle u);
 int valResposta(Posts_D p, int rep);
 gboolean melhor(Posts_D p, UserDataRes u);
+gboolean topRep(Users u, ArrayTop t);
 
 #endif
