@@ -6,6 +6,7 @@
 #include <string.h>
 #include <glib.h>
 #include "date.h"
+#include "postsD.h"
 
 typedef struct lligada* Lista;
 typedef struct lposts* PostsUsers;
@@ -17,7 +18,7 @@ int lengthL(Lista l);
 PostsUsers createPostsUsers (long user, Lista l);
 ArrayPosts createArrayPosts (int size);
 long getPostId_L (Lista l);
-long getUserID_L (ArrayPosts p, int i);
+long getUserID_L (PostsUsers p);
 Lista getListaPosts (ArrayPosts p, int i);
 int getSizeArray (ArrayPosts p);
 void setSizeArray (ArrayPosts p, int size);
@@ -27,7 +28,7 @@ PostsUsers getAPosts (ArrayPosts p, int i);
 void setAPosts(ArrayPosts p, int i, PostsUsers c);
 void freePostsUsers (PostsUsers p);
 void freeArrayPosts (ArrayPosts p);
-void insere(ArrayPosts p, long user, long post);
+void insere(Posts_D posts, ArrayPosts p);
 Lista cloneLista (Lista l);
 PostsUsers clonePostUsers(PostsUsers l);
 ArrayPosts cloneArrayPosts(ArrayPosts l);

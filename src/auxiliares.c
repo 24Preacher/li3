@@ -34,7 +34,7 @@ void percorre(ArrayPosts p, ArrayTop t){
   int i;
 
   for(i = 0; i < getSizeArray(p); i++){
-    long id = getUserID_L(p, i);
+    long id = getUserID_L(getAPosts(p, i));
     Lista posts = getListaPosts(p,i);
     int c = lengthL(posts);
     TopN n = createTopN(id, c);

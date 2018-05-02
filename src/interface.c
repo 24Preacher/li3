@@ -25,19 +25,24 @@ struct TCD_community {
   GTree* postsbyid;
   GHashTable* users;
   ArrayPosts arrayposts;
-  GHashTable* tabtags;
+//   GHashTable* tabtags;
 };
 
 
 TAD_community init(){
 
   TAD_community com = malloc(sizeof(struct TCD_community));
+  
+  GTree* treeid = g_tree_new((GCompareFunc)&compareID);
+  GTree* treedata = g_tree_new((GCompareFunc)&data_ord);
+  GHashTable* u = g_hash_table_new_full(g_direct_hash, g_direct_equal, free,(GDestroyNotify) freeUsers);
+//   GHashTable* tags = g_hash_table_new_full(g_str_hash, g_str_equal, free, (GDestroyNotify)freeHashTag);
 
-  com->postsbyid = g_tree_new((GCompareFunc)&compareID);
-  com->postsbydata = g_tree_new((GCompareFunc)&data_ord);
-  com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, free,(GDestroyNotify) freeUsers);
+  com->postsbyid = treeid;
+  com->postsbydata = treedata;
+  com->users = u;
   com->arrayposts = createArrayPosts(0);
-  com->tabtags = g_hash_table_new_full(g_str_hash, g_str_equal, free, (GDestroyNotify)freeHashTag);
+//   com->tabtags = tags;
 
   return com;
 }
@@ -47,15 +52,15 @@ TAD_community load(TAD_community com, char* dump_path){
 
   char *docname1 = "/home/mercy/Desktop/nana/src/Posts.xml";
   char *docname2 = "/home/mercy/Desktop/nana/src/Users.xml";
-  char *docname3 = "/home/mercy/Desktop/nana/src/Tags.xml";
-  GTree	*treeid = NULL;
-  GTree *treed = NULL;
-  GHashTable *tab = NULL;
-  GHashTable *tags = NULL;
+//   char *docname3 = "/home/mercy/Desktop/nana/src/Tags.xml";
+  GTree	*treeid = com->postsbyid;
+  GTree *treed = com->postsbydata;
+  GHashTable *tab = com->users;
+//   GHashTable *tags = com->tabtags;
 
 
   //parsePosts(docname1 ++ dump_path, treed, treeid);
-  int num_users = parseDoc(docname3, docname2, docname1, tags, tab, treed, treeid);
+  int num_users = parseDoc(docname2, docname1, tab, treed, treeid);
 
   com->postsbyid = treed;
   com->postsbydata = treeid;
@@ -65,12 +70,11 @@ TAD_community load(TAD_community com, char* dump_path){
   com->users = tab;
   ArrayPosts a = createArrayPosts(num_users);
 
-
-  g_tree_foreach((GTree*)com->postsbydata, (GTraverseFunc)insere, (gpointer)a);
+  g_tree_foreach((GTree*)com->postsbydata, (GTraverseFunc)&insere, (gpointer)a);
   com->arrayposts = a;
 
   //parseTags((xmlDocPtr)(docname3 ), tags);
-  com->tabtags = tags;
+//   com->tabtags = tags;
 
   return com;
 }
@@ -160,7 +164,7 @@ USER get_user_info(TAD_community com, long id){
   int i = 0, j;
   char* bio = getBio(u);
 
-  while(getUserID_L(com->arrayposts, i) < id) i++;
+  while(getUserID_L(getAPosts(com->arrayposts, i)) < id) i++;
 
     LONG_list last10posts = create_list(10);
     Lista l = getListaPosts(com->arrayposts, i);
@@ -263,7 +267,7 @@ LONG_list both_participated(TAD_community com, long id1, long id2, int N){
   AuxData new = NULL;
 
   for(i = 0; i < getSizeArray(com->arrayposts); i++){
-    long user = getUserID_L(com->arrayposts, i);
+    long user = getUserID_L(getAPosts(com->arrayposts, i));
     if(user == id1) pos1 = i;
     if(user == id2) pos2 = i;
   }
@@ -363,7 +367,7 @@ TAD_community clean(TAD_community com){
     freePostsID(com->postsbyid);
     freeUsers(com->users);
     freeArrayPosts(com->arrayposts);
-    freeHashTag(com->tabtags);
+//     freeHashTag(com->tabtags);
     free(com);
     com = NULL;
   }

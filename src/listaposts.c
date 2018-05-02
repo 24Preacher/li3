@@ -51,7 +51,6 @@ returns A lista com o id adicionado
 Lista addPost (Lista l, long post){
   Lista novo = createLista(post);
   novo->prox = l;
-  l = novo;
 
 	return novo;
 }
@@ -79,6 +78,7 @@ int lengthL(Lista l){
 PostsUsers createPostsUsers (long user, Lista l){
   PostsUsers p = malloc(sizeof(struct lposts));
 	p->id_user = user;
+    p->lposts = malloc(sizeof(struct lligada));
 	p->lposts = l;
 	return p;
 }
@@ -92,7 +92,15 @@ ArrayPosts createArrayPosts(int size){
 	ArrayPosts p = malloc(sizeof(struct arraypost));
 	p->size = size;
 	p->ocupados = 0;
-	p->aposts = malloc(sizeof(struct lposts)* size);
+	p->aposts = malloc(sizeof(struct lposts) * size);
+    for(int i = 0; i < size; i++){
+//         p->aposts[i]->lposts = malloc(sizeof(struct lligada));
+        p->aposts[i] = NULL;
+    }
+    for(int i = 0; i < size; i++){
+//         p->aposts[i]->lposts = malloc(sizeof(struct lligada));
+        p->aposts[i] = NULL;
+    }
 	return p;
 }
 
@@ -111,8 +119,8 @@ long getPostId_L(Lista l){
 @param i Índice do array
 @returns O identificador do utilizador no índice i
 */
-long getUserID_L (ArrayPosts p, int i){
-  return p->aposts[i]->id_user;
+long getUserID_L (PostsUsers p){
+  return p->id_user;
 }
 
 /**
@@ -122,7 +130,7 @@ long getUserID_L (ArrayPosts p, int i){
 @returns A lista dos posts que está no índice i
 */
 Lista getListaPosts (ArrayPosts p, int i){
-	return cloneLista(p->aposts[i]->lposts);
+	return p->aposts[i]->lposts;
 }
 
 /**
@@ -167,7 +175,7 @@ void setOcupados(ArrayPosts p, int o){
 @returns Conteúdo do array na posição i
 */
 PostsUsers getAPosts (ArrayPosts p, int i){
-	return clonePostUsers(p->aposts[i]);
+	return p->aposts[i];
 }
 
 /**
@@ -205,11 +213,25 @@ void freeArrayPosts (ArrayPosts p){
 @param user Identificador do utilizador
 @param post Identificador do post
 */
-void insere(ArrayPosts p, long user, long post){
+void insere(Posts_D posts, ArrayPosts p){
   int i = 0;
+  long user = getUserId(posts);
+  long post = getPostId(posts);
+  int ocup = getOcupados(p);
+  
+  if(getSizeArray(p) == 0)
+      return;
+  if  (ocup == 0){
+      Lista pp = createLista(post);
+      PostsUsers new = createPostsUsers(user, pp);
+      ocup++;
+      setOcupados(p,ocup);
 
-  while (getUserID_L(p,i) < user) i++;
-    if(getUserID_L(p,i) == user){
+       setAPosts(p, 0, new);
+      
+  }
+  while (getUserID_L(getAPosts(p, i)) < user) i++;
+    if(getUserID_L(getAPosts(p, i)) == user){
       Lista l = getListaPosts(p, i);
       if(l == NULL)
         createLista(post);
@@ -217,7 +239,7 @@ void insere(ArrayPosts p, long user, long post){
     }
     else{
       int pos = i;
-      int ocup = getOcupados(p);
+      
       for(int j = ocup; j > i; j--){
         PostsUsers anterior = getAPosts(p, j-1);
         setAPosts(p, j, anterior);

@@ -21,9 +21,9 @@
 
 int parseUsers (xmlDocPtr doc, GHashTable *hash_table);
 void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2);
-void parseTags (xmlDocPtr doc, GHashTable *hash_table);
-int parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2);
-
+// void parseTags (xmlDocPtr doc, GHashTable *hash_table);
+// int parseDoc(char *doctags, char *docusers, char *docposts, GHashTable *hash_tags, GHashTable *hash_users, GTree *tree1, GTree *tree2);
+int parseDoc(char *docusers, char *docposts, GHashTable *hash_users, GTree *tree1, GTree *tree2);
 
 
 
