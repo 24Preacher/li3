@@ -48,7 +48,8 @@ long getUserId3 (Users u){
 @returns Apontador para o nome do utilizador
 */
 char* getName (Users u){
-	return mystrdup(u->nome);
+// 	return mystrdup(u->nome);
+    return u->nome;
 }
 
 /**

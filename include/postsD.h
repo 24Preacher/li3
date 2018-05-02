@@ -41,6 +41,6 @@ void freePostsD (gpointer posts);
 
 Posts_D clonePostsD (Posts_D posts);
 
-gint data_ord (Posts_D a, Posts_D b);
+gint data_ord (gconstpointer a, gconstpointer b);
 
 #endif

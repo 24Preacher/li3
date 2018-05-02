@@ -38,7 +38,7 @@ returns A lista com o id
 Lista createLista (long post){
   Lista l = malloc(sizeof (struct lligada));
 	l->id_post = post;
-    l->prox = NULL;
+  l->prox = NULL;
 	return l;
 }
 
@@ -78,7 +78,7 @@ int lengthL(Lista l){
 PostsUsers createPostsUsers (long user, Lista l){
   PostsUsers p = malloc(sizeof(struct lposts));
 	p->id_user = user;
-    p->lposts = malloc(sizeof(struct lligada));
+  p->lposts = malloc(sizeof(struct lligada));
 	p->lposts = l;
 	return p;
 }
@@ -94,12 +94,8 @@ ArrayPosts createArrayPosts(int size){
 	p->ocupados = 0;
 	p->aposts = malloc(sizeof(struct lposts) * size);
     for(int i = 0; i < size; i++){
-//         p->aposts[i]->lposts = malloc(sizeof(struct lligada));
-        p->aposts[i] = NULL;
-    }
-    for(int i = 0; i < size; i++){
-//         p->aposts[i]->lposts = malloc(sizeof(struct lligada));
-        p->aposts[i] = NULL;
+        p->aposts[i] = malloc(sizeof(struct lposts));
+				p->aposts[i]->lposts = NULL;
     }
 	return p;
 }
@@ -218,7 +214,7 @@ void insere(Posts_D posts, ArrayPosts p){
   long user = getUserId(posts);
   long post = getPostId(posts);
   int ocup = getOcupados(p);
-  
+
   if(getSizeArray(p) == 0)
       return;
   if  (ocup == 0){
@@ -228,9 +224,9 @@ void insere(Posts_D posts, ArrayPosts p){
       setOcupados(p,ocup);
 
        setAPosts(p, 0, new);
-      
+
   }
-  while (getUserID_L(getAPosts(p, i)) < user) i++;
+  while (getUserID_L(getAPosts(p, i)) < user && getUserID_L(getAPosts(p, i)) != 0) i++;
     if(getUserID_L(getAPosts(p, i)) == user){
       Lista l = getListaPosts(p, i);
       if(l == NULL)
@@ -239,7 +235,7 @@ void insere(Posts_D posts, ArrayPosts p){
     }
     else{
       int pos = i;
-      
+
       for(int j = ocup; j > i; j--){
         PostsUsers anterior = getAPosts(p, j-1);
         setAPosts(p, j, anterior);

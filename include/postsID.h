@@ -12,7 +12,7 @@
 #include "data.h"
 
 typedef struct Posts_id* Posts_ID;
-gint compareID(Posts_ID a, Posts_ID b);
+gint compareID(gconstpointer a, gconstpointer b);
 Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas,short ptype, long parent, int com, int score, Tags t);
 long getPostId2 (Posts_ID posts);
 long getUserId2 (Posts_ID posts);

@@ -13,12 +13,12 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
  	int answerCount =getAnswers(value);
  	long owner =getUserId(value);
 
-	//int reputation= getRep(value);
-	int month =getMes(value);
-	int year =getAno(value);
-	int dia=getDia(value);
-	int minuto =getMinutos(value);
-	int hora= getHora(value);
+	Data d = getDate(value);
+	int month =getMes(d);
+	int year =getAno(d);
+	int dia=getDia(d);
+	int minuto =getMinutos(d);
+	int hora= getHora(d);
 
 	g_print ("\n\nKey: %lu\ntitle: %s\ntypeid: %d\nowner: %lu\nparentid: %lu\nscore: %d\ncommentCount: %d\nanswerCount: %d\n\n\n", sKey,title,typeid,owner,parentid,score,commentCount,answerCount);
 
@@ -26,18 +26,16 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 	printf("dia do post é %d o mes é %d e o ano é %d a hora é %d:%d\n",dia,month,year,hora,minuto );
 
 	return FALSE;
-}*/
+} */
 
-// vai ao users.xml buscar o id, reputation, displayname e aboutme
-//usar um contador para ver o total de users
 
 int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 
-	//long id;
+	
 	char* id;
 	xmlChar* bio;
 	xmlChar* name;
-	//int rep;
+	
 	char* rep;
 	int num_users;
 
@@ -58,19 +56,17 @@ int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 	while (cur != NULL) {
 
 		if (xmlStrcmp(cur->name, (const xmlChar *)"row") == 0) {
-			//while(!xmlStrcmp(cur->name, (const xmlChar *)"/>")){
 				id = (char*)(xmlGetProp(cur, (const xmlChar*)"Id"));
 				bio = xmlGetProp(cur, (const xmlChar *)"AboutMe");
 				name = xmlGetProp(cur, (const xmlChar *)"DisplayName");
 				rep = (char*)(xmlGetProp(cur, (const xmlChar*)"Reputation"));
 
 				long *key = malloc(sizeof(long));
-        *key = atol(id);
+                *key = atol(id);
 
-				Users user = createUsers(atol(id), (char*) name,(char*) bio, atoi(rep));
-// 				g_hash_table_insert (hash_table, (gpointer) id, (gpointer)user);
+				Users user = createUsers(atoi(id), (char*) name,(char*) bio, atoi(rep));
+		
                 g_hash_table_insert(hash_table, key, user);
-			//}
 			}
 		cur = cur->next;
 		num_users ++;
@@ -80,14 +76,11 @@ int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 }
 
 
-//vai buscar o id do post, PostTypeId, title, CreationDate, ParentId, OwnerUserId, AnswerCount, CommentCount, Score
-//ver argumentos
 void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 
 	xmlNodePtr curr = xmlDocGetRootElement(doc);
 
 	char* post_id;
-
 	short post_type;
     xmlChar* ptype;
 	xmlChar* title;
@@ -115,7 +108,7 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 
 while (curr != NULL) {
 	if (xmlStrcmp(curr->name, (const xmlChar *)"row") == 0) {
-		//while(!xmlStrcmp(curr->name, (const xmlChar *)"/>")){
+		
 			post_id = (char*)(xmlGetProp(curr,(const xmlChar *)"Id"));
 			ptype = xmlGetProp(curr,(const xmlChar *)"PostTypeId");
 			title = xmlGetProp(curr,(const xmlChar *)"Title");
@@ -124,7 +117,7 @@ while (curr != NULL) {
 			user_id = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"OwnerUserId")));
 			comment_count = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CommentCount")));
 			score = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"Score")));
-		//}
+
         post_type = atoi((char*) ptype);
 		if ((!xmlStrcmp(ptype, (const xmlChar *)"1"))){
 				answer_count=atoi((char*)(xmlGetProp(curr, (const xmlChar *)"AnswerCount")));
@@ -135,20 +128,15 @@ while (curr != NULL) {
 
 
 			Posts_D post = createPostsD(creation_date, user_id, atol(post_id), (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
-			//long *key = malloc(sizeof(long));
-
-			//*key = atol((char*) post_id);
 
 			Data *key = malloc(sizeof(Data));
 			*key = creation_date;
 			g_tree_insert(tree1, key, post);
 
 
-
-			Posts_ID post2 = createPostsID(atol(post_id), user_id,(char *) title,creation_date, answer_count, post_type, parent_id, comment_count, score, tags);
+			Posts_ID post2 = createPostsID(atoi(post_id), user_id,(char *) title,creation_date, answer_count, post_type, parent_id, comment_count, score, tags);
 			long *key2 = malloc(sizeof(long));
 
-			//*key2 = atol((char*) post_id);
 			*key2 = atol(post_id);
 			g_tree_insert(tree2, key2, post2);
 		}
@@ -159,23 +147,23 @@ while (curr != NULL) {
 /*
 int main(int argc, char **argv){
 
-	char* docname1 = "/home/mercy/Desktop/nana/src/Tags.xml";
+	
     char* docname2 = "/home/mercy/Desktop/nana/src/Users.xml";
     char* docname3 = "/home/mercy/Desktop/nana/src/Posts.xml";
     
 	GTree *tree1 = g_tree_new((GCompareFunc)&data_ord);
     GTree *tree2 = g_tree_new((GCompareFunc)&compareID);
     GHashTable *users = g_hash_table_new(g_direct_hash, g_direct_equal);
-    GHashTable *tags = g_hash_table_new(g_str_hash, g_str_equal);
     
-    int n = parseDoc(docname1, docname2, docname3, tags, users, tree1, tree2);
+    
+    int n = parseDoc(docname2, docname3, users, tree1, tree2);
     
     return n;
-}*/
+}
 
 
 
-/*
+
 
 //vai buscar id_tag, tagname, count e inserir numa hash
 void parseTags (xmlDocPtr doc, GHashTable *hash_table){
@@ -252,7 +240,7 @@ int num_users = parseUsers(doc2, hash_users);
 //      parseTags(doc1, hash_tags);
 //     printf("parse das tags feito\n");
      
-//      g_tree_foreach(tree1, &(teste), NULL);
+//    g_tree_foreach(tree1, &(teste), NULL);
 
 
 // 	xmlFreeDoc(doc1);

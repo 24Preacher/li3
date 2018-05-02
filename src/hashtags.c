@@ -26,5 +26,5 @@ long getIDTag(HashTags t){
 
 
 void freeHashTag (gpointer t){
-	 g_hash_table_remove_all((GHashTable*) t);
+	 g_hash_table_destroy((GHashTable*) t);
 }

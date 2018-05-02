@@ -170,6 +170,8 @@ Posts_D clonePostsD (Posts_D posts){
 	return p;
 }
 
-gint data_ord (Posts_D a, Posts_D b){
-  return (compareMyData(getDate(a), getDate(b)));
+gint data_ord (gconstpointer a, gconstpointer b){
+    Data a1 = *(Data*) a;
+    Data a2 = *(Data*) b;
+  return (compareMyData(a1, a2));
 }

@@ -24,7 +24,7 @@ struct TCD_community {
   GTree* postsbydata;
   GTree* postsbyid;
   GHashTable* users;
-  ArrayPosts arrayposts;
+//  ArrayPosts arrayposts;
 //   GHashTable* tabtags;
 };
 
@@ -32,7 +32,7 @@ struct TCD_community {
 TAD_community init(){
 
   TAD_community com = malloc(sizeof(struct TCD_community));
-  
+
   GTree* treeid = g_tree_new((GCompareFunc)&compareID);
   GTree* treedata = g_tree_new((GCompareFunc)&data_ord);
   GHashTable* u = g_hash_table_new_full(g_direct_hash, g_direct_equal, free,(GDestroyNotify) freeUsers);
@@ -41,7 +41,7 @@ TAD_community init(){
   com->postsbyid = treeid;
   com->postsbydata = treedata;
   com->users = u;
-  com->arrayposts = createArrayPosts(0);
+  //com->arrayposts = createArrayPosts(0);
 //   com->tabtags = tags;
 
   return com;
@@ -62,16 +62,16 @@ TAD_community load(TAD_community com, char* dump_path){
   //parsePosts(docname1 ++ dump_path, treed, treeid);
   int num_users = parseDoc(docname2, docname1, tab, treed, treeid);
 
-  com->postsbyid = treed;
-  com->postsbydata = treeid;
+  com->postsbyid = treeid;
+  com->postsbydata = treed;
 
 
   //parseUsers(docname2 ++ dump_path, tab);
   com->users = tab;
-  ArrayPosts a = createArrayPosts(num_users);
+  //ArrayPosts a = createArrayPosts(num_users);
 
-  g_tree_foreach((GTree*)com->postsbydata, (GTraverseFunc)&insere, (gpointer)a);
-  com->arrayposts = a;
+  //g_tree_foreach((GTree*)com->postsbydata, (GTraverseFunc)&insere, (gpointer)a);
+  //com->arrayposts = a;
 
   //parseTags((xmlDocPtr)(docname3 ), tags);
 //   com->tabtags = tags;
@@ -88,7 +88,9 @@ STR_pair info_from_post(TAD_community com, long id){
     if(getPostId2(p) == 1){
         id_user = getUserId2(p);
         Users u = g_hash_table_lookup((GHashTable*)com->users,(gconstpointer) id_user);
-        res = create_str_pair(getTitle2(p), getName(u));
+        char* nome = getName(u);
+        res = create_str_pair(getTitle2(p), nome);
+        free(u);
       }
     else if(getPostId2(p) == 2){
         id_pai = getParentId2(p);
@@ -96,10 +98,15 @@ STR_pair info_from_post(TAD_community com, long id){
         id_user = getUserId2(p);
         Users u = g_hash_table_lookup((GHashTable*)com->users,(gconstpointer) id_user);
         res = create_str_pair(getTitle2(p), getName(u));
+        free(u);
     }
+    printf("Titulo : %s\n", get_fst_str(res));
+    printf("Autor : %s\n", get_snd_str(res));
+
+    free(p);
   return res;
 }
-
+/*
 //q2
 LONG_list top_most_active(TAD_community com, int N){
   LONG_list res;
@@ -352,7 +359,7 @@ long better_answer(TAD_community com, long id){
   freeUserDataRes(ud);
   return melhor_resposta;
 }
-/*
+
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
   ArrayTop t = createArrayTop(N);
   g_hash_table_foreach((GHashTable*)com->users,(GTraverseFunc) &topRep, (gpointer)t);
@@ -366,7 +373,7 @@ TAD_community clean(TAD_community com){
     freePostsD(com->postsbydata);
     freePostsID(com->postsbyid);
     freeUsers(com->users);
-    freeArrayPosts(com->arrayposts);
+  //  freeArrayPosts(com->arrayposts);
 //     freeHashTag(com->tabtags);
     free(com);
     com = NULL;

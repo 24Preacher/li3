@@ -28,12 +28,17 @@ struct Posts_id
 };
 
 
-gint compareID(Posts_ID a, Posts_ID b){
-    if(a->id_user> b->id_user)
-        return 1;
-    else if (a->id_user < b->id_user)
+gint compareID(gconstpointer a, gconstpointer b){
+    long id1 = *(long*) a;
+    long id2 = *(long*) b;
+    
+ if(id1 > id2)
+         return 1;
+     else if (id1 < id2)
         return -1;
-    else return 0;
+   else return 0;
+    
+    
 }
 
 
