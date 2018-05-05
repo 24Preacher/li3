@@ -27,7 +27,7 @@ Users createUsers (long id, char* nome, char* bio, int rep){
     Users u = malloc(sizeof(struct users));
 		u->id_user = id;
 		u->nome = mystrdup(nome);
-		u->bio = mystrdup(nome);
+		u->bio = mystrdup(bio);
 		u->rep = rep;
 	return u;
 }
@@ -48,8 +48,8 @@ long getUserId3 (Users u){
 @returns Apontador para o nome do utilizador
 */
 char* getName (Users u){
-// 	return mystrdup(u->nome);
-    return u->nome;
+		return mystrdup(u->nome);
+    //return u->nome;
 }
 
 /**

@@ -43,17 +43,18 @@ void percorre(ArrayPosts p, ArrayTop t){
 }
 
 // aux q3
-gboolean incrementaPar (Posts_D p, UserDataPar u){
-
+gboolean incrementaPar (void * key, void * data, void * info){
+  Posts_D p = (Posts_D) data;
+  UserDataPar u = (UserDataPar) info;
   LONG_pair par = getPar(u);
   long perguntas = get_fst_long(par);
   long respostas = get_snd_long(par);
-  Data data = getDate(p);
+  Data d = getDate(p);
   Date begin = getDataInicioPar(u);
   Date end = getDataFimPar(u);
 
-  if(dataIgual(end, data) == 0) return TRUE;
-  if((dataIgual(begin, data)) == -1){
+  if(dataIgual(end, d) == 0) return TRUE;
+  if((dataIgual(begin, d)) == -1){
     short ptype = getPostType(p);
     if(ptype == 1)
         perguntas ++;

@@ -31,15 +31,16 @@ gboolean teste (gpointer key,gpointer value, gpointer data)
 
 int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 
-	
+
+	xmlNodePtr cur = xmlDocGetRootElement(doc);
+
 	char* id;
 	xmlChar* bio;
 	xmlChar* name;
-	
+
 	char* rep;
 	int num_users;
 
-	xmlNodePtr cur = xmlDocGetRootElement(doc);
 
 	if (doc == NULL ) {
 		fprintf(stderr,"Document not parsed successfully. \n");
@@ -64,8 +65,8 @@ int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 				long *key = malloc(sizeof(long));
                 *key = atol(id);
 
-				Users user = createUsers(atoi(id), (char*) name,(char*) bio, atoi(rep));
-		
+				Users user = createUsers(atol(id), (char*) name,(char*) bio, atoi(rep));
+
                 g_hash_table_insert(hash_table, key, user);
 			}
 		cur = cur->next;
@@ -78,12 +79,14 @@ int parseUsers (xmlDocPtr doc, GHashTable *hash_table){
 
 void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 
+
 	xmlNodePtr curr = xmlDocGetRootElement(doc);
 
-	char* post_id;
-	short post_type;
-    xmlChar* ptype;
-	xmlChar* title;
+	xmlChar * keyxml;
+	long post_id;
+	//short post_type;
+  int ptype;
+	char * title;
 	Tags tags = NULL;
 	Data creation_date = NULL;
 	long parent_id;
@@ -91,6 +94,7 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 	int answer_count;
 	int comment_count;
 	int score;
+
 
 
 	if (doc == NULL ) {
@@ -108,37 +112,86 @@ void parsePosts (xmlDocPtr doc, GTree *tree1, GTree *tree2){
 
 while (curr != NULL) {
 	if (xmlStrcmp(curr->name, (const xmlChar *)"row") == 0) {
-		
-			post_id = (char*)(xmlGetProp(curr,(const xmlChar *)"Id"));
-			ptype = xmlGetProp(curr,(const xmlChar *)"PostTypeId");
-			title = xmlGetProp(curr,(const xmlChar *)"Title");
-			tags = strToTags((char*)(xmlGetProp(curr,(const xmlChar *)"Tags")));
-			creation_date = strToData((char*)(xmlGetProp(curr,(const xmlChar *)"CreationDate")));
-			user_id = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"OwnerUserId")));
-			comment_count = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"CommentCount")));
-			score = atoi((char*)(xmlGetProp(curr,(const xmlChar *)"Score")));
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"Id"));
+				post_id = atol((char *) keyxml);
+				xmlFree(keyxml);
 
-        post_type = atoi((char*) ptype);
-		if ((!xmlStrcmp(ptype, (const xmlChar *)"1"))){
-				answer_count=atoi((char*)(xmlGetProp(curr, (const xmlChar *)"AnswerCount")));
-		}
-		else if ((!xmlStrcmp(ptype, (const xmlChar *)"2"))){
-				parent_id = atoi((char*)(xmlGetProp(curr, (const xmlChar *)"ParentId")));
-		}
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"OwnerUserId"));
+				user_id = atol((char *) keyxml);
+				xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"ParentId"));
+				parent_id = keyxml ? atol((char *)keyxml) : -2;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"CommentCount"));
+				comment_count = keyxml ? atoi((char *)keyxml) : 0;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"Score"));
+				score = keyxml ? atoi((char *)keyxml) : 0;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"PostTypeId"));
+				ptype = keyxml ? atoi((char *)keyxml) : -3;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"AnswerCount"));
+				answer_count = keyxml ? atoi((char *)keyxml) : 0;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"CreationDate"));
+				creation_date = keyxml ? strToData((char *) keyxml) : NULL;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"Tags"));
+				tags = keyxml ? strToTags((char *)keyxml) : NULL;
+				//sq free
+
+				keyxml = (xmlGetProp(curr,(const xmlChar *)"Title"));
+				title = keyxml ? mystrdup((char *) keyxml) : NULL;
+				if (keyxml)
+					xmlFree(keyxml);
+
+				Posts_ID post1 = createPostsID(post_id,user_id,title,creation_date,answer_count,ptype,parent_id,comment_count,score,tags);
+				Posts_D post2 = createPostsD(creation_date,user_id,post_id,title,answer_count,ptype,parent_id,comment_count,score,tags);
+
+				/*  printf("ID USER:%ld\n",getUserId2(post1));
+				  printf("ID POST:%ld\n",getPostId2(post1));
+				  printf("TITULO:%s\n",getTitle2(post1));
+					printf("COMENTARIOS:%d\n",getComments2(post1));
+				  printf("RESPOSTAS:%d\n",getAnswers2(post1));
+				  printf("TIPO:%d\n",getPostType2(post1));
+					printf("SCORE:%d\n",getScore2(post1));
+				  printf("ID PAI:%ld\n",getParentId2(post1));
+*/
+				long * key = malloc(sizeof(long));
+				*key = post_id;
 
 
-			Posts_D post = createPostsD(creation_date, user_id, atol(post_id), (char *) title, answer_count, post_type, parent_id, comment_count, score, tags);
-
-			Data *key = malloc(sizeof(Data));
-			*key = creation_date;
-			g_tree_insert(tree1, key, post);
+				g_tree_insert(tree1, key, post1);
+				g_tree_insert(tree2, creation_date, post2);
 
 
-			Posts_ID post2 = createPostsID(atoi(post_id), user_id,(char *) title,creation_date, answer_count, post_type, parent_id, comment_count, score, tags);
-			long *key2 = malloc(sizeof(long));
+				/*printf("ID POST:%ld\n",getPostId2(post1));
+				printf("ID USER:%ld\n",user_id);
+				printf("ID PAI:%ld\n",parent_id);
+				printf("COMENTARIOS:%d\n",comment_count);
+				printf("SCORE:%d\n",score);
+				printf("TIPO:%d\n",ptype);
+				printf("RESPOSTAS:%d\n",answer_count);
+				printf("TITULO:%s\n",);*/
 
-			*key2 = atol(post_id);
-			g_tree_insert(tree2, key2, post2);
+				if (title)
+					free(title);
+
+
 		}
 			curr = curr->next;
     }
@@ -147,17 +200,17 @@ while (curr != NULL) {
 /*
 int main(int argc, char **argv){
 
-	
+
     char* docname2 = "/home/mercy/Desktop/nana/src/Users.xml";
     char* docname3 = "/home/mercy/Desktop/nana/src/Posts.xml";
-    
+
 	GTree *tree1 = g_tree_new((GCompareFunc)&data_ord);
     GTree *tree2 = g_tree_new((GCompareFunc)&compareID);
     GHashTable *users = g_hash_table_new(g_direct_hash, g_direct_equal);
-    
-    
+
+
     int n = parseDoc(docname2, docname3, users, tree1, tree2);
-    
+
     return n;
 }
 
@@ -234,12 +287,12 @@ int parseDoc(char *docusers, char *docposts, GHashTable *hash_users, GTree *tree
 
 	parsePosts(doc3, tree1, tree2);
      printf("parse dos posts feito\n");
-    
+
 int num_users = parseUsers(doc2, hash_users);
      printf("parse dos users feito\n");
 //      parseTags(doc1, hash_tags);
 //     printf("parse das tags feito\n");
-     
+
 //    g_tree_foreach(tree1, &(teste), NULL);
 
 

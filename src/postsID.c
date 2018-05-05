@@ -31,14 +31,14 @@ struct Posts_id
 gint compareID(gconstpointer a, gconstpointer b){
     long id1 = *(long*) a;
     long id2 = *(long*) b;
-    
- if(id1 > id2)
-         return 1;
-     else if (id1 < id2)
-        return -1;
+
+ if(id1 > id2){
+         return -1;
+			 }
+     else if (id1 < id2){
+        return 1;
+			}
    else return 0;
-    
-    
 }
 
 
@@ -73,6 +73,9 @@ Posts_ID createPostsID (long post, long user, char* title, Data d, int respostas
 @returns O id do post
 */
 long getPostId2 (Posts_ID posts){
+	if (!posts){
+		return -2;
+	}
 	return posts->id_post;
 }
 
