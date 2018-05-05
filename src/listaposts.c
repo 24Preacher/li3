@@ -32,7 +32,7 @@ struct arraypost{
 
 /**
 \brief Função que cria uma lista
-@param id_post Identificador do post
+@param post Identificador do post
 returns A lista com o id
 */
 Lista createLista (long post){
@@ -111,9 +111,8 @@ long getPostId_L(Lista l){
 
 /**
 \brief Função que busca o identificador do utilizador
-@param p Array de posts
-@param i Índice do array
-@returns O identificador do utilizador no índice i
+@param p PostsUsers
+@returns O identificador do utilizador no PostsUsers p
 */
 long getUserID_L (PostsUsers p){
   return p->id_user;
@@ -136,15 +135,6 @@ Lista getListaPosts (ArrayPosts p, int i){
 */
 int getSizeArray (ArrayPosts p){
 	 return p->size;
-}
-
-/**
-\brief Função que atualiza o tamanho do array
-@param p Array de posts
-@param size Tamanho atualizado do array
-*/
-void setSizeArray (ArrayPosts p, int size){
-	 p->size = size;
 }
 
 /**

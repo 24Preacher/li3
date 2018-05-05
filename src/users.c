@@ -49,7 +49,6 @@ long getUserId3 (Users u){
 */
 char* getName (Users u){
 		return mystrdup(u->nome);
-    //return u->nome;
 }
 
 /**

@@ -1,6 +1,7 @@
 #include "userdata.h"
 
-/**struct Estrutura que armazena duas datas (inicial e final) e um array de tamanho N
+/**
+\struct Estrutura que armazena duas datas (inicial e final) e um array de tamanho N
 @param inicio Data de inicio
 @param fim    Data de fim
 @param t      Array com tamanho N para os top N elementos
@@ -71,7 +72,8 @@ void freeUserDataTop(UserDataTop d){
   free(d);
 }
 
-/**struct Estrutura que armazena duas datas (inicial e final) e um par para o numero total de respostas e perguntas num intervalo de tempo
+/**
+\struct Estrutura que armazena duas datas (inicial e final) e um par para o numero total de respostas e perguntas num intervalo de tempo
 @param inicio Data de inicio
 @param fim    Data de fim
 @param par    Par de Longs
@@ -137,9 +139,9 @@ void freeUserDataPar(UserDataPar d){
 }
 
 /**
-\struct Estrutura com String de uma palavra e lista com o ID dos titulos que contem a palavra
-@param pal String da palavra
-@param l Lista de Longs com os ID's dos titulos que contem a palavra
+\struct Estrutura com uma palavra e a lista com o ID dos titulos que contém a palavra
+@param pal  Palavra
+@param l Lista de Longs com os ID's dos titulos que contém a palavra
 */
 struct user_dataTitle {
   char* pal;

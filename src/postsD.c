@@ -22,7 +22,7 @@ struct Posts_data
 	long id_post;
 	char* titulo;
 	int num_respostas;
-	short post_type;
+	int post_type;
 	long parent_id;
 	int num_comentarios;
 	int score;
@@ -44,7 +44,7 @@ struct Posts_data
 @returns A estrutura dos posts
 */
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
-		short ptype, long parent, int com, int score, Tags t){
+		int ptype, long parent, int com, int score, Tags t){
 			Posts_D r = malloc(sizeof(struct Posts_data));
 			r->data_post = d;
 			r->id_user = user;
@@ -63,7 +63,7 @@ Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
 
 /**
 \brief Função que busca a data do post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns A data do post
 */
 Data getDate (Posts_D posts){
@@ -72,7 +72,7 @@ Data getDate (Posts_D posts){
 
 /**
 \brief Função que busca o identificador do utilizador
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O id do utilizador
 */
 long getUserId (Posts_D posts){
@@ -81,7 +81,7 @@ long getUserId (Posts_D posts){
 
 /**
 \brief Função que busca o identificador do post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O id do post
 */
 long getPostId (Posts_D posts){
@@ -90,7 +90,7 @@ long getPostId (Posts_D posts){
 
 /**
 \brief Função que busca o título do post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns Apontador para o título do post
 */
 char* getTitle (Posts_D posts){
@@ -99,7 +99,7 @@ char* getTitle (Posts_D posts){
 
 /**
 \brief Função que busca o número de resposta do post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O número de respostas
 */
 int getAnswers (Posts_D posts){
@@ -108,16 +108,16 @@ int getAnswers (Posts_D posts){
 
 /**
 \brief Função que busca o tipo de post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O tipo de post
 */
-short getPostType (Posts_D posts){
+int getPostType (Posts_D posts){
 	return posts->post_type;
 }
 
 /**
 \brief Função que busca o id do pai caso exista
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O id do pai
 */
 long getParentId (Posts_D posts){
@@ -126,7 +126,7 @@ long getParentId (Posts_D posts){
 
 /**
 \brief Função que busca o número de comentarios
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O número de comentarios
 */
 int getComments (Posts_D posts){
@@ -135,7 +135,7 @@ int getComments (Posts_D posts){
 
 /**
 \brief Função que busca o score de um post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns O score do post
 */
 int getScore (Posts_D posts){
@@ -144,17 +144,26 @@ int getScore (Posts_D posts){
 
 /**
 \brief Função que busca as Tags de um post
-@param Estrutura dos posts
+@param posts Estrutura dos posts
 @returns Apontador para as Tags do post
 */
 Tags getTags (Posts_D posts){
 	return (cloneTags(posts -> tags));
 }
 
+/**
+\brief Função que liberta a estrutura dos Posts_D
+@param posts Estrutura dos posts
+*/
 void freePostsD (gpointer posts){
 	 g_tree_destroy((GTree*)posts);
 }
 
+/**
+\brief Função que clona a estrutura dos Posts_D
+@param posts Estrutura dos Posts_D a clonar
+@returns A estrutura clonada dos Posts_D
+*/
 Posts_D clonePostsD (Posts_D posts){
 	Posts_D p = malloc(sizeof(struct Posts_data));
 	p->data_post = posts -> data_post;
@@ -169,7 +178,12 @@ Posts_D clonePostsD (Posts_D posts){
 	p->tags = posts -> tags;
 	return p;
 }
-
+/**
+\brief Função de comparação de datas para criar a AVL
+@param a Valor
+@param b Valor a comparar
+@returns 0 se forem iguais, 1 se a for maior que b e -1 caso contrário
+*/
 gint data_ord (gconstpointer a, gconstpointer b){
     Data a1 = (Data) a;
     Data a2 = (Data) b;

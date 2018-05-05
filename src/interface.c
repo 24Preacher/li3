@@ -9,7 +9,7 @@
 #include "topN.h"
 #include "userdata.h"
 #include "auxiliares.h"
-#include "hashtags.h"
+
 
 #include <glib.h>
 #include <string.h>
@@ -24,11 +24,13 @@ struct TCD_community {
   GTree* postsbydata;
   GTree* postsbyid;
   GHashTable* users;
-  ArrayPosts arrayposts;
-  GHashTable* tabtags;
 };
 
 
+/**
+\brief Função que cria a estrutura principal
+@returns Estrutura principal
+*/
 TAD_community init(){
 
   TAD_community com = malloc(sizeof(struct TCD_community));
@@ -36,31 +38,32 @@ TAD_community init(){
   com->postsbyid= g_tree_new((GCompareFunc)&compareID);
   com-> postsbydata = g_tree_new((GCompareFunc)&data_ord);
   com->users = g_hash_table_new_full(g_direct_hash, g_direct_equal, &free,(GDestroyNotify) freeUsers);
-  com->tabtags = g_hash_table_new_full(g_str_hash, g_str_equal, &free, (GDestroyNotify)freeHashTag);
-  com->arrayposts = NULL;
 
   return com;
 }
 
-//query 0
+/**
+\brief Função que carrega a informação dos ficheiros XML para as estruturas
+@param com Estrutura principal
+@param dump_path Caminho dos ficheiros XML
+@returns Estrutura principal
+*/
 TAD_community load(TAD_community com, char* dump_path){
 
-  char *docname1 = "/home/preacher/Desktop/copy/src/Posts.xml";
-  char *docname2 = "/home/preacher/Desktop/copy/src/Users.xml";
+  char *docname1 = "Posts.xml";
+  char *docname2 = "Users.xml";
 
-  parseDoc(docname2, docname1, com->users, com->postsbyid,com->postsbydata);
-
-//  g_tree_foreach((GTree*)com->postsbydata, (GTraverseFunc)&insere, (gpointer)a);
-//s  com->arrayposts = a;
-
-//
-//  parseTags((xmlDocPtr)(docname3 ), tags);
-//  com->tabtags = tags;
+  parseDoc(strcat(dump_path, docname2), strcat(dump_path, docname1), com->users, com->postsbyid,com->postsbydata);
 
   return com;
 }
 
-//q1
+/**
+\brief Função que retorna o Titulo e o Nome do Autor do post
+@param com Estrutura principal
+@param id id do post
+@returns Par de Strings
+*/
 STR_pair info_from_post(TAD_community com, long id){
   Posts_ID p;
   int type;
@@ -74,7 +77,7 @@ STR_pair info_from_post(TAD_community com, long id){
   if(type==1){
     titulo = getTitle2(p);
     long *user = malloc(sizeof(long));
-    *user = getUserId(p);
+    *user = getUserId2(p);
     gpointer gg = g_hash_table_lookup(com->users,user);
     if(gg){
       nome = getName(gg);
@@ -87,7 +90,7 @@ STR_pair info_from_post(TAD_community com, long id){
     Posts_ID pp = (Posts_ID) gg;
     titulo = getTitle2(pp);
     long *user = malloc(sizeof(long));
-    *user = getUserId(p);
+    *user = getUserId2(p);
     gpointer h = g_hash_table_lookup(com->users,user);
     if(h){
       Users hh = (Users) h;
@@ -95,12 +98,10 @@ STR_pair info_from_post(TAD_community com, long id){
     }
   }
 res = create_str_pair(titulo, nome);
-printf("Nome: %s Titulo: %s\n",nome,titulo);
 return res;
 }
 
 /*
-//q2
 LONG_list top_most_active(TAD_community com, int N){
   LONG_list res;
   ArrayTop t = createArrayTop(N);
@@ -114,25 +115,35 @@ LONG_list top_most_active(TAD_community com, int N){
 }
 
 */
-//q3
-/*
+
+/**
+\brief Função que retorna um par com o número de perguntas e respostas entre duas datas
+@param com Estrutura principal
+@param begin Data de início
+@param end Data de fim
+@returns Par de Longs
+*/
 LONG_pair total_posts(TAD_community com, Date begin, Date end){
   LONG_pair par = create_long_pair(0,0);
   UserDataPar u = createUserDataPar(begin, end, par);
   gpointer inicio = g_tree_lookup(com->postsbydata,&begin);
   if(inicio){
     Posts_D ini = (Posts_D) inicio;
-    g_tree_foreach(ini,&incrementaPar,u);
+    g_tree_foreach((GTree*)ini,&incrementaPar,u);
   }
     LONG_pair par2 = getPar(u);
-    printf("%ld\n",get_fst_long(par2));
-    printf("%ld\n",get_snd_long(par2));
     return par2;
 }
-*/
 
-/*
-//q4
+
+/**
+\brief Função que retorna uma lista das perguntas com uma determinada tag
+@param com Estrutura principal
+@param tag Tag
+@param begin Data de início
+@param end Data de fim
+@returns LONG_list com os ids das perguntas com a tag
+*/
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end){
 
       Lista l = NULL;
@@ -157,8 +168,8 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
       return res;
 }
 
-//q5
 
+/*
 USER get_user_info(TAD_community com, long id){
   USER res;
   gpointer u = g_hash_table_lookup((GHashTable*) com->users, (gconstpointer)id);
@@ -185,11 +196,16 @@ USER get_user_info(TAD_community com, long id){
   res = create_user(bio,(long *) last10posts);
 
   return res;
-}
+}*/
 
-
-//q6
-
+/**
+\brief Função que retorna os ids das N respostas mais votadas
+@param com Estrutura principal
+@param N número de ids mais votados
+@param begin Data de início
+@param end Data de fim
+@returns LONG_list com os ids das N respostas mais votadas
+*/
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   ArrayTop t = createArrayTop(N);
   UserDataTop top = createUserDataTop(begin, end, t);
@@ -205,8 +221,14 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end){
   return res;
 }
 
-
-//q7
+/**
+\brief Função que retorna os ids das N perguntas com mais respostas
+@param com Estrutura principal
+@param N número de ids com mais respostas
+@param begin Data de início
+@param end Data de fim
+@returns LONG_list com os ids das N perguntas com mais respostas
+*/
 LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end){
       LONG_pair par = create_long_pair(0, 0);
       UserDataPar u = createUserDataPar (begin, end, par);
@@ -226,7 +248,7 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
    g_tree_foreach((GTree*)inicio, (GTraverseFunc)&incrementaRespostas, (gpointer)n);
 
    t = getArray(n);
-   //ordenar o array
+
    qsort(&t, N, sizeof(TopN), cmpCount);
 
    LONG_list l = converteTopList(t, N);
@@ -234,8 +256,13 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
    return l;
 }
 
-//q8
-
+/**
+\brief Função que retorna os ids das N perguntas mais recentes que contém a palavra dada no seu titulo
+@param com Estrutura principal
+@param word Palavra
+@param N número de ids mais recentes
+@returns LONG_list com os ids das N perguntas mais recentes que têm a palavra no seu titulo
+*/
 LONG_list contains_word(TAD_community com, char* word, int N){
   int i;
   Lista guarda = NULL;
@@ -258,7 +285,7 @@ LONG_list contains_word(TAD_community com, char* word, int N){
   return res;
 }
 
-//q9
+/*
 LONG_list both_participated(TAD_community com, long id1, long id2, int N){
   LONG_list res = create_list(N);
   int i, j, pos1, pos2;
@@ -329,9 +356,14 @@ while(a != NULL){
   freeArrayData(c);
 
   return res;
-}
+} */
 
-//q10
+/**
+\brief Função que calcula a melhor resposta de uma dada pergunta
+@param com Estrutura principal
+@param id Id da pergunta
+@returns Id da melhor resposta
+*/
 long better_answer(TAD_community com, long id){
 
   gpointer p = g_tree_lookup((GTree*) com->postsbyid, (gconstpointer)id);
@@ -354,6 +386,7 @@ long better_answer(TAD_community com, long id){
   return melhor_resposta;
 }
 
+/*
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
   ArrayTop t = createArrayTop(N);
   g_hash_table_foreach((GHashTable*)com->users,(GTraverseFunc) &topRep, (gpointer)t);
@@ -361,14 +394,18 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
 
 }*/
 
+/**
+\brief Função que liberta as estruturas
+@param com Estrutura principal
+@returns Estrutura principal
+*/
 TAD_community clean(TAD_community com){
 
   if(com != NULL){
     freePostsD(com->postsbydata);
     freePostsID(com->postsbyid);
     freeUsers(com->users);
-  //  freeArrayPosts(com->arrayposts);
-//     freeHashTag(com->tabtags);
+
     free(com);
     com = NULL;
   }

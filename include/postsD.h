@@ -13,7 +13,7 @@
 typedef struct Posts_data* Posts_D;
 
 Posts_D createPostsD (Data d, long user, long post, char* title,int respostas,
-		short ptype, long parent, int com, int score, Tags t);
+		int ptype, long parent, int com, int score, Tags t);
 
 Data getDate (Posts_D posts);
 
@@ -25,11 +25,9 @@ char* getTitle (Posts_D posts);
 
 int getAnswers (Posts_D posts);
 
-short getPostType (Posts_D posts);
+int getPostType (Posts_D posts);
 
 long getParentId (Posts_D posts);
-
-int getVotes (Posts_D posts);
 
 int getComments (Posts_D posts);
 

@@ -23,6 +23,12 @@ Tags createTags (char* nome){
 	return t;
 }
 
+/**
+\brief Função que adiciona uma tag
+@param t Lista de Tags
+@param tag Tag a adicionar
+@returns A estrutura das Tags
+*/
 Tags addTag(Tags t, char* tag){
     Tags novo = createTags(tag);
     novo->prox = t;

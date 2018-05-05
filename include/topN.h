@@ -39,5 +39,7 @@ AuxData getAuxData (ArrayData c, int i);
 void setAuxData (ArrayData c, AuxData nova, int i);
 void freeArrayData (ArrayData c);
 void inserePelaData(ArrayData c, AuxData nova);
+AuxData cloneAuxData(AuxData c);
+ArrayData cloneArrayData(ArrayData c);
 
 #endif
