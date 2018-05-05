@@ -1,0 +1,21 @@
+digraph "/home/mercy/Desktop/Universidade/LI3/include/listaposts.h"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="/home/mercy/Desktop\l/Universidade/LI3/include\l/listaposts.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="interface.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interface_8c.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="listaposts.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$listaposts_8c.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="/home/mercy/Desktop\l/Universidade/LI3/include\l/userdata.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$userdata_8h.html"];
+  Node4 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="userdata.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$userdata_8c.html"];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="/home/mercy/Desktop\l/Universidade/LI3/include\l/auxiliares.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$auxiliares_8h.html"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="auxiliares.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$auxiliares_8c.html"];
+  Node6 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

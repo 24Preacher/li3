@@ -33,7 +33,7 @@ struct arraypost{
 /**
 \brief Função que cria uma lista
 @param post Identificador do post
-returns A lista com o id
+@returns A lista com o id
 */
 Lista createLista (long post){
   Lista l = malloc(sizeof (struct lligada));
@@ -46,7 +46,7 @@ Lista createLista (long post){
 \brief Função que adiciona um id à cabeça da lista
 @param l Lista com Identificador do post
 @param id_post Identificador do post
-returns A lista com o id adicionado
+@returns A lista com o id adicionado
 */
 Lista addPost (Lista l, long post){
   Lista novo = createLista(post);

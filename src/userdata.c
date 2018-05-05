@@ -30,7 +30,7 @@ UserDataTop createUserDataTop (Date i, Date f, ArrayTop t){
 
 /**
 \brief Função que busca a data de inico
-@param Estrutura dos top N
+@param d Estrutura dos top N
 @returns A data de inicio
 */
 Date getDataInicioTop(UserDataTop d){
@@ -39,7 +39,7 @@ Date getDataInicioTop(UserDataTop d){
 
 /**
 \brief Função que busca a data de fim
-@param Estrutura dos top N
+@param d Estrutura dos top N
 @returns A data de fim
 */
 Date getDataFimTop(UserDataTop d){
@@ -48,7 +48,7 @@ Date getDataFimTop(UserDataTop d){
 
 /**
 \brief Função que busca o Array dos Top N
-@param Estrutura dos top N
+@param d Estrutura dos top N
 @returns O array dos top N
 */
 ArrayTop getArray(UserDataTop d){
@@ -57,7 +57,7 @@ ArrayTop getArray(UserDataTop d){
 
 /**
 \brief Função que atualiza o Array da estrutura Top N
-@param Estrutura dos top N
+@param d Estrutura dos top N
 @param Novo Array top N
 */
 void setArray(UserDataTop d, ArrayTop n){
@@ -66,7 +66,7 @@ void setArray(UserDataTop d, ArrayTop n){
 
 /**
 \brief Função que liberta a estrutura
-@param Estrutura dos top N
+@param d Estrutura dos top N
 */
 void freeUserDataTop(UserDataTop d){
   free(d);
@@ -102,7 +102,7 @@ UserDataPar createUserDataPar (Date i, Date f,  LONG_pair par){
 
 /**
 \brief Função que busca a Data de inicio
-@param Estrututa das Respostas e perguntas
+@param d Estrutura das Respostas e perguntas
 @returns Data de Inicio
 */
 Date getDataInicioPar(UserDataPar d){
@@ -111,7 +111,7 @@ Date getDataInicioPar(UserDataPar d){
 
 /**
 \brief Função que busca a Data de fim
-@param Estrututa das Respostas e perguntas
+@param d Estrutura das Respostas e perguntas
 @returns Data de Fim
 */
 Date getDataFimPar(UserDataPar d){
@@ -120,8 +120,8 @@ Date getDataFimPar(UserDataPar d){
 
 /**
 \brief Função que busca o par de Respostas e perguntas
-@param Estrututa das Respostas e Perguntas
-@returns Apontador para o numero de Respostas e Perguntas
+@param d Estrutura das Respostas e Perguntas
+@returns Par com numero de Respostas e Perguntas
 */
 LONG_pair getPar(UserDataPar d){
    long fst = get_fst_long(d->par);
@@ -132,7 +132,7 @@ LONG_pair getPar(UserDataPar d){
 
 /**
 \brief Função que liberta a estrutura do par das Respostas e perguntas
-@param Estrutura das Respostas e Perguntas
+@param d Estrutura das Respostas e Perguntas
 */
 void freeUserDataPar(UserDataPar d){
   free(d);
@@ -164,7 +164,7 @@ UserDataTitle createUserDataTitle (char* pal, Lista l){
 /**
 \brief Função que busca a String
 @param d Estrutura da String com os ID's dos titulos
-@retuns String da palavra
+@returns String da palavra
 */
 char* getPal (UserDataTitle d){
 	return mystrdup(d->pal);
@@ -173,7 +173,7 @@ char* getPal (UserDataTitle d){
 /**
 \brief Função que busca a Lista de ID's dos titulos
 @param d Estrutura da String com os ID's dos titulos
-@retuns Lista de ID's dos titulos
+@returns Lista de ID's dos titulos
 */
 Lista getListaU (UserDataTitle d){
 	return cloneLista(d->l);
@@ -181,7 +181,7 @@ Lista getListaU (UserDataTitle d){
 
 /**
 \brief Função que atualiza a Lista de ID's
-@param Estrutura da String com os ID's dos titulos
+@param d Estrutura da String com os ID's dos titulos
 @param Nova Lista de ID's
 */
 void setListaU (UserDataTitle d, Lista l){
@@ -190,7 +190,7 @@ void setListaU (UserDataTitle d, Lista l){
 
 /**
 \brief Função que liberta a Estrutura da String e Lista dos ID's
-@param Estrutura da String com os ID's dos titulos
+@param d Estrutura da String com os ID's dos titulos
 */
 void freeUserDataTitle(UserDataTitle d){
   if(d->l != NULL)
@@ -235,7 +235,7 @@ UserDataRes createUserDataRes (Data i, int rep, long id, int r, TopN t){
 
 /**
 \brief Função que busca a data de uma pergunta
-@param Estrutura das Melhores Respostas
+@param u Estrutura das Melhores Respostas
 @returns Data de criação da pergunta
 */
 Data getDataPergunta (UserDataRes u){
@@ -244,7 +244,7 @@ Data getDataPergunta (UserDataRes u){
 
 /**
 \brief Função que busca a reputação do user
-@param Estrutura das Melhores Respostas
+@param u Estrutura das Melhores Respostas
 @returns Reputação do User
 */
 int getRepU (UserDataRes u){
@@ -253,7 +253,7 @@ int getRepU (UserDataRes u){
 
 /**
 \brief Função que busca o ID da pergunta
-@param Estrutura das Melhores Respostas
+@param u Estrutura das Melhores Respostas
 @returns ID da pergunta
 */
 long getIdPergunta (UserDataRes u){
@@ -262,8 +262,8 @@ long getIdPergunta (UserDataRes u){
 
 /**
 \brief Função que busca o numero de resposta a uma pergunta
-@param Estrutura das Melhores Respostas
-@returns Numero de Respostas
+@param u Estrutura das Melhores Respostas
+@returns Número de Respostas
 */
 int getAnswersRes (UserDataRes u){
   return u->num_res;
@@ -271,8 +271,8 @@ int getAnswersRes (UserDataRes u){
 
 /**
 \brief Função que atualiza o numero de respostas a uma pergunta
-@param Estrutura das Melhores Respostas
-@param Numero de Respostas
+@param u Estrutura das Melhores Respostas
+@param r Número de Respostas
 */
 void setAnswers (UserDataRes u, int r){
   u->num_res = r;
@@ -280,7 +280,7 @@ void setAnswers (UserDataRes u, int r){
 
 /**
 \brief Função que busca o TopN respostas
-@param Estrutura das Melhores Respostas
+@param u Estrutura das Melhores Respostas
 @returns TopN Respostas
 */
 TopN getTopU (UserDataRes u){
@@ -289,8 +289,8 @@ TopN getTopU (UserDataRes u){
 
 /**
 \brief Função que atualiza o topN respostas
-@param Estrutura das Melhores Respostas
-@param TopN respostas
+@param u Estrutura das Melhores Respostas
+@param n TopN respostas
 */
 void setTopU (UserDataRes u, TopN n){
   u->melhor = n;
@@ -298,7 +298,7 @@ void setTopU (UserDataRes u, TopN n){
 
 /**
 \brief Função que liberta a Estrutura das melhores respostas
-@param Estrutura das Melhores Respostas
+@param u Estrutura das Melhores Respostas
 */
 void freeUserDataRes(UserDataRes u){
   free (u);
@@ -324,7 +324,7 @@ struct user_dataTag {
 @param fim Data final
 @param nome String com nome da Tag
 @param l Lista com ID dos titulos
-@retuns Estrutura com a Tag e lista de ID de titulos que contem essa Tag
+@returns Estrutura com a Tag e lista de ID de titulos que contem essa Tag
 */
 UserDataTag createUserDataTag (Date i, Date f,  char* tag, Lista l){
   UserDataTag novo = malloc(sizeof(struct user_dataPar));
@@ -337,7 +337,7 @@ UserDataTag createUserDataTag (Date i, Date f,  char* tag, Lista l){
 
 /**
 \brief Função que busca a data de inico
-@param Estrutura das Tags e lista de ID's de titulos
+@param d Estrutura das Tags e lista de ID's de titulos
 @returns A data de inicio
 */
 Date getDataInicioTag(UserDataTag d){
@@ -346,7 +346,7 @@ Date getDataInicioTag(UserDataTag d){
 
 /**
 \brief Função que busca a data de fim
-@param Estrutura das Tags e lista de ID's de titulos
+@param d Estrutura das Tags e lista de ID's de titulos
 @returns A data de fim
 */
 Date getDataFimTag(UserDataTag d){
@@ -355,7 +355,7 @@ Date getDataFimTag(UserDataTag d){
 
 /**
 \brief Função que busca a String da Tag
-@param Estrutura das Tags e lista de ID's de titulos
+@param d Estrutura das Tags e lista de ID's de titulos
 @returns String com a Tag
 */
 char* getTagU (UserDataTag d){
@@ -364,7 +364,7 @@ char* getTagU (UserDataTag d){
 
 /**
 \brief Função que busca lista de ID's dos titulos
-@param Estrutura das Tags e lista de ID's de titulos
+@param d Estrutura das Tags e lista de ID's de titulos
 @returns Lista de ID's dos titulos
 */
 Lista getListaUTag (UserDataTag d){
@@ -372,15 +372,15 @@ Lista getListaUTag (UserDataTag d){
 }
 /**
 \brief Função que atualiza a lista de ID's dos titulos
-@param Estrutura das Tags e lista de ID's de titulos
-@param Nova Lista de ID's de titulos
+@param d Estrutura das Tags e lista de ID's de titulos
+@param l Nova Lista de ID's de titulos
 */
 void setListaUTag (UserDataTag d, Lista l){
   d->l = l;
 }
 /**
 \brief Função que liberta a estrutura
-@param Estrutura das Tags e lista de ID's de titulos
+@param d Estrutura das Tags e lista de ID's de titulos
 */
 void freeUserDataTag(UserDataTag d){
   if(d->l != NULL)

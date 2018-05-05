@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['p',['p',['../structarraydata.html#a9ceb33c94aeeb5fe11463a5d5293327f',1,'arraydata']]],
+  ['pair_2eh',['pair.h',['../pair_8h.html',1,'']]],
+  ['pal',['pal',['../structuser__dataTitle.html#a067d61fa41235a7e9a74e28fe0c3cb54',1,'user_dataTitle']]],
+  ['par',['par',['../structuser__dataPar.html#a6a0daa2c7b1947f80e6461de33f8445d',1,'user_dataPar']]],
+  ['parent_5fid',['parent_id',['../structPosts__data.html#adaf6f031b7a11b4cd159dd537e5b7222',1,'Posts_data::parent_id()'],['../structPosts__id.html#a0325895b4025a4d40af69d44cf534d02',1,'Posts_id::parent_id()']]],
+  ['parsedoc',['parseDoc',['../parser_8c.html#a1416e7ec1d52b2e58f4ea40ad28d096f',1,'parseDoc(char *docusers, char *docposts, GHashTable *hash_users, GTree *tree1, GTree *tree2):&#160;parser.c'],['../parser_8h.html#a1416e7ec1d52b2e58f4ea40ad28d096f',1,'parseDoc(char *docusers, char *docposts, GHashTable *hash_users, GTree *tree1, GTree *tree2):&#160;parser.c']]],
+  ['parseposts',['parsePosts',['../parser_8c.html#a4462c33faeab83bd7db5a856f681b660',1,'parsePosts(xmlDocPtr doc, GTree *tree1, GTree *tree2):&#160;parser.c'],['../parser_8h.html#a4462c33faeab83bd7db5a856f681b660',1,'parsePosts(xmlDocPtr doc, GTree *tree1, GTree *tree2):&#160;parser.c']]],
+  ['parser_2ec',['parser.c',['../parser_8c.html',1,'']]],
+  ['parser_2eh',['parser.h',['../parser_8h.html',1,'']]],
+  ['parseusers',['parseUsers',['../parser_8c.html#ae65cafaff40f497cf57b7b7938b99608',1,'parseUsers(xmlDocPtr doc, GHashTable *hash_table):&#160;parser.c'],['../parser_8h.html#ae65cafaff40f497cf57b7b7938b99608',1,'parseUsers(xmlDocPtr doc, GHashTable *hash_table):&#160;parser.c']]],
+  ['percorre',['percorre',['../auxiliares_8c.html#aa0e1e81194ad023aa0ecc27b8c11384f',1,'percorre(ArrayPosts p, ArrayTop t):&#160;auxiliares.c'],['../auxiliares_8h.html#aa0e1e81194ad023aa0ecc27b8c11384f',1,'percorre(ArrayPosts p, ArrayTop t):&#160;auxiliares.c']]],
+  ['pertence',['pertence',['../listaposts_8c.html#a26385be536475bd142ee1c6f0132a208',1,'pertence(Lista l, long p):&#160;listaposts.c'],['../listaposts_8h.html#a26385be536475bd142ee1c6f0132a208',1,'pertence(Lista l, long p):&#160;listaposts.c']]],
+  ['pertencetitulo',['pertenceTitulo',['../auxiliares_8c.html#ade8b75a31c7048ef4b0cdf4a3cf56d5b',1,'pertenceTitulo(char *palavra, Posts_D p):&#160;auxiliares.c'],['../auxiliares_8h.html#ade8b75a31c7048ef4b0cdf4a3cf56d5b',1,'pertenceTitulo(char *palavra, Posts_D p):&#160;auxiliares.c']]],
+  ['post_5ftype',['post_type',['../structPosts__data.html#a968f921ce6c68121f74642e96ad8205a',1,'Posts_data::post_type()'],['../structPosts__id.html#a30dea9877254772c9f685ffc0d196b05',1,'Posts_id::post_type()']]],
+  ['posts_5fd',['Posts_D',['../postsD_8h.html#ace922fefc5e1fe75ad7d1bf017731f4b',1,'postsD.h']]],
+  ['posts_5fdata',['Posts_data',['../structPosts__data.html',1,'']]],
+  ['posts_5fid',['Posts_id',['../structPosts__id.html',1,'Posts_id'],['../postsID_8h.html#a2549b5723a2ab17951275f310649478d',1,'Posts_ID():&#160;postsID.h']]],
+  ['postsbydata',['postsbydata',['../structTCD__community.html#acc44892b2e640993d78afcf4bcbcc077',1,'TCD_community']]],
+  ['postsbyid',['postsbyid',['../structTCD__community.html#a38d7d911bfbc69056fb0cdbefef8cdba',1,'TCD_community']]],
+  ['postsd_2ec',['postsD.c',['../postsD_8c.html',1,'']]],
+  ['postsd_2eh',['postsD.h',['../postsD_8h.html',1,'']]],
+  ['postsid_2ec',['postsID.c',['../postsID_8c.html',1,'']]],
+  ['postsid_2eh',['postsID.h',['../postsID_8h.html',1,'']]],
+  ['postsusers',['PostsUsers',['../listaposts_8h.html#ae6557162c404adf4ffe430d7ee822872',1,'listaposts.h']]],
+  ['prox',['prox',['../structlligada.html#ae620cb307892f22905d79e0d5013f9e3',1,'lligada::prox()'],['../structtags.html#a6f48e431a4593284eab4c827607ea0b2',1,'tags::prox()']]]
+];

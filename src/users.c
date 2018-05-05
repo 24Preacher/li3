@@ -34,7 +34,7 @@ Users createUsers (long id, char* nome, char* bio, int rep){
 
 /**
 \brief Função que busca o identificador do utilizador
-@param Estrutura dos utilizadores
+@param u Estrutura dos utilizadores
 @returns O id do post
 */
 
@@ -44,7 +44,7 @@ long getUserId3 (Users u){
 
 /**
 \brief Função que busca o nome do utilizador
-@param Estrutura dos utilizadores
+@param u Estrutura dos utilizadores
 @returns Apontador para o nome do utilizador
 */
 char* getName (Users u){
@@ -53,7 +53,7 @@ char* getName (Users u){
 
 /**
 \brief Função que busca a descrição do utilizador
-@param Estrutura dos utilizadores
+@param u Estrutura dos utilizadores
 @returns Apontador para a bio do utilizador
 */
 char* getBio (Users u){
@@ -62,7 +62,7 @@ char* getBio (Users u){
 
 /**
 \brief Função que busca a reputação do utilizador
-@param Estrutura dos utilizadores
+@param u Estrutura dos utilizadores
 @returns A reputação do utilizador
 */
 int getRep (Users u){
@@ -71,7 +71,7 @@ int getRep (Users u){
 
 /**
 \brief Função que liberta a estrutura dos utilizadores
-@param Estrutura dos utilizadores
+@param u Estrutura dos utilizadores
 */
 void freeUsers (gpointer u){
 		g_hash_table_remove_all(u);

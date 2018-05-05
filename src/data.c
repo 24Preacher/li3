@@ -160,8 +160,8 @@ gint compareMyData(Data a, Data b){
 
 /**
 \brief Função que compara duas datas do tipo Date
-@param a Data
-@param b Data
+@param a Date
+@param b Date
 @returns 0 se forem iguais, 1 se a for maior que b e -1 caso contrário
 */
 int compareDate(Date a, Date b){
@@ -199,7 +199,7 @@ int dataIgual(Date a, Data b){
 /**
 \brief Função que passa de uma string para uma estrutura de Data
 @param d String da Data
-@returns UserDataTop
+@returns Data
 */
 Data strToData (char *d){
   int i = 0;

@@ -27,7 +27,7 @@ TopN createTopN (long id, int c){
 /**
 \brief Função que busca o id dentro do TopN
 @param t TopN
-@returns id
+@returns Id
 */
 int getID_Top(TopN t){
   return t->id;

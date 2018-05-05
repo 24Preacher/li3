@@ -94,7 +94,7 @@ Tags strToTags(char* a){
 \brief Função que verifica se uma tag existe numa lista ligada de tags
 @param tag Tag a procurar
 @param t Estrutura das Tags
-@returns 1 se a tag existir, 0 se não existir nas tags
+@returns 1 se a tag existir, 0 caso contrário
 */
 int existeTag(char* tag, Tags t){
 

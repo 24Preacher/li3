@@ -1,0 +1,12 @@
+var searchData=
+[
+  ['incrementapar',['incrementaPar',['../auxiliares_8c.html#ab291aa112375df10ec16f812f96e3711',1,'incrementaPar(void *key, void *data, void *info):&#160;auxiliares.c'],['../auxiliares_8h.html#ab291aa112375df10ec16f812f96e3711',1,'incrementaPar(void *key, void *data, void *info):&#160;auxiliares.c']]],
+  ['incrementarespostas',['incrementaRespostas',['../auxiliares_8c.html#acbcc8132166df579107b85978c986890',1,'incrementaRespostas(Posts_D p, UserDataTop top):&#160;auxiliares.c'],['../auxiliares_8h.html#acbcc8132166df579107b85978c986890',1,'incrementaRespostas(Posts_D p, UserDataTop top):&#160;auxiliares.c']]],
+  ['info_5ffrom_5fpost',['info_from_post',['../interface_8c.html#ac297866fc062cda7f009927571ab55dc',1,'info_from_post(TAD_community com, long id):&#160;interface.c'],['../interface_8h.html#ac297866fc062cda7f009927571ab55dc',1,'info_from_post(TAD_community com, long id):&#160;interface.c']]],
+  ['init',['init',['../interface_8c.html#aadd031ccf1ce5bbb27994ef338ca2750',1,'init():&#160;interface.c'],['../interface_8h.html#aadd031ccf1ce5bbb27994ef338ca2750',1,'init():&#160;interface.c']]],
+  ['insere',['insere',['../listaposts_8c.html#a8eaaf6e4a12455f0d37c989d0e3e0571',1,'insere(Posts_D posts, ArrayPosts p):&#160;listaposts.c'],['../listaposts_8h.html#a8eaaf6e4a12455f0d37c989d0e3e0571',1,'insere(Posts_D posts, ArrayPosts p):&#160;listaposts.c']]],
+  ['inserepeladata',['inserePelaData',['../topN_8c.html#ad00b474c3411ae51539b0133c8ba83fe',1,'inserePelaData(ArrayData c, AuxData nova):&#160;topN.c'],['../topN_8h.html#ad00b474c3411ae51539b0133c8ba83fe',1,'inserePelaData(ArrayData c, AuxData nova):&#160;topN.c']]],
+  ['insereperguntas',['inserePerguntas',['../auxiliares_8c.html#a5304c95eb7ca2579477bfa3db8ec37fa',1,'inserePerguntas(Posts_D p, UserDataTop top):&#160;auxiliares.c'],['../auxiliares_8h.html#a5304c95eb7ca2579477bfa3db8ec37fa',1,'inserePerguntas(Posts_D p, UserDataTop top):&#160;auxiliares.c']]],
+  ['insererestop',['insereResTop',['../topN_8c.html#a0670a08a5cba875a6421b293a5380d8d',1,'insereResTop(ArrayTop t, TopN n):&#160;topN.c'],['../topN_8h.html#a0670a08a5cba875a6421b293a5380d8d',1,'insereResTop(ArrayTop t, TopN n):&#160;topN.c']]],
+  ['inseretop',['insereTop',['../topN_8c.html#a15239cb0e9cbfaef6bd0fd6de6cfb345',1,'insereTop(ArrayTop t, TopN n):&#160;topN.c'],['../topN_8h.html#a15239cb0e9cbfaef6bd0fd6de6cfb345',1,'insereTop(ArrayTop t, TopN n):&#160;topN.c']]]
+];

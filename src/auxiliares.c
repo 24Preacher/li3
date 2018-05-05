@@ -1,7 +1,7 @@
 #include "auxiliares.h"
 
 /**
-\brief Função que compara dois a contagem de 2 TopN
+\brief Função que compara a contagem de 2 TopN
 @param top1 TopN
 @param top2 TopN
 @returns 0 se forem iguais, -1 se top1 for maior que top2 e 1 caso contrário
@@ -40,7 +40,7 @@ LONG_list converteTopList(ArrayTop t, int N){
 }
 
 /**
-\brief Função que percorre o ArrayPosts e insere num ArrayTop com o id do utilizador e o seu n+umero de posts
+\brief Função que percorre o ArrayPosts e insere num ArrayTop o id do utilizador e o seu número de posts
 @param p ArrayPosts
 @param t ArrayTop
 */
@@ -60,7 +60,7 @@ void percorre(ArrayPosts p, ArrayTop t){
 \brief Função que incrementa o par de contadores de perguntas e respostas ao percorrer a árvore
 @param key Key do nodo da AVL dos posts
 @param data Valor do nodo da AVL correspondente à key
-@param info User Data passada à função
+@param info Userdata passada à função
 @returns TRUE caso a data do post seja igual à data final, parando a travessia
 */
 gboolean incrementaPar (void * key, void * data, void * info){
@@ -91,7 +91,7 @@ gboolean incrementaPar (void * key, void * data, void * info){
 /**
 \brief Função que caso a tag exista nas tags da pergunta, adiciona o seu id a uma lista
 @param p Valor do nodo da AVL
-@param u User Data passada à função, que contém as datas de ínicio e fim, a tag a procurar e uma lista
+@param u Userdata passada à função, que contém as datas de ínicio e fim, a tag a procurar e uma lista
 @returns TRUE caso a data do post seja igual à data final, parando a travessia
 */
 gboolean checkTags(Posts_D p, UserDataTag u){
@@ -116,9 +116,9 @@ gboolean checkTags(Posts_D p, UserDataTag u){
 }
 
 /**
-\brief Função que adiciona o score de uma resposta e o seu id a um ArrayTop
 @param p Valor do nodo da AVL
-@param top User Data passada à função, que contém as datas de início e fim e um ArrayTop
+\brief Função que adiciona o score de uma resposta e o seu id a um ArrayTop
+@param top Userdata passada à função, que contém as datas de início e fim e um ArrayTop
 @returns TRUE caso a data do post seja igual à data final, parando a travessia
 */
 gboolean topScore(Posts_D p, UserDataTop top){
@@ -143,7 +143,7 @@ gboolean topScore(Posts_D p, UserDataTop top){
 /**
 \brief Função que insere as perguntas num ArrayTop
 @param p Valor do nodo da AVL
-@param top User Data passada à função, que contém as datas de início e fim, a tag a procurar e uma lista
+@param top Userdata passada à função, que contém as datas de início e fim, a tag a procurar e uma lista
 @returns TRUE caso a data do post seja igual à data final, parando a travessia
 */
 gboolean inserePerguntas(Posts_D p, UserDataTop top){
@@ -166,7 +166,7 @@ gboolean inserePerguntas(Posts_D p, UserDataTop top){
 /**
 \brief Função que incrementa a contagem do ArrayTop quando encontra uma resposta das perguntas no ArrayTop
 @param p Valor do nodo da AVL
-@param top User Data passada à função, que contém as datas de ínicio e fim, a tag a procurar e uma lista
+@param top Userdata passada à função, que contém as datas de ínicio e fim, a tag a procurar e uma lista
 @returns TRUE caso a data do post seja igual à data final, parando a travessia
 */
 gboolean incrementaRespostas(Posts_D p, UserDataTop top){
@@ -200,7 +200,7 @@ int pertenceTitulo(char* palavra, Posts_D p){
 /**
 \brief Função que caso a palavra exista no titulo da pergunta, adiciona o seu id a uma lista
 @param p Valor do nodo da AVL
-@param u User Data passada à função, que contém uma palavra e uma lista
+@param u Userdata passada à função, que contém uma palavra e uma lista
 @returns FALSE
 */
 gboolean temPalavra(Posts_D p, UserDataTitle u){
@@ -236,8 +236,8 @@ int valResposta(Posts_D p, int rep){
 /**
 \brief Função que calcula qual é a melhor resposta
 @param p Valor do nodo da AVL
-@param u User Data passada à função, que contém a data, o id e o numero de respostas da pergunta, a reputação e um TopN com a melhor resposta encontrada
-@returns TRUE caso a data do post seja igual à data final, parando a travessia
+@param u Userdata passada à função, que contém a data, o id e o numero de respostas da pergunta, a reputação e um TopN com a melhor resposta encontrada
+@returns TRUE caso o número de respostas seja 0, parando a travessia
 */
 gboolean melhor(Posts_D p, UserDataRes u){
   int respostas = getAnswersRes(u);
@@ -264,7 +264,7 @@ gboolean melhor(Posts_D p, UserDataRes u){
 \brief Função que percorre os utilizadores e os insere num ArrayTop consoante a sua reputação
 @param u Valor da célula da Tabela de Hash dos Utilizadores
 @param t ArrayTop
-@returns False
+@returns FALSE
 */
 gboolean topRep(Users u, ArrayTop t){
   long id = getUserId3(u);
