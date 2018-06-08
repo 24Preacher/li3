@@ -8,23 +8,31 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class parser {
 
-   public static void ParseUsers(String argv[]) {
-
-    try {
-
-	SAXParserFactory factory = SAXParserFactory.newInstance();
-	SAXParser saxParser = factory.newSAXParser();
-
-	DefaultHandler handler = new DefaultHandler() {
-
-	boolean bid = false;
-	boolean bbio = false;
-	boolean bname = false;
-  boolean brep = false;
+   public static void ParseUsers(String dumpPath) {
 
 
+	    SAXParserFactory factory = SAXParserFactory.newInstance();
+      SAXParser saxParser = null;
 
-	public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
+      try{
+        saxParser = factory.newSAXParser();
+      } catch(ParserConfigurationException e1){
+        e1.printStackTrace();
+      } catch (SAXException e1) {
+        e1.printStackTrace();
+      }
+
+
+	     DefaultHandler handler = new DefaultHandler() {
+
+	     boolean bid = false;
+       boolean bbio = false;
+	     boolean bname = false;
+       boolean brep = false;
+
+
+
+	  public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
 
 
 		if (qName.equalsIgnoreCase("Id")) {
@@ -76,9 +84,10 @@ public class parser {
 
      };
 
-       saxParser.parse("c:\\Users.xml", handler);
+     try{
+       saxParser.parse(dumpPath, handler);
 
-     } catch (Exception e) {
+     } catch (SAXException e) {
        e.printStackTrace();
      }
 
@@ -87,26 +96,26 @@ public class parser {
 
 
 
-
-   public static void ParsePosts(String argv[]) {
+/*
+   public static void ParsePosts(String dumpPath) {
 
     try {
 
- SAXParserFactory factory = SAXParserFactory.newInstance();
- SAXParser saxParser = factory.newSAXParser();
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      SAXParser saxParser2 = factory.newSAXParser();
 
- DefaultHandler handler = new DefaultHandler() {
+      DefaultHandler handler = new DefaultHandler() {
 
- boolean bid = false;
- boolean bownerid = false;
- boolean bparentid = false;
-  boolean bcommentcout = false;
-  boolean bscore = false;
-  boolean bposttype = false;
-  boolean banswercount = false;
-  boolean bcreationdate = false;
-  boolean btags = false;
-  boolean btitle = false;
+        boolean bid = false;
+        boolean bownerid = false;
+        boolean bparentid = false;
+        boolean bcommentcout = false;
+        boolean bscore = false;
+        boolean bposttype = false;
+        boolean banswercount = false;
+        boolean bcreationdate = false;
+        boolean btags = false;
+        boolean btitle = false;
 
 
 
@@ -218,7 +227,7 @@ public class parser {
 
      };
 
-       saxParser.parse("c:\\Posts.xml", handler);
+       saxParser2.parse(dumpPath, handler);
 
      } catch (Exception e) {
        e.printStackTrace();
@@ -226,5 +235,12 @@ public class parser {
 
    }
 
+*/
 
+public static void main(String args[])
+{
+  ParseUsers("/home/helena/Downloads/dump/android/Users.xml");
+  //ParsePosts("/home/helena/Downloads/dump/android/Posts.xml");
+
+}
 }
