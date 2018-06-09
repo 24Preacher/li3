@@ -10,8 +10,9 @@ import engine.Posts;
 import engine.Users;
 import engine.TCD_Community;
 
-public class queries
+public class Queries
 {
+  private TCD_Community com;
 
     //load
     //public void load(String dumpPath);
@@ -22,25 +23,26 @@ public class queries
     public Pair<String,String> infoFromPost(long id)
     {
 
-      TreeMap<Long,Posts> posts = getArvPostsID();
-      HashMap<Long,Users> users = getTabUsers();
-      String title = "";
-      String name = "";
+      TreeMap<Long,Posts> posts = this.com.getArvPostsID();
+      HashMap<Long,Users> users = this.com.getTabUsers();
+      String titulo, nome;
 
-      if(posts.containsKey(id))
-      {
-          if(posts.getPostType(id) == 1)
-          {
-              title = posts.getTitulo(id);
-              name = users.getName(posts.getIdAutor(id));
-          }
-          else {
-              name = users.getName(posts.getIdPai(id));
-          }
-        return new Pair(title, name);
+      Posts p = posts.get(id);
+      if(p != null){
+        if(p.getPostType() == 1){
+          titulo = p.getTitulo();
+          nome = users.get(p.getIdAutor()).getNome();
+        }
+        else {
+          Post p1 = posts.get(p.getIdPai());
+          titulo = p1.getTitulo();
+          nome = users.get(p1.getIdAutor()).getNome();
+        }
       }
-      else System.out.println("ID not found lel");
-    }
+      //else throw new NaoExistePostException
+
+      return new Pair(titulo, nome);
+  }
 
 
     /*
