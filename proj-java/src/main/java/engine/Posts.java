@@ -2,6 +2,7 @@ package engine;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ public class Posts {
     private long idPai;
     private int comentarios;
     private int respostas;
-    private int votos; // score no dump
+    private int votos;
     private List<String> tags;
 
     public Posts(){
@@ -97,11 +98,9 @@ public class Posts {
     public List<String> getTags(){
         List<String> res = new ArrayList<>();
 
-        for(String s : this.tags) {
+        for(String s : this.tags)
             res.add(s);
-        }
         return res;
-        //return this.tags.stream().map(String::toString).collect(Collectors.toList());
     }
 
     //SETS
@@ -181,6 +180,12 @@ public class Posts {
         sb.append("\nNumero de Votos: ").append(this.votos);
         sb.append("\nTags: ").append(this.tags.toString());
         return sb.toString();
+    }
+
+    //insere um post nos user a que pertence
+
+    public void inserePostDoUser(HashMap<Long, Users> tab){
+        tab.get(this.idAutor).getPostsUser().add(this);
     }
 }
 

@@ -1,7 +1,6 @@
 package engine;
 
 
-import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -34,13 +33,13 @@ public class TCD_Community {
     //GETS
 
     public TreeSet<Posts> getArvPostsData(){
-        TreeSet<Posts> res = new TreeSet<Posts>(new ComparadorDataPost());
+        TreeSet<Posts> res = new TreeSet<>(new ComparadorDataPost());
         this.arvPostsData.stream().map(Posts::clone).forEach(res::add);
         return res;
     }
 
     public TreeSet<Posts> getArvPostsID(){
-        TreeSet<Posts> res = new TreeSet<Posts>(new ComparadorIdPost());
+        TreeSet<Posts> res = new TreeSet<>(new ComparadorIdPost());
         this.arvPostsID.stream().map(Posts::clone).forEach(res::add);
         return res;
     }
@@ -55,20 +54,18 @@ public class TCD_Community {
     //SETS
 
     public void setArvPostsData(TreeSet<Posts> postsData){
-        this.arvPostsData = new TreeSet<Posts>(new ComparadorDataPost());
+        this.arvPostsData = new TreeSet<>(new ComparadorDataPost());
         postsData.forEach(p -> this.arvPostsData.add(p.clone()));
     }
 
     public void setArvPostsID(TreeSet<Posts> postsID){
-        this.arvPostsID = new TreeSet<Posts>(new ComparadorIdPost());
-        for(Posts p : postsID)
-            this.arvPostsID.add(p.clone());
+        this.arvPostsID = new TreeSet<>(new ComparadorIdPost());
+        postsID.forEach(p -> this.arvPostsID.add(p.clone()));
     }
 
     public void setTabUsers(HashMap<Long, Users> tab){
         this.tabUsers = new HashMap<>();
-        for(Users u : tab.values())
-            this.tabUsers.put(u.getId(),u.clone());
+        tab.values().forEach(u -> this.tabUsers.put(u.getId(), u.clone()));
     }
 
     //CLONE
@@ -96,5 +93,10 @@ public class TCD_Community {
         sb.append("\nPosts(ordenados pelo ID): ").append(this.arvPostsID.toString());
         sb.append("\nUtilizadores: ").append(this.tabUsers.toString());
         return sb.toString();
+    }
+
+    //Percorre os posts e insere os em cada user -- fazer no load
+    public void inserePosts(){
+        this.arvPostsData.forEach(p -> p.inserePostDoUser(this.tabUsers));
     }
 }

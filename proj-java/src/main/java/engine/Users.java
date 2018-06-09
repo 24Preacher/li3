@@ -1,7 +1,8 @@
 package engine;
 
 
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.ArrayList;
 
 public class Users {
@@ -10,17 +11,17 @@ public class Users {
     private String nome;
     private String bio;
     private int reputacao;
-    private List<Posts> postsUser; // por uma avl ordenada por data
+    private Set<Posts> postsUser; // por uma avl ordenada por data
 
     public Users (){
         this.id = 0;
         this.nome = "n/a";
         this.bio = "n/a";
         this.reputacao = 0;
-        this.postsUser = new ArrayList<>();
+        this.postsUser = new TreeSet<>(new ComparadorDataPost());
     }
 
-    public Users(long id, String nome, String bio, int rep, List<Posts> p){
+    public Users(long id, String nome, String bio, int rep, Set<Posts> p){
         this.id = id;
         this.nome = nome;
         this.bio = bio;
@@ -54,10 +55,9 @@ public class Users {
         return this.reputacao;
     }
 
-    public List<Posts> getPostsUser(){
-        List<Posts> res = new ArrayList<>();
-        for(Posts p : this.postsUser)
-            res.add(p.clone());
+    public Set<Posts> getPostsUser(){
+        Set<Posts> res = new TreeSet<>(new ComparadorDataPost());
+        this.postsUser.stream().map(Posts::clone).forEach(res::add);
         return res;
     }
 
@@ -79,10 +79,9 @@ public class Users {
         this.reputacao = rep;
     }
 
-    public void setPostsUser(List<Posts> newPosts){
-        this.postsUser = new ArrayList<>();
-        for(Posts p : newPosts)
-            this.postsUser.add(p.clone());
+    public void setPostsUser(Set<Posts> newPosts){
+        this.postsUser = new TreeSet<>(new ComparadorDataPost());
+        newPosts.forEach(p -> this.postsUser.add(p.clone()));
     }
 
     //CLONE
