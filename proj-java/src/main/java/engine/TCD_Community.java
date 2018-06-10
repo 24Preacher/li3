@@ -1,23 +1,24 @@
 package engine;
 
 
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class TCD_Community {
     private TreeSet<Posts> arvPostsData;
-    private TreeSet<Posts> arvPostsID;
+    private TreeMap<Long, Posts> arvPostsID;
     private HashMap<Long, Users> tabUsers;
 
 
     public TCD_Community (){
         this.arvPostsData = new TreeSet<>();
-        this.arvPostsID = new TreeSet<>();
+        this.arvPostsID = new TreeMap<>();
         this.tabUsers = new HashMap<>();
     }
 
-    public TCD_Community (TreeSet<Posts> arvData, TreeSet<Posts> arvID, HashMap<Long, Users> tab){
+    public TCD_Community (TreeSet<Posts> arvData, TreeMap<Long, Posts> arvID, HashMap<Long, Users> tab){
         setArvPostsID(arvID);
         setArvPostsData(arvData);
         setTabUsers(tab);
@@ -38,9 +39,10 @@ public class TCD_Community {
         return res;
     }
 
-    public TreeSet<Posts> getArvPostsID(){
-        TreeSet<Posts> res = new TreeSet<>(new ComparadorIdPost());
-        this.arvPostsID.stream().map(Posts::clone).forEach(res::add);
+    public TreeMap<Long, Posts> getArvPostsID(){
+        TreeMap<Long, Posts> res = new TreeMap<>();
+        for(Posts p : this.arvPostsID.values())
+            res.put(p.getIdPost(),p.clone());
         return res;
     }
 
@@ -58,9 +60,9 @@ public class TCD_Community {
         postsData.forEach(p -> this.arvPostsData.add(p.clone()));
     }
 
-    public void setArvPostsID(TreeSet<Posts> postsID){
-        this.arvPostsID = new TreeSet<>(new ComparadorIdPost());
-        postsID.forEach(p -> this.arvPostsID.add(p.clone()));
+    public void setArvPostsID(TreeMap<Long,Posts> postsID){
+        this.arvPostsID = new TreeMap<>();
+        postsID.values().forEach(p -> this.arvPostsData.add(p.clone()));
     }
 
     public void setTabUsers(HashMap<Long, Users> tab){
