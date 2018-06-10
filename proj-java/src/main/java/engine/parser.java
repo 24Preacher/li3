@@ -1,7 +1,9 @@
 package engine;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -11,46 +13,23 @@ public class parser {
    public static void ParseUsers(String dumpPath) {
 
 
-	    SAXParserFactory factory = SAXParserFactory.newInstance();
-      SAXParser saxParser = null;
+     SAXParserFactory factory = SAXParserFactory.newInstance();
+     SAXParser saxParser2;
 
-      try{
-        saxParser = factory.newSAXParser();
-      } catch(ParserConfigurationException e1){
-        e1.printStackTrace();
-      } catch (SAXException e1) {
-        e1.printStackTrace();
-      }
-
-
-	     DefaultHandler handler = new DefaultHandler() {
-
-	     boolean bid = false;
-       boolean bbio = false;
-	     boolean bname = false;
-       boolean brep = false;
-
+    try {
+          SAXParser saxParser2 = factory.newSAXParser();
+          saxParser.parse(PathArq, this);
+          DefaultHandler handler = new DefaultHandler() {
 
 
 	  public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
 
 
-		if (qName.equalsIgnoreCase("Id")) {
-			bid = true;
-		}
-
-		if (qName.equalsIgnoreCase("AboutMe")) {
-			bbio = true;
-		}
-
-		if (qName.equalsIgnoreCase("DisplayName")) {
-			bname = true;
-		}
-
-		if (qName.equalsIgnoreCase("Reputation")) {
-			brep = true;
-		}
-
+		if (qName.compareTo("row") == 0){
+			long id = Long.parseLong(attributes.getValue("ID"));
+	    String bio = attributes.getValue("AboutMe");
+      String nome =  attributes.getValue("DisplayName");
+      int rep = Integer.parseInt(attributes.getValue("Reputation"));
 	}
 
 	public void endElement(String uri, String localName,String qName) throws SAXException {
@@ -60,110 +39,39 @@ public class parser {
 
 	public void characters(char ch[], int start, int length) throws SAXException {
 
-		if (bid) {
-			System.out.println("ID : " + new String(ch, start, length));
-			bid = false;
-		}
-
-		if (bbio) {
-			System.out.println("Bio : " + new String(ch, start, length));
-			bbio = false;
-		}
-
-		if (bname) {
-			System.out.println("Nome : " + new String(ch, start, length));
-			bname = false;
-		}
-
-		if (brep) {
-			System.out.println("Reputação : " + new String(ch, start, length));
-			brep = false;
-		}
-
 	}
-
-     };
-
-     try{
-       saxParser.parse(dumpPath, handler);
-
-     } catch (SAXException e) {
-       e.printStackTrace();
-     }
-
-   }
+}
+}
+}
+}
 
 
+public static void ParsePosts(String dumpPath) {
 
-
-/*
-   public static void ParsePosts(String dumpPath) {
+     SAXParserFactory factory = SAXParserFactory.newInstance();
+     SAXParser saxParser2;
 
     try {
-
-      SAXParserFactory factory = SAXParserFactory.newInstance();
-      SAXParser saxParser2 = factory.newSAXParser();
-
-      DefaultHandler handler = new DefaultHandler() {
-
-        boolean bid = false;
-        boolean bownerid = false;
-        boolean bparentid = false;
-        boolean bcommentcout = false;
-        boolean bscore = false;
-        boolean bposttype = false;
-        boolean banswercount = false;
-        boolean bcreationdate = false;
-        boolean btags = false;
-        boolean btitle = false;
-
+          SAXParser saxParser2 = factory.newSAXParser();
+          saxParser.parse(PathArq, this);
+          DefaultHandler handler = new DefaultHandler() {
 
 
  public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
 
 
-   if (qName.equalsIgnoreCase("Id")) {
-     bid = true;
-   }
-
-   if (qName.equalsIgnoreCase("OwnerUserId")) {
-     bownerid = true;
-   }
-
-   if (qName.equalsIgnoreCase("ParentId")) {
-     bparentid = true;
-   }
-
-   if (qName.equalsIgnoreCase("CommentCount")) {
-     bcommentcout = true;
-   }
-
-    if (qName.equalsIgnoreCase("Score")) {
-     bscore = true;
-   }
-
-    if (qName.equalsIgnoreCase("PostTypeId")) {
-     bposttype = true;
-   }
-
-    if (qName.equalsIgnoreCase("AnswerCount")) {
-     banswercount = true;
-   }
-
-    if (qName.equalsIgnoreCase("CreationDate")) {
-     bcreationdate = true;
-   }
-
-    if (qName.equalsIgnoreCase("Tags")) {
-     btags = true;
-   }
-
-    if (qName.equalsIgnoreCase("Title")) {
-     btitle = true;
-   }
-
-
-
+   if (qName.compareTo("row") == 0) {
+   long id = Long.parseLong(attributes.getValue("ID"));
+   long ownerId = Long.parseLong(attributes.getValue("OwnerUserId"));
+   long parentId = Long.parseLong(attributes.getValue("ParentId"));
+   int commentCount = Integer.parseInt(attributes.getValue("CommentCount"));
+   int score = Integer.parseInt(attributes.getValue("Score"));
+   short postTypeId = Short.parseShor(attributes.getValue("PostTypeId"));
+   int answerCount = Integer.parseInt(attributes.getValue("AnswerCount"));
+   String date = attributes.getValue("CreationDate");
+   DataTimeFormatter data = DataTimeFormatter.forPattern("YYYY-MM-DD");
+   String tags = attributes.getValue("Tags");
+   String titulo = attributes.getValue("Title");
  }
 
  public void endElement(String uri, String localName,String qName) throws SAXException {
@@ -173,74 +81,16 @@ public class parser {
 
  public void characters(char ch[], int start, int length) throws SAXException {
 
-   if (bid) {
-     System.out.println("PostId : " + new String(ch, start, length));
-     bid = false;
-   }
-
-   if (bownerid) {
-     System.out.println("OwnerId : " + new String(ch, start, length));
-     bownerid = false;
-   }
-
-   if (bparentid) {
-     System.out.println("ParentId : " + new String(ch, start, length));
-     bparentid = false;
-   }
-
-   if (bcommentcout) {
-     System.out.println("CommentCount : " + new String(ch, start, length));
-     bcommentcout = false;
-   }
-
-    if (bscore) {
-     System.out.println("Score : " + new String(ch, start, length));
-     bscore = false;
-   }
-
-    if (bposttype) {
-     System.out.println("PostTypeId : " + new String(ch, start, length));
-     bposttype = false;
-   }
-
-    if (banswercount) {
-     System.out.println("AnswerCount : " + new String(ch, start, length));
-     banswercount = false;
-   }
-
-    if (bcreationdate) {
-     System.out.println("CreationDate : " + new String(ch, start, length));
-     bcreationdate = false;
-   }
-
-    if (btags) {
-     System.out.println("Tags : " + new String(ch, start, length));
-     btags = false;
-   }
-
-    if (btitle) {
-     System.out.println("Title : " + new String(ch, start, length));
-     btitle = false;
-   }
-
  }
+}
+}
+}
+}
 
-     };
-
-       saxParser2.parse(dumpPath, handler);
-
-     } catch (Exception e) {
-       e.printStackTrace();
-     }
-
-   }
-
-*/
-
-public static void main(String args[])
+/*public static void main()
 {
   ParseUsers("/home/helena/Downloads/dump/android/Users.xml");
-  //ParsePosts("/home/helena/Downloads/dump/android/Posts.xml");
+  ParsePosts("/home/helena/Downloads/dump/android/Posts.xml");
 
 }
-}
+*/
