@@ -1,43 +1,38 @@
 package engine;
 
 
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class TCD_Community {
-    private TreeSet<Posts> arvPostsData;
     private TreeMap<Long, Posts> arvPostsID;
     private HashMap<Long, Users> tabUsers;
+    private HashMap<String, Long> tabTags;
 
 
     public TCD_Community (){
-        this.arvPostsData = new TreeSet<>();
         this.arvPostsID = new TreeMap<>();
         this.tabUsers = new HashMap<>();
+        this.tabTags = new HashMap<>();
     }
 
-    public TCD_Community (TreeSet<Posts> arvData, TreeMap<Long, Posts> arvID, HashMap<Long, Users> tab){
+    public TCD_Community (TreeMap<Long, Posts> arvID, HashMap<Long, Users> tab, HashMap<String, Long> tags){
         setArvPostsID(arvID);
-        setArvPostsData(arvData);
         setTabUsers(tab);
+        setTabTags(tags);
     }
 
 
     public TCD_Community (TCD_Community com){
-        this.arvPostsData = com.getArvPostsData();
         this.arvPostsID = com.getArvPostsID();
         this.tabUsers = com.getTabUsers();
+        this.tabTags = com.getTabTags();
     }
 
     //GETS
-
-    public TreeSet<Posts> getArvPostsData(){
-        TreeSet<Posts> res = new TreeSet<>(new ComparadorDataPost());
-        this.arvPostsData.stream().map(Posts::clone).forEach(res::add);
-        return res;
-    }
 
     public TreeMap<Long, Posts> getArvPostsID(){
         TreeMap<Long, Posts> res = new TreeMap<>();
@@ -53,21 +48,29 @@ public class TCD_Community {
         return res;
     }
 
-    //SETS
-
-    public void setArvPostsData(TreeSet<Posts> postsData){
-        this.arvPostsData = new TreeSet<>(new ComparadorDataPost());
-        postsData.forEach(p -> this.arvPostsData.add(p.clone()));
+    public HashMap<String,Long> getTabTags(){
+        HashMap<String,Long> res = new HashMap<>();
+        for(Map.Entry<String,Long> t : this.tabTags.entrySet())
+            res.put(t.getKey(),t.getValue());
+        return res;
     }
+
+    //SETS
 
     public void setArvPostsID(TreeMap<Long,Posts> postsID){
         this.arvPostsID = new TreeMap<>();
-        postsID.values().forEach(p -> this.arvPostsData.add(p.clone()));
+        postsID.values().forEach(p -> this.arvPostsID.put(p.getIdPost(),p.clone()));
     }
 
     public void setTabUsers(HashMap<Long, Users> tab){
         this.tabUsers = new HashMap<>();
         tab.values().forEach(u -> this.tabUsers.put(u.getId(), u.clone()));
+    }
+
+    public void setTabTags(HashMap<String, Long> tab){
+        this.tabTags = new HashMap<>();
+        for(Map.Entry<String,Long> t : this.tabTags.entrySet())
+            this.tabTags.put(t.getKey(), t.getValue());
     }
 
     //CLONE
@@ -83,22 +86,22 @@ public class TCD_Community {
 
         TCD_Community com = (TCD_Community) o;
 
-        return (this.arvPostsData.equals(com.getArvPostsData()) && this.arvPostsID.equals(com.getArvPostsID())
-                && this.tabUsers.equals(com.getTabUsers()));
+        return (this.arvPostsID.equals(com.getArvPostsID()) && this.tabUsers.equals(com.getTabUsers())
+                        && this.tabTags.equals(com.getTabTags()));
     }
 
     //ToString
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\nPosts(ordenados pela Data): ").append(this.arvPostsData.toString());
         sb.append("\nPosts(ordenados pelo ID): ").append(this.arvPostsID.toString());
         sb.append("\nUtilizadores: ").append(this.tabUsers.toString());
+        sb.append("\nTags: ").append(this.tabTags.toString());
         return sb.toString();
     }
 
     //Percorre os posts e insere os em cada user -- fazer no load
     public void inserePosts(){
-        this.arvPostsData.forEach(p -> p.inserePostDoUser(this.tabUsers));
+        this.arvPostsID.values().forEach(p -> p.inserePostDoUser(this.tabUsers));
     }
 }

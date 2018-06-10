@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.util.TreeSet;
+import java.util.Set;
 
 public class Posts {
     private long idPost;
@@ -185,7 +187,18 @@ public class Posts {
     //insere um post nos user a que pertence
 
     public void inserePostDoUser(HashMap<Long, Users> tab){
-        tab.get(this.idAutor).getPostsUser().add(this);
+
+        Set<Posts> posts = tab.get(this.idAutor).getPostsUser();
+        if(posts.isEmpty()) {
+            Set<Posts> novo = new TreeSet<>(new ComparadorDataPost());
+            novo.add(this);
+            tab.get(this.idAutor).setPostsUser(novo);
+        }
+        else {
+            posts.add(this);
+            tab.get(this.idAutor).setPostsUser(posts);
+        }
+
     }
 }
 
