@@ -119,16 +119,46 @@ public Pair<String, List<Long>> getUserInfo(long id) {
   return new Pair<>(nome, postsU);
 }
 
-/*
     // Query 6
-    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end);
+    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
+      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+      LocalDateTime inicio = begin.atStartOfDay();
+      LocalDateTime fim = end.atEndOfDay();
+
+      return posts.values().stream()
+                           .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
+                           .sorted(new ComparadorVotosDec())
+                           .limit((long)N)
+                           .map(Posts :: getIdPost)
+                           .collect(Collectors.toList());
+    }
+
 
     // Query 7
-    public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end);
+    public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end){
+      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+      LocalDateTime inicio = begin.atStartOfDay();
+      LocalDateTime fim = end.atEndOfDay();
+
+      return posts.values().stream()
+                           .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
+                           .sorted(new ComparadorRespostasDec())
+                           .limit(N)
+                           .map(Posts::getIdPost)
+                           .collect(Collectors.toList());
+    }
 
     // Query 8
-    public List<Long> containsWord(int N, String word);
-*/
+    public List<Long> containsWord(int N, String word){
+      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+
+      return posts.values().stream()
+                           .filter(p->p.getTitulo().contains(word))
+                           .sorted(new ComparadorDataPost().reversed()) // ordenado com os mais recentes 1º
+                           .limit(N)
+                           .map(Posts::getIdPost)
+                           .collect(Collectors.toList());
+
     // Query 9
     public List<Long> bothParticipated(int N, long id1, long id2){
       HashMap<Long, Users> users = this.com.getTabUsers();
@@ -166,10 +196,31 @@ public Pair<String, List<Long>> getUserInfo(long id) {
                          .map(Posts::getIdPost)
                          .collect(Collectors.toList());
     }
-/*
+
     // Query 10
-    public long betterAnswer(long id);
-*/
+    public long betterAnswer(long id){
+      HashMap<Long, Users> users = this.com.getTabUsers();
+      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+      double val, max = 0;
+      long melhor = 0;
+
+      Posts p = posts.get(id);
+
+      if(p != null){
+        List<Posts> respostas = posts.values().stream().filter(a->a.getIdPai() == id).collect(Collectors.toList());
+
+        for(Posts pp : respostas){
+          int rep = users.get(pp.getIdAutor()).getReputacao();
+          val = pp.getVotos() * 0.65 + pp.getComentarios() * 0.1 + rep * 0.25;
+          if(val > max)
+            melhor = pp.getIdPost();
+        }
+      }
+      //else throw NaoExistePostException
+
+      return melhor;
+    }
+
     // Query 11
     public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end){
         HashMap<Long, Users> users = this.com.getTabUsers();
