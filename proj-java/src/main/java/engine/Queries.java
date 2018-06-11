@@ -103,42 +103,42 @@ public List<Long> questionsWithTag(String tag, LocalDate begin, LocalDate end){
 // Query 5
 public Pair<String, List<Long>> getUserInfo(long id) {
   HashMap<Long,Users> users = this.com.getTabUsers();
-  String nome = " ";
+  String bio = " ";
   List<Long> postsU = new ArrayList<>();
 
   Users u = users.get(id);
   if(u != null) {
-    nome = u.getNome();
+    bio = u.getBio();
     postsU = u.getPostsUser().stream()
                              .sorted(new ComparadorDataPost().reversed())
                              .limit(10)
                              .map(Posts::getIdPost)
                              .collect(Collectors.toList());
   }
-  //else throw new UserNaoExisteException
-  return new Pair<>(nome, postsU);
+  //else throw new NaoExisteUserException
+  return new Pair<>(bio, postsU);
 }
 
     // Query 6
-    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
-      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
-      LocalDateTime inicio = begin.atStartOfDay();
-      LocalDateTime fim = end.atEndOfDay();
+public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
+    TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+    LocalDateTime inicio = begin.atStartOfDay();
+    LocalDateTime fim = end.atEndOfDay();
 
-      return posts.values().stream()
-                           .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
-                           .sorted(new ComparadorVotosDec())
-                           .limit((long)N)
-                           .map(Posts :: getIdPost)
-                           .collect(Collectors.toList());
+  return posts.values().stream()
+                       .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
+                       .sorted(new ComparadorVotosDec())
+                       .limit(N)
+                       .map(Posts :: getIdPost)
+                       .collect(Collectors.toList());
     }
 
 
     // Query 7
-    public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end){
-      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
-      LocalDateTime inicio = begin.atStartOfDay();
-      LocalDateTime fim = end.atEndOfDay();
+public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end){
+    TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+    LocalDateTime inicio = begin.atStartOfDay();
+    LocalDateTime fim = end.atEndOfDay();
 
       return posts.values().stream()
                            .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
@@ -149,52 +149,53 @@ public Pair<String, List<Long>> getUserInfo(long id) {
     }
 
     // Query 8
-    public List<Long> containsWord(int N, String word){
+public List<Long> containsWord(int N, String word){
       TreeMap<Long, Posts> posts = this.com.getArvPostsID();
 
       return posts.values().stream()
-                           .filter(p->p.getTitulo().contains(word))
-                           .sorted(new ComparadorDataPost().reversed()) // ordenado com os mais recentes 1º
+                           .filter(p.getPostType() == 1 && p.getTitulo().contains(word))
+                           .sorted(new ComparadorDataPost().reversed())
                            .limit(N)
                            .map(Posts::getIdPost)
                            .collect(Collectors.toList());
 
     // Query 9
-    public List<Long> bothParticipated(int N, long id1, long id2){
-      HashMap<Long, Users> users = this.com.getTabUsers();
-      TreeMap<Long, Posts> posts = this.com.getArvPostsID();
-      Set<Posts> aux = new TreeSet<>(new ComparadorDataPost());
+public List<Long> bothParticipated(int N, long id1, long id2){
+    HashMap<Long, Users> users = this.com.getTabUsers();
+    TreeMap<Long, Posts> posts = this.com.getArvPostsID();
+    Set<Posts> aux = new TreeSet<>(new ComparadorDataPost().reversed());
 
-      Set<Posts> respostasUser1 = users.get(id1).getPostsUser().stream().filter(p->p.getPostType() == 2).collect(Collectors.toSet());
-      Set<Posts> respostasUser2 = users.get(id2).getPostsUser().stream().filter(p->p.getPostType() == 2).collect(Collectors.toSet());
+    Set<Posts> respostasUser1 = users.get(id1).getPostsUser().stream().filter(p->p.getPostType() == 2).collect(Collectors.toSet());
+    Set<Posts> respostasUser2 = users.get(id2).getPostsUser().stream().filter(p->p.getPostType() == 2).collect(Collectors.toSet());
 
-      Set<Posts> perguntasUser1 = users.get(id1).getPostsUser().stream().filter(p->p.getPostType() == 1).collect(Collectors.toSet());
-      Set<Posts> perguntasUser2 = users.get(id2).getPostsUser().stream().filter(p->p.getPostType() == 1).collect(Collectors.toSet());
+    Set<Posts> perguntasUser1 = users.get(id1).getPostsUser().stream().filter(p->p.getPostType() == 1).collect(Collectors.toSet());
+    Set<Posts> perguntasUser2 = users.get(id2).getPostsUser().stream().filter(p->p.getPostType() == 1).collect(Collectors.toSet());
 
       //1 responder ao 2
-      for(Posts r1 : respostasUser1){
-          Posts pai1 = posts.get(r1.getIdPai());
-          if(perguntasUser2.contains(pai1))
+    for(Posts r1 : respostasUser1){
+      Posts pai1 = posts.get(r1.getIdPai());
+        if(perguntasUser2.contains(pai1))
             aux.add(pai1.clone());
       }
       //2 responder ao 1
-      for(Posts r2 : respostasUser2){
-        Posts pai2 = posts.get(r2.getIdPai());
-          if(perguntasUser1.contains(pai2))
-            aux.add(pai2.clone());
+    for(Posts r2 : respostasUser2){
+      Posts pai2 = posts.get(r2.getIdPai());
+        if(perguntasUser1.contains(pai2))
+          aux.add(pai2.clone());
       }
       //1 e 2 responderem ao mm post
-      List<Long> idsPai1 = respostasUser1.stream().map(Posts::getIdPai).collect(Collectors.toList());
-      List<Long> idsPai2 = respostasUser2.stream().map(Posts::getIdPai).collect(Collectors.toList());
-      for(Long l1 : idsPai1){
-        if(idsPai2.contains(l1))
-          aux.add(posts.get(l1).clone());
+    List<Long> idsPai1 = respostasUser1.stream().map(Posts::getIdPai).collect(Collectors.toList());
+    List<Long> idsPai2 = respostasUser2.stream().map(Posts::getIdPai).collect(Collectors.toList());
+
+    for(Long l1 : idsPai1){
+      if(idsPai2.contains(l1))
+        aux.add(posts.get(l1).clone());
       }
 
-      return aux.stream().sorted(new ComparadorDataPost().reversed())
-                         .limit(N)
-                         .map(Posts::getIdPost)
-                         .collect(Collectors.toList());
+  return aux.stream()
+            .limit(N)
+            .map(Posts::getIdPost)
+            .collect(Collectors.toList());
     }
 
     // Query 10
