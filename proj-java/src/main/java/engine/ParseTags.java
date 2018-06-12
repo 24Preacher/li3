@@ -12,17 +12,28 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.Map;
 import java.util.HashMap;
 
+/*
+* Classe que implementa o parser do ficheiro tags.xml
+* @author Grupo 32
+* @version 12/06/2018
+*/
+
 public class ParseTags extends DefaultHandler {
 
-
+      /** Map que armazena as tags*/
       private Map<String,Long> tags = null;
 
-
+      /**
+       * Método que obtém a estrutura das tags
+       */
       public Map<String,Long> gettags() {
           return tags;
       }
 
 
+      /**
+       * Método que inicializa o parsing das tags
+       */
       @Override
       public void startElement(String uri, String localName, String qName, Attributes attributes)
               throws SAXException {
@@ -39,6 +50,9 @@ public class ParseTags extends DefaultHandler {
                 	}
       }
 
+      /**
+       * Método que finaliza o parsing das tags
+       */
       @Override
       public void endElement(String uri, String localName, String qName) throws SAXException {
 

@@ -18,18 +18,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/*
+* Classe que implementa o parser do ficheiro posts.xml
+* @author Grupo 32
+* @version 12/06/2018
+*/
+
 public class ParsePosts extends DefaultHandler {
 
-
+      /** Map que armazena os posts*/
       private Map<Long,Posts> posts = null;
+      /** Post que vai ser inserido */
       private Posts p = null;
 
+      /**
+       * Método que obtém a estrutura dos posts
+       */
       public Map<Long,Posts> getPosts() {
           return posts;
       }
 
 
-
+      /**
+       * Método que inicializa o parsing dos posts
+       */
       @Override
       public void startElement(String uri, String localName, String qName, Attributes attributes)
               throws SAXException {
@@ -74,6 +86,10 @@ public class ParsePosts extends DefaultHandler {
                 	}
       }
 
+
+      /**
+       * Método que finaliza o parsing dos posts
+       */
       @Override
       public void endElement(String uri, String localName, String qName) throws SAXException {
 

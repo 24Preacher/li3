@@ -11,16 +11,30 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+
+/*
+* Classe que implementa o parser do ficheiro users.xml
+* @author Grupo 32
+* @version 12/06/2018
+*/
+
 public class ParseUsers extends DefaultHandler {
 
-
+      /** Map que armazena os utilizadores*/
       private Map<Long,Users> uHash = null;
+      /** Utilizador que vai ser inserido */
       private Users u = null;
+
+      /**
+       * Método que obtém a estrutura dos utilizadores
+       */
       public Map<Long,Users> getuHash() {
           return uHash;
       }
 
-
+      /**
+       * Método que inicializa o parsing dos utilizadores
+       */
       @Override
       public void startElement(String uri, String localName, String qName, Attributes attributes)
               throws SAXException {
@@ -49,6 +63,9 @@ public class ParseUsers extends DefaultHandler {
 
       }
 
+      /**
+       * Método que finaliza o parsing dos utilizadores
+       */
       @Override
       public void endElement(String uri, String localName, String qName) throws SAXException {
 

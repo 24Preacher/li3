@@ -5,9 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
+/*
+* Classe que faz o parser de uma string de tags para uma lista de tags
+* @author Grupo 32
+* @version 12/06/2018
+*/
 
 public class StringParaTags{
+
+  /**
+   * Método que realiza o parse de uma string para um lista de tags
+   */
 
   public List<String> parser(String tag){
     List<String> r = new ArrayList<String>();
