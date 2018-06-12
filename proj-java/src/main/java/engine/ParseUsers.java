@@ -34,11 +34,11 @@ public class ParseUsers extends DefaultHandler {
 
                 		if (qName.compareTo("row") == 0){
                       u = new Users();
-                      if(attributes.getValue("ID")!= null)
-                			id = Long.parseLong(attributes.getValue("ID"));
+                      if(attributes.getValue("Id")!= null)
+                			id = Long.parseLong(attributes.getValue("Id"));
                 	    String bio = attributes.getValue("AboutMe");
                       String nome =  attributes.getValue("DisplayName");
-                      if(attributes.getValue("ID")!= null)
+                      if(attributes.getValue("Reputation")!= null)
                       rep = Integer.parseInt(attributes.getValue("Reputation"));
                       u.setId(id);
                       u.setNome(nome);

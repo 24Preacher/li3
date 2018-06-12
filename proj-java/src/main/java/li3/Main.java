@@ -4,6 +4,7 @@ import common.MyLog;
 import common.Pair;
 import engine.TCDExample;
 import engine.Queries;
+import engine.TCD_Community;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -22,7 +23,7 @@ public class Main {
         /* -------------------------------------------------------------------------------------------*/
 
         long before, after;
-        TADCommunity qe = new Queries();
+        TADCommunity qe = new TCD_Community();
 
         /*
             LOAD PHASE

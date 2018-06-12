@@ -37,15 +37,15 @@ public class ParsePosts extends DefaultHandler {
                   Long id = 0L, ownerId = 0L, parentId = 0L;
                   int commentCount = 0, score = 0, answerCount = 0;
                   short postTypeId = 0;
-                  String tags, date, titulo;
+                  String tags = " ", date = " ", titulo = " ";
 
                 if(posts == null){
                   posts = new TreeMap<Long,Posts>();
                 }
 
                 		if (qName.compareTo("row") == 0){
-                      if(attributes.getValue("ID")!= null)
-                      id = Long.parseLong(attributes.getValue("ID"));
+                      if(attributes.getValue("Id")!= null)
+                      id = Long.parseLong(attributes.getValue("Id"));
                       if(attributes.getValue("OwnerUserId") != null)
                       ownerId = Long.parseLong(attributes.getValue("OwnerUserId"));
                       if(attributes.getValue("ParentId") != null)
@@ -56,6 +56,7 @@ public class ParsePosts extends DefaultHandler {
                       score = Integer.parseInt(attributes.getValue("Score"));
                       if(attributes.getValue("PostTypeId") != null)
                       postTypeId = Short.parseShort(attributes.getValue("PostTypeId"));
+                      if(attributes.getValue("Title") != null)
                       titulo = attributes.getValue("Title");
                       if(attributes.getValue("AnswerCount") != null)
                       answerCount = Integer.parseInt(attributes.getValue("AnswerCount"));
@@ -67,22 +68,8 @@ public class ParsePosts extends DefaultHandler {
                       StringParaTags t = new StringParaTags();
                       tagg = t.parser(tags);
 
+                      p = new Posts(id,ownerId,titulo,creation_date,postTypeId,parentId,commentCount,answerCount,score,tagg);
 
-
-
-                      if(attributes.getValue("Title")!= null)
-                      titulo = attributes.getValue("Title");
-
-                      p.setIdPost(id);
-                      p.setIdAutor(ownerId);
-                      p.setTitulo(titulo);
-                      p.setData(creation_date);
-                      p.setPostType(postTypeId);
-                      p.setIdPai(parentId);
-                      p.setComentarios(commentCount);
-                      p.setRespostas(answerCount);
-                      p.setVotos(score);
-                      p.setTags(tagg);
                       posts.put(id,p);
                 	}
       }

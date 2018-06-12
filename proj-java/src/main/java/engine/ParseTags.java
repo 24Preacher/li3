@@ -32,8 +32,8 @@ public class ParseTags extends DefaultHandler {
                 }
 
                 		if (qName.compareTo("row") == 0){
-                      if(attributes.getValue("ID")!= null)
-                      idTag = Long.parseLong(attributes.getValue("ID"));
+                      if(attributes.getValue("Id")!= null)
+                      idTag = Long.parseLong(attributes.getValue("Id"));
                       String nomeTag = attributes.getValue("TagName");
                       tags.put(nomeTag,idTag);
                 	}
