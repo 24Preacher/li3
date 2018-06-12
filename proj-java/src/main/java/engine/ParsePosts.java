@@ -21,7 +21,7 @@ import java.util.List;
 public class ParsePosts extends DefaultHandler {
 
 
-      private TreeMap<Long,Posts> posts = null;
+      private Map<Long,Posts> posts = null;
       private Posts p = null;
 
       public Map<Long,Posts> getPosts() {

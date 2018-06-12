@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 
 public class TCD_Community {
     /** TreeMap que guarda os posts organizados pelo seu id */
-    private TreeMap<Long, Posts> arvPostsID;
+    private Map<Long, Posts> arvPostsID;
     /** HashMap que armazena os utilizadores organizados pelo seu id*/
-    private HashMap<Long, Users> tabUsers;
+    private Map<Long, Users> tabUsers;
     /** HashMap que associa cada tag ao seu respetivo id */
-    private HashMap<String, Long> tabTags;
+    private Map<String, Long> tabTags;
 
     /**
      * Construtor vazio
@@ -34,7 +34,7 @@ public class TCD_Community {
     /**
      * Construtor parametrizado
      */
-    public TCD_Community (TreeMap<Long, Posts> arvID, HashMap<Long, Users> tab, HashMap<String, Long> tags){
+    public TCD_Community (Map<Long, Posts> arvID, Map<Long, Users> tab, Map<String, Long> tags){
         setArvPostsID(arvID);
         setTabUsers(tab);
         setTabTags(tags);
@@ -88,7 +88,7 @@ public class TCD_Community {
     /**
      * Método que atualiza a árvore dos posts
      */
-    public void setArvPostsID(TreeMap<Long,Posts> postsID){
+    public void setArvPostsID(Map<Long,Posts> postsID){
         this.arvPostsID = new TreeMap<>();
         postsID.values().forEach(p -> this.arvPostsID.put(p.getIdPost(),p.clone()));
     }
@@ -96,7 +96,7 @@ public class TCD_Community {
     /**
      * Método que atualiza a tabela dos utilizadores
      */
-    public void setTabUsers(HashMap<Long, Users> tab){
+    public void setTabUsers(Map<Long, Users> tab){
         this.tabUsers = new HashMap<>();
         tab.values().forEach(u -> this.tabUsers.put(u.getId(), u.clone()));
     }
@@ -104,7 +104,7 @@ public class TCD_Community {
     /**
      * Método que atualiza a tabela das tags
      */
-    public void setTabTags(HashMap<String, Long> tab){
+    public void setTabTags(Map<String, Long> tab){
         this.tabTags = new HashMap<>();
         for(Map.Entry<String,Long> t : this.tabTags.entrySet())
             this.tabTags.put(t.getKey(), t.getValue());

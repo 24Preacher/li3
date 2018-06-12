@@ -1,5 +1,10 @@
 package engine;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -20,24 +25,28 @@ public class Queries
 
     //load
     public void load(String dumpPath){
+      try{
       SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         SAXParser saxParser = saxParserFactory.newSAXParser();
+
         ParsePosts parse_post = new ParsePosts();
-        saxParser.parse(new File( dumpPath + "Posts.xml" ), post);
+        saxParser.parse(new File( dumpPath + "Posts.xml" ), parse_post);
 
         ParseUsers parse_users = new ParseUsers();
-        saxParser.parse(new File( dumpPath + "Users.xml" ), users);
+        saxParser.parse(new File( dumpPath + "Users.xml" ), parse_users);
 
         ParseTags parse_tags = new ParseTags();
-        saxParser.parse(new File( dumpPath + "Posts.xml" ), tags);
+        saxParser.parse(new File( dumpPath + "Tags.xml" ), parse_tags);
 
-          com.setArvPostsID() = post.getIdPost();
+          com.setArvPostsID(parse_post.getPosts());
 
-          com.setTabUsers() = users.getuHash();
+          com.setTabUsers(parse_users.getuHash());
 
-          com.setTabTags() = tags.gettags();
-      }
-
+          com.setTabTags(parse_tags.gettags());
+    } catch (Exception ex) {
+    ex.printStackTrace();
+  }
+}
 
     //query 1
 
@@ -88,7 +97,7 @@ public Pair<Long,Long> totalPosts(LocalDate begin, LocalDate end){
   long perguntas = 0;
 
   LocalDateTime inicio = begin.atStartOfDay();
-  LocalDateTime fim = end.atEndOfDay();
+  LocalDateTime fim = end.atStartOfDay();
   List<Posts> postsEntreDatas = posts.values().stream()
                                               .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim))
                                               .collect(Collectors.toList());
@@ -141,7 +150,7 @@ public Pair<String, List<Long>> getUserInfo(long id) {
 public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
     TreeMap<Long, Posts> posts = this.com.getArvPostsID();
     LocalDateTime inicio = begin.atStartOfDay();
-    LocalDateTime fim = end.atEndOfDay();
+    LocalDateTime fim = end.atStartOfDay();
 
   return posts.values().stream()
                        .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
@@ -156,7 +165,7 @@ public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
 public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end){
     TreeMap<Long, Posts> posts = this.com.getArvPostsID();
     LocalDateTime inicio = begin.atStartOfDay();
-    LocalDateTime fim = end.atEndOfDay();
+    LocalDateTime fim = end.atStartOfDay();
 
       return posts.values().stream()
                            .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
@@ -171,7 +180,7 @@ public List<Long> containsWord(int N, String word){
       TreeMap<Long, Posts> posts = this.com.getArvPostsID();
 
       return posts.values().stream()
-                           .filter(p.getPostType() == 1 && p.getTitulo().contains(word))
+                           .filter(p->p.getPostType() == 1 && p.getTitulo().contains(word))
                            .sorted(new ComparadorDataPost().reversed())
                            .limit(N)
                            .map(Posts::getIdPost)
@@ -245,7 +254,7 @@ public List<Long> bothParticipated(int N, long id1, long id2){
         HashMap<Long, Users> users = this.com.getTabUsers();
         HashMap<String, Long> tags = this.com.getTabTags();
         LocalDateTime inicio = begin.atStartOfDay();
-        LocalDateTime fim = end.atEndOfDay();
+        LocalDateTime fim = end.atStartOfDay();
 
      List<Users> usersMelhorRep = users.values().stream()
                                                 .sorted(new ComparadorReputacaoDec())

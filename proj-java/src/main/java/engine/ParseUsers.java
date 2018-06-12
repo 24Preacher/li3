@@ -14,7 +14,7 @@ import java.util.Map;
 public class ParseUsers extends DefaultHandler {
 
 
-      private HashMap<Long,Users> uHash = null;
+      private Map<Long,Users> uHash = null;
       private Users u = null;
       public Map<Long,Users> getuHash() {
           return uHash;

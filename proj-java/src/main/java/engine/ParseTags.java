@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class ParseTags extends DefaultHandler {
 
 
-      private HashMap<String,Long> tags = null;
+      private Map<String,Long> tags = null;
 
 
       public Map<String,Long> gettags() {

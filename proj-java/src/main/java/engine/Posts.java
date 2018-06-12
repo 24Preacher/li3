@@ -4,6 +4,7 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -288,7 +289,7 @@ public class Posts {
     /**
      * Método que insere um post no utilizador a quem pertence tal post
      */
-    public void inserePostDoUser(HashMap<Long, Users> tab){
+    public void inserePostDoUser(Map<Long, Users> tab){
 
         Set<Posts> posts = tab.get(this.idAutor).getPostsUser();
         if(posts.isEmpty()) {
