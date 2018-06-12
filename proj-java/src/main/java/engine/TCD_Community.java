@@ -8,33 +8,52 @@ import java.util.TreeSet;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+/*
+ * Classe da estrutura principal TCD_Community
+ * @author Grupo 32
+ * @version 12/06/2018
+ */
+
 public class TCD_Community {
+    /** TreeMap que guarda os posts organizados pelo seu id */
     private TreeMap<Long, Posts> arvPostsID;
+    /** HashMap que armazena os utilizadores organizados pelo seu id*/
     private HashMap<Long, Users> tabUsers;
+    /** HashMap que associa cada tag ao seu respetivo id */
     private HashMap<String, Long> tabTags;
 
-
+    /**
+     * Construtor vazio
+     */
     public TCD_Community (){
         this.arvPostsID = new TreeMap<>();
         this.tabUsers = new HashMap<>();
         this.tabTags = new HashMap<>();
     }
 
+    /**
+     * Construtor parametrizado
+     */
     public TCD_Community (TreeMap<Long, Posts> arvID, HashMap<Long, Users> tab, HashMap<String, Long> tags){
         setArvPostsID(arvID);
         setTabUsers(tab);
         setTabTags(tags);
     }
 
-
+    /**
+     * Construtor por cópia
+     */
     public TCD_Community (TCD_Community com){
         this.arvPostsID = com.getArvPostsID();
         this.tabUsers = com.getTabUsers();
         this.tabTags = com.getTabTags();
     }
 
-    //GETS
 
+    /**
+     * Método que obtém a árvore dos posts
+     * @return os posts
+     */
     public TreeMap<Long, Posts> getArvPostsID(){
         TreeMap<Long, Posts> res = new TreeMap<>();
         for(Posts p : this.arvPostsID.values())
@@ -42,6 +61,10 @@ public class TCD_Community {
         return res;
     }
 
+    /**
+     * Método que obtém a tabela dos utilizadores
+     * @return os utilizadores
+     */
     public HashMap<Long,Users> getTabUsers(){
         HashMap<Long,Users> res = new HashMap<>();
         for(Users u : this.tabUsers.values())
@@ -49,6 +72,10 @@ public class TCD_Community {
         return res;
     }
 
+    /**
+     * Método que obtém as tags e os seus respetivos ids
+     * @return as tags
+     */
     public HashMap<String,Long> getTabTags(){
         HashMap<String,Long> res = new HashMap<>();
         for(Map.Entry<String,Long> t : this.tabTags.entrySet())
@@ -56,31 +83,44 @@ public class TCD_Community {
         return res;
     }
 
-    //SETS
 
+
+    /**
+     * Método que atualiza a árvore dos posts
+     */
     public void setArvPostsID(TreeMap<Long,Posts> postsID){
         this.arvPostsID = new TreeMap<>();
         postsID.values().forEach(p -> this.arvPostsID.put(p.getIdPost(),p.clone()));
     }
 
+    /**
+     * Método que atualiza a tabela dos utilizadores
+     */
     public void setTabUsers(HashMap<Long, Users> tab){
         this.tabUsers = new HashMap<>();
         tab.values().forEach(u -> this.tabUsers.put(u.getId(), u.clone()));
     }
 
+    /**
+     * Método que atualiza a tabela das tags
+     */
     public void setTabTags(HashMap<String, Long> tab){
         this.tabTags = new HashMap<>();
         for(Map.Entry<String,Long> t : this.tabTags.entrySet())
             this.tabTags.put(t.getKey(), t.getValue());
     }
 
-    //CLONE
+    /**
+     * Devolve uma cópia de uma TCD_Community
+     */
     public TCD_Community clone(){
         return new TCD_Community(this);
     }
 
-    //EQUALS
 
+    /**
+     * Verifica a igualdade com outra TCD_Community
+     */
     public boolean equals(Object o){
         if(o == this) return true;
         if(o == null || o.getClass() != this.getClass()) return false;
@@ -91,8 +131,9 @@ public class TCD_Community {
                         && this.tabTags.equals(com.getTabTags()));
     }
 
-    //ToString
-
+    /**
+     * Devolve representação textual da TCD_Community
+     */
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("\nPosts(ordenados pelo ID): ").append(this.arvPostsID.toString());
@@ -101,8 +142,11 @@ public class TCD_Community {
         return sb.toString();
     }
 
-    //Percorre os posts e insere os em cada user -- fazer no load
+    /**
+     * Método que insere os posts nos utilizadores
+     */
     public void inserePosts(){
-        this.arvPostsID.values().forEach(p -> p.inserePostDoUser(this.tabUsers));
+        for(Posts p : this.arvPostsID.values())
+            p.inserePostDoUser(this.tabUsers);
     }
 }

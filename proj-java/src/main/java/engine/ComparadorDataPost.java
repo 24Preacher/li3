@@ -3,8 +3,16 @@ package engine;
 
 import java.util.Comparator;
 
+/*
+ * Classe do Comparador por Data dos posts
+ * @author Grupo 32
+ * @version 12/06/2018
+ */
 public class ComparadorDataPost  implements Comparator<Posts> {
 
+    /*
+     * Método que compara dois posts pela sua data
+     */
     public int compare(Posts p1, Posts p2){
         int res;
 

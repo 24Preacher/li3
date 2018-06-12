@@ -3,8 +3,17 @@ package engine;
 
 import java.util.Comparator;
 
+/*
+ * Classe do Comparador por número de posts descrescente dos Utilizadores
+ * @author Grupo 32
+ * @version 12/06/2018
+ */
+
 public class ComparadorNumPosts implements Comparator<Users> {
 
+    /*
+     * Método que compara dois utilizadores pelo seu número de posts
+     */
     public int compare(Users u1, Users u2){
         int res;
         if(u1.getPostsUser().size() > u2.getPostsUser().size())
