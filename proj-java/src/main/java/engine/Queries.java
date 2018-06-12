@@ -17,9 +17,11 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import common.Pair;
+import li3.TADCommunity;
 
 
-public class Queries
+
+public class Queries implements TADCommunity
 {
   private TCD_Community com;
 
@@ -293,6 +295,19 @@ public List<Long> bothParticipated(int N, long id1, long id2){
        res.add(idTag);
      }
      return res;
+   }
+
+   public void clear(){
+     TreeMap<Long,Posts> posts = this.com.getArvPostsID();
+     HashMap<Long,Users> users = this.com.getTabUsers();
+     HashMap<String,Long> tags = this.com.getTabTags();
+
+     posts.clear();
+     users.clear();
+     tags.clear();
+     this.com.setArvPostsID(new TreeMap<>());
+     this.com.setTabTags(new HashMap<>());
+     this.com.setTabUsers(new HashMap<>());
    }
 
 }
