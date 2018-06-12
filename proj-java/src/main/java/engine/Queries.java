@@ -3,6 +3,8 @@ package engine;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.SAXException;
+import java.io.IOException;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -25,27 +27,28 @@ public class Queries
 
     //load
     public void load(String dumpPath){
-      try{
+
       SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+      try{
         SAXParser saxParser = saxParserFactory.newSAXParser();
 
         ParsePosts parse_post = new ParsePosts();
-        saxParser.parse(new File( dumpPath + "Posts.xml" ), parse_post);
+        saxParser.parse(new File(dumpPath + "/Posts.xml"), parse_post);
 
         ParseUsers parse_users = new ParseUsers();
-        saxParser.parse(new File( dumpPath + "Users.xml" ), parse_users);
+        saxParser.parse(new File(dumpPath + "/Users.xml"), parse_users);
 
         ParseTags parse_tags = new ParseTags();
-        saxParser.parse(new File( dumpPath + "Tags.xml" ), parse_tags);
+        saxParser.parse(new File(dumpPath + "/Tags.xml"), parse_tags);
 
           com.setArvPostsID(parse_post.getPosts());
 
           com.setTabUsers(parse_users.getuHash());
 
           com.setTabTags(parse_tags.gettags());
-    } catch (Exception ex) {
-    ex.printStackTrace();
-  }
+    } catch (ParserConfigurationException | SAXException | IOException e){
+      e.printStackTrace();
+    }
 }
 
     //query 1
@@ -71,7 +74,8 @@ public Pair<String,String> infoFromPost(long id)
     }
   }
   //else throw new NaoExistePostException
-
+  System.out.println("Titulo: " + titulo);
+  System.out.println("Nome: " + nome);
   return new Pair<>(titulo, nome);
 }
 
