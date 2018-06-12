@@ -27,7 +27,7 @@ import common.Pair;
 
 
 /*
- * Classe da estrutura principal TCD_Community
+ * Classe que implementa a estrutura principal e os métodos para resolver as queries
  * @author Grupo 32
  * @version 12/06/2018
  */
@@ -168,7 +168,9 @@ public class TCD_Community  implements TADCommunity {
             p.inserePostDoUser(this.tabUsers);
     }
 
-    //load
+    /**
+     * Método que faz o load dos ficheiros xml para a estrutura principal
+     */
     public void load(String dumpPath){
 
       SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
@@ -196,9 +198,9 @@ public class TCD_Community  implements TADCommunity {
     this.inserePosts();
 }
 
-    //query 1
-
-
+/**
+ * Query 1
+ */
 public Pair<String,String> infoFromPost(long id)
 {
   String titulo = " ", nome = " ";
@@ -215,34 +217,35 @@ public Pair<String,String> infoFromPost(long id)
       nome = this.tabUsers.get(p1.getIdAutor()).getNome();
     }
   }
-  //else throw new NaoExistePostException
-  System.out.println(titulo);
-  System.out.println(nome);
+
   return new Pair<>(titulo, nome);
 }
 
 
 
-// Query 2
+/**
+ * Query 2
+ */
 public List<Long> topMostActive(int N){
   List<Users> maiorNumPosts= this.tabUsers.values().stream()
                                            .sorted(new ComparadorNumPosts())
                                            .limit(N)
                                            .collect(Collectors.toList());
 
-System.out.println(maiorNumPosts.stream().map(Users::getId).collect(Collectors.toList()).toString());
   return maiorNumPosts.stream().map(Users::getId).collect(Collectors.toList());
 }
 
 
 
-// Query 3
+/**
+ * Query 3
+ */
 public Pair<Long,Long> totalPosts(LocalDate begin, LocalDate end){
   long respostas = 0;
   long perguntas = 0;
 
   LocalDateTime inicio = begin.atStartOfDay();
-  LocalDateTime fim = end.atStartOfDay();
+  LocalDateTime fim = end.atTime(23,59,59);
   List<Posts> postsEntreDatas = this.arvPostsID.values().stream()
                                               .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim))
                                               .collect(Collectors.toList());
@@ -252,27 +255,30 @@ public Pair<Long,Long> totalPosts(LocalDate begin, LocalDate end){
       perguntas++;
     else if (p.getPostType() == 2)
       respostas++;
-
   return new Pair<>(perguntas, respostas);
 }
 
 
-// Query 4
+/**
+ * Query 4
+ */
 public List<Long> questionsWithTag(String tag, LocalDate begin, LocalDate end){
   LocalDateTime inicio = begin.atStartOfDay();
-  LocalDateTime fim = end.atStartOfDay();
+  LocalDateTime fim = end.atTime(23,59,59);
 
   return  this.arvPostsID.values().stream()
                         .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getTags().contains(tag))
                         .sorted(new ComparadorDataPost().reversed())
                         .map(Posts :: getIdPost)
                         .collect(Collectors.toList());
-
 }
 
 
-// Query 5
-public Pair<String, List<Long>> getUserInfo(long id) {
+/**
+ * Query 5
+ */
+public Pair<String, List<Long>> getUserInfo(long id)
+{
   String bio = " ";
   List<Long> postsU = new ArrayList<>();
 
@@ -285,14 +291,16 @@ public Pair<String, List<Long>> getUserInfo(long id) {
                              .map(Posts::getIdPost)
                              .collect(Collectors.toList());
   }
-  //else throw new NaoExisteUserException
   return new Pair<>(bio, postsU);
 }
 
-    // Query 6
+
+/**
+ * Query 6
+ */
 public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
     LocalDateTime inicio = begin.atStartOfDay();
-    LocalDateTime fim = end.atStartOfDay();
+    LocalDateTime fim = end.atTime(23,59,59);
 
   return this.arvPostsID.values().stream()
                        .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
@@ -303,20 +311,25 @@ public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end){
     }
 
 
-    // Query 7
+/**
+ * Query 7
+ */
 public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end){
     LocalDateTime inicio = begin.atStartOfDay();
-    LocalDateTime fim = end.atStartOfDay();
+    LocalDateTime fim = end.atTime(23,59,59);
 
       return this.arvPostsID.values().stream()
-                           .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 2)
+                           .filter(p->p.getData().isAfter(inicio) && p.getData().isBefore(fim) && p.getPostType() == 1)
                            .sorted(new ComparadorRespostasDec())
                            .limit(N)
                            .map(Posts::getIdPost)
                            .collect(Collectors.toList());
     }
 
-    // Query 8
+
+/**
+ * Query 8
+ */
 public List<Long> containsWord(int N, String word){
       return this.arvPostsID.values().stream()
                            .filter(p->p.getPostType() == 1 && p.getTitulo().contains(word))
@@ -325,7 +338,10 @@ public List<Long> containsWord(int N, String word){
                            .map(Posts::getIdPost)
                            .collect(Collectors.toList());
 }
-    // Query 9
+
+/**
+ * Query 9
+ */
 public List<Long> bothParticipated(int N, long id1, long id2){
     Set<Posts> aux = new TreeSet<>(new ComparadorDataPost().reversed());
 
@@ -335,19 +351,19 @@ public List<Long> bothParticipated(int N, long id1, long id2){
     Set<Posts> perguntasUser1 = this.tabUsers.get(id1).getPostsUser().stream().filter(p->p.getPostType() == 1).collect(Collectors.toSet());
     Set<Posts> perguntasUser2 = this.tabUsers.get(id2).getPostsUser().stream().filter(p->p.getPostType() == 1).collect(Collectors.toSet());
 
-      //1 responder ao 2
+
     for(Posts r1 : respostasUser1){
       Posts pai1 = this.arvPostsID.get(r1.getIdPai());
         if(perguntasUser2.contains(pai1))
             aux.add(pai1.clone());
       }
-      //2 responder ao 1
+
     for(Posts r2 : respostasUser2){
       Posts pai2 = this.arvPostsID.get(r2.getIdPai());
         if(perguntasUser1.contains(pai2))
           aux.add(pai2.clone());
       }
-      //1 e 2 responderem ao mm post
+
     List<Long> idsPai1 = respostasUser1.stream().map(Posts::getIdPai).collect(Collectors.toList());
     List<Long> idsPai2 = respostasUser2.stream().map(Posts::getIdPai).collect(Collectors.toList());
 
@@ -362,8 +378,12 @@ public List<Long> bothParticipated(int N, long id1, long id2){
             .collect(Collectors.toList());
     }
 
-    // Query 10
-    public long betterAnswer(long id){
+
+
+/**
+ * Query 10
+ */
+public long betterAnswer(long id){
       double val, max = 0;
       long melhor = 0;
 
@@ -379,35 +399,39 @@ public List<Long> bothParticipated(int N, long id1, long id2){
             melhor = pp.getIdPost();
         }
       }
-      //else throw NaoExistePostException
 
       return melhor;
-    }
+ }
 
-    // Query 11
-    public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end){
+ /**
+  * Query 11
+  */
+public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end){
         LocalDateTime inicio = begin.atStartOfDay();
-        LocalDateTime fim = end.atStartOfDay();
+        LocalDateTime fim = end.atTime(23,59,59);
 
-     List<Users> usersMelhorRep = this.tabUsers.values().stream()
+     List<Users> usersMelhorRep = this.tabUsers .values().stream()
                                                 .sorted(new ComparadorReputacaoDec())
                                                 .limit(N)
                                                 .collect(Collectors.toList());
-     //busca tds as tags em tds os posts entre aquelas datas
+
+
      List<String> todasAsTags = new ArrayList<>();
        for(Users u : usersMelhorRep){
            List<Posts> postsEntreDatas = u.getPostsUser().stream()
-                                                         .filter(w->w.getData().isAfter(inicio) && w.getData().isBefore(fim))
+                                                         .filter(w->w.getPostType() == 1 && w.getData().isAfter(inicio) && w.getData().isBefore(fim))
                                                          .collect(Collectors.toList());
+
              for(Posts p : postsEntreDatas)
                for(String s : p.getTags())
-                   todasAsTags.add(s);
-           }
-     //tags sem repetidos
+                 todasAsTags.add(s);
+
+        }
+
      List<String> tagsUnicas = todasAsTags.stream().distinct().collect(Collectors.toList());
      List<Pair<String, Long>> tagsComContagem = new ArrayList<>();
 
-     //faz a contagem e insere um par com a tag e a contagem
+
      for(String s : tagsUnicas){
        long count = todasAsTags.stream().filter(t->t.equals(s)).count();
        Pair<String, Long> novo = new Pair<>(s, count);
@@ -425,9 +449,13 @@ public List<Long> bothParticipated(int N, long id1, long id2){
        long idTag = this.tabTags.get(tag);
        res.add(idTag);
      }
+
      return res;
    }
 
+ /**
+  * Método clear que limpa os dados das estruturas
+  */
    public void clear(){
 
      this.arvPostsID.clear();
