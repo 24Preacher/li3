@@ -395,8 +395,10 @@ public long betterAnswer(long id){
         for(Posts pp : respostas){
           int rep = this.tabUsers.get(pp.getIdAutor()).getReputacao();
           val = pp.getVotos() * 0.65 + pp.getComentarios() * 0.1 + rep * 0.25;
-          if(val > max)
+          if(val > max){
             melhor = pp.getIdPost();
+            max = val;
+          }
         }
       }
 
