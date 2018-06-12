@@ -461,9 +461,6 @@ public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end){
      this.arvPostsID.clear();
      this.tabUsers.clear();
      this.tabTags.clear();
-     this.arvPostsID = new TreeMap<>();
-     this.tabUsers = new HashMap<>();
-     this.tabTags = new HashMap<>();
    }
 
 }
