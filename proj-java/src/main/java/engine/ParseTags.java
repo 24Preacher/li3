@@ -1,5 +1,6 @@
 package engine;
 
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -8,11 +9,14 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class ParseTags extends DefaultHandler {
 
 
       private HashMap<String,Long> tags = null;
-      private Tags t = null;
+
 
       public Map<String,Long> gettags() {
           return tags;
@@ -22,13 +26,14 @@ public class ParseTags extends DefaultHandler {
       @Override
       public void startElement(String uri, String localName, String qName, Attributes attributes)
               throws SAXException {
+                  long idTag = 0;
                 if(tags == null){
                   tags = new HashMap<String,Long>();
                 }
 
                 		if (qName.compareTo("row") == 0){
                       if(attributes.getValue("ID")!= null)
-                      long idTag = Long.parseLong(attributes.getValue("ID"));
+                      idTag = Long.parseLong(attributes.getValue("ID"));
                       String nomeTag = attributes.getValue("TagName");
                       tags.put(nomeTag,idTag);
                 	}

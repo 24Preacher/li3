@@ -19,7 +19,25 @@ public class Queries
   private TCD_Community com;
 
     //load
-    //public void load(String dumpPath);
+    public void load(String dumpPath){
+      SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        SAXParser saxParser = saxParserFactory.newSAXParser();
+        ParsePosts parse_post = new ParsePosts();
+        saxParser.parse(new File( dumpPath + "Posts.xml" ), post);
+
+        ParseUsers parse_users = new ParseUsers();
+        saxParser.parse(new File( dumpPath + "Users.xml" ), users);
+
+        ParseTags parse_tags = new ParseTags();
+        saxParser.parse(new File( dumpPath + "Posts.xml" ), tags);
+
+          com.setArvPostsID() = post.getIdPost();
+
+          com.setTabUsers() = users.getuHash();
+
+          com.setTabTags() = tags.gettags();
+      }
+
 
     //query 1
 
@@ -158,7 +176,7 @@ public List<Long> containsWord(int N, String word){
                            .limit(N)
                            .map(Posts::getIdPost)
                            .collect(Collectors.toList());
-
+}
     // Query 9
 public List<Long> bothParticipated(int N, long id1, long id2){
     HashMap<Long, Users> users = this.com.getTabUsers();

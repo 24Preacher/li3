@@ -1,0 +1,16 @@
+engine/TCD_Community.class
+li3/TADCommunity.class
+engine/ComparadorIdPost.class
+engine/StringParaTags.class
+engine/ParseTags.class
+engine/ParsePosts.class
+engine/TCDExample.class
+engine/Posts.class
+engine/ComparadorVotosDec.class
+common/MyLog.class
+engine/ComparadorContagemDec.class
+engine/ComparadorRespostasDec.class
+common/Pair.class
+engine/ComparadorDataPost.class
+li3/Main.class
+engine/Users.class

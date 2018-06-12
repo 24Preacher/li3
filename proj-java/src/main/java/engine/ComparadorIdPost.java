@@ -1,5 +1,6 @@
 package engine;
 
+
 import java.util.Comparator;
 public class ComparadorIdPost implements Comparator<Posts>
 {

@@ -1,5 +1,6 @@
 package engine;
 
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -8,6 +9,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.HashMap;
+import java.util.Map;
 public class ParseUsers extends DefaultHandler {
 
 
@@ -21,6 +24,10 @@ public class ParseUsers extends DefaultHandler {
       @Override
       public void startElement(String uri, String localName, String qName, Attributes attributes)
               throws SAXException {
+
+                int rep = 0;
+                long id = 0;
+
                 if(uHash == null){
                   uHash = new HashMap<Long,Users>();
                 }
@@ -28,11 +35,11 @@ public class ParseUsers extends DefaultHandler {
                 		if (qName.compareTo("row") == 0){
                       u = new Users();
                       if(attributes.getValue("ID")!= null)
-                			long id = Long.parseLong(attributes.getValue("ID"));
+                			id = Long.parseLong(attributes.getValue("ID"));
                 	    String bio = attributes.getValue("AboutMe");
                       String nome =  attributes.getValue("DisplayName");
                       if(attributes.getValue("ID")!= null)
-                      int rep = Integer.parseInt(attributes.getValue("Reputation"));
+                      rep = Integer.parseInt(attributes.getValue("Reputation"));
                       u.setId(id);
                       u.setNome(nome);
                       u.setBio(bio);
@@ -41,7 +48,7 @@ public class ParseUsers extends DefaultHandler {
                 	}
 
       }
-      
+
       @Override
       public void endElement(String uri, String localName, String qName) throws SAXException {
 
