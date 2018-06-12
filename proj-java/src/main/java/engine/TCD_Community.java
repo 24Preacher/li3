@@ -194,7 +194,6 @@ public class TCD_Community  implements TADCommunity {
       e.printStackTrace();
     }
     this.inserePosts();
-      System.out.println(this.arvPostsID.toString());
 }
 
     //query 1
@@ -217,6 +216,8 @@ public Pair<String,String> infoFromPost(long id)
     }
   }
   //else throw new NaoExistePostException
+  System.out.println(titulo);
+  System.out.println(nome);
   return new Pair<>(titulo, nome);
 }
 
@@ -229,6 +230,7 @@ public List<Long> topMostActive(int N){
                                            .limit(N)
                                            .collect(Collectors.toList());
 
+System.out.println(maiorNumPosts.stream().map(Users::getId).collect(Collectors.toList()).toString());
   return maiorNumPosts.stream().map(Users::getId).collect(Collectors.toList());
 }
 

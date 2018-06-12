@@ -3,7 +3,6 @@ package li3;
 import common.MyLog;
 import common.Pair;
 import engine.TCDExample;
-import engine.Queries;
 import engine.TCD_Community;
 
 import java.time.LocalDate;
